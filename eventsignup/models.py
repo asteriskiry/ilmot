@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Tapahtuma(models.Model):
+class TapahtumaTyypit(models.Model):
 	tyyppi=models.CharField(unique=True, verbose_name='Tapahtuman tyyppi')
 	def __str__(self):
 		return ""
@@ -12,13 +12,14 @@ class TapahtumanOmistaja(models.Model):
 		return ""
 
 class Tapahtumat(models.Model):
-	tyyppi=models.ForeignKey(Tapahtuma, on_delete=models.CASCADE)
+	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
 	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
-	tyyppi=models.ForeignKey(Tapahtuma, on_delete=models.CASCADE)
+	uid=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE)
+	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
 	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
 	nimi=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	paikka=models.CharField(max_length=200, verbose_name='Pitopaikka')
