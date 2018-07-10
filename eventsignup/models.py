@@ -61,10 +61,14 @@ class Osallistuja(models.Model):
 	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE)
 	nimi=models.CharField(max_length=200)
 	email=models.EmailField()
-	lihaton=models.NullBooleanField()
-	holiton=models.NullBooleanField()
-	is_member=models.NullBooleanField()
-	has_paid=models.NullBooleanField()
+#	lihaton=models.NullBooleanField()
+#	holiton=models.NullBooleanField()
+#	is_member=models.NullBooleanField()
+#	has_paid=models.NullBooleanField()
+#
+#	Tämä kenttä sisältää tiedot: holillinen/holiton, liha/kasvis, jäsen/ei jäsen, onko maksanut, avec, plaseeraustoive.
+#	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
+	miscInfo=models.CharField()
 	def __str__(self):
 		return ""
 
@@ -74,6 +78,7 @@ class Arkisto(models.Model):
 	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	participants=models.IntegerField(verbose_name='Osallistujamäärä')
 	omistaja=models.CharField(verbose_name='Tapahtuman pitäjä')
+	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return ""
 
