@@ -4,17 +4,19 @@ from django.db import models
 class TapahtumaTyypit(models.Model):
 	tyyppi=models.CharField(unique=True, verbose_name='Tapahtuman tyyppi')
 	def __str__(self):
-		return ""
+		return "Tapahtuman typpi: "+self.tyyppi
 
 class TapahtumanOmistaja(models.Model):
 	nimi=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
 	def __str__(self):
-		return ""
+		return "Tapahtuman järjestäjä(t): "+self.nimi
 
 class Tapahtumat(models.Model):
 	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
 	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
+	def __str__(self):
+		return "Tapahtuman tyyppi: "+self.typpi+", uid: "+self.uid+", tapahtuman järjestäjä(t): "+self.omistaja
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
