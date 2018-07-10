@@ -9,6 +9,8 @@ urlpatterns = [
     path('event/new/', views.new, name='new'),
     # sivupaneelin "nippelitieto"
     path('event/<int:uid>/stats/', views.stats, name='stats'),
+     # tapahtuman info
+    path('event/<int:uid>/info/', views.info, name='info'),
     # tapahtumaan osallistujan ilmoittautumislomake
     path('event/<int:uid/signup/', views.signup, name='signup'),
     # Arkistoi tapahtuman
