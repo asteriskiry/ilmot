@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class TapahtumaTyypit(models.Model):
-	tyyppi=models.CharField(unique=True, verbose_name='Tapahtuman tyyppi')
+	tyyppi=models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
 	def __str__(self):
 		return "Tapahtuman typpi: "+self.tyyppi
 
@@ -28,7 +28,7 @@ class CommonInfo(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	kuva=models.ImageField(blank=True, null=True)
-	hinta=models.CharField(blank=True, null=True)
+	hinta=models.CharField(max_length=500,blank=True, null=True)
 	max_osallistujia=models.PositiveIntegerField(blank=True, null=True)
 	ilmo_alkaa=models.DateField()
 	ilmo_loppuu=models.DateField(blank=True, null=True)
@@ -36,15 +36,15 @@ class CommonInfo(models.Model):
 		abstract = True
 
 class Sitsit(CommonInfo):
-	quotas=models.CharField(null=True, blank=True)
-	avec=models.CharField(blank=True)
-	plaseerustoive=models.CharField(blank=True)
+	quotas=models.CharField(max_length=500,null=True, blank=True)
+	avec=models.CharField(max_length=500,blank=True)
+	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		return ""
 
 class Vuosijuhla(CommonInfo):
-	avec=models.CharField(blank=True)
-	plaseerustoive=models.CharField(blank=True)
+	avec=models.CharField(max_length=500,blank=True)
+	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		return ""
 
@@ -70,16 +70,16 @@ class Osallistuja(models.Model):
 #
 #	Tämä kenttä sisältää tiedot: holillinen/holiton, liha/kasvis, jäsen/ei jäsen, onko maksanut, avec, plaseeraustoive.
 #	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
-	miscInfo=models.CharField()
+	miscInfo=models.TextField()
 	def __str__(self):
 		return ""
 
 class Arkisto(models.Model):
-	tyyppi=models.CharField(verbose_name='Tapahtuman typpi')
-	nimi=models.CharField(verbose_name='Tapahtuman nimi')
+	tyyppi=models.CharField(max_length=500,verbose_name='Tapahtuman typpi')
+	nimi=models.CharField(max_length=500,verbose_name='Tapahtuman nimi')
 	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	participants=models.IntegerField(verbose_name='Osallistujamäärä')
-	omistaja=models.CharField(verbose_name='Tapahtuman pitäjä')
+	omistaja=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return ""
