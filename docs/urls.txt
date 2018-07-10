@@ -1,0 +1,6 @@
+root=eventsignup/
+
+event/new -> lomake uuden tapahtuman luomiseksi
+event/uid/signup -> tapahtumaan osallistujan ilmoittautuslomake
+
+event/uid/stats -> sivupalkin widget "nippelitieto"
