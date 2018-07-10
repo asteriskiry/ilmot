@@ -11,11 +11,14 @@ def index(request):
 def stats(request, uid):
 	pass
 
-def signup(request, uid):
+def signup(request, uid, **kwargs):
 	pass
 
 def archive(request, uid):
 	pass
 
 def new(request, **kwargs):
+	pass
+
+def info(request, uid):
 	pass
