@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 
 # Create your models here.
 class TapahtumaTyypit(models.Model):
@@ -20,9 +21,9 @@ class Tapahtumat(models.Model):
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
-	uid=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE)
-	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
-	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
+	uid=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
+	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE,editable=False)
+	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE,editable=False)
 	nimi=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	paikka=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
@@ -36,7 +37,7 @@ class CommonInfo(models.Model):
 		abstract = True
 
 class Sitsit(CommonInfo):
-	quotas=models.CharField(max_length=500,null=True, blank=True)
+	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
 	avec=models.CharField(max_length=500,blank=True)
 	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
@@ -49,7 +50,7 @@ class Vuosijuhla(CommonInfo):
 		return ""
 
 class Ekskursio(CommonInfo):
-	start_date=models.DateField(null=True)
+	#start_date=models.DateField(null=True)
 	end_date=models.DateField()
 	def __str__(self):
 		return ""
@@ -60,7 +61,7 @@ class MuuTapahtuma(CommonInfo):
 		return ""
 
 class Osallistuja(models.Model):
-	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE)
+	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
 	nimi=models.CharField(max_length=200)
 	email=models.EmailField()
 #	lihaton=models.NullBooleanField()
@@ -70,7 +71,7 @@ class Osallistuja(models.Model):
 #
 #	Tämä kenttä sisältää tiedot: holillinen/holiton, liha/kasvis, jäsen/ei jäsen, onko maksanut, avec, plaseeraustoive.
 #	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
-	miscInfo=models.TextField()
+	miscInfo=models.TextField(editable=False)
 	def __str__(self):
 		return ""
 
@@ -83,4 +84,25 @@ class Arkisto(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return ""
+#
+# Lomakkeita varten
+#
+class SitsitForm(ModelForm):
+	class Meta:
+		model = Sitsit
+		fields = '__all__'
 
+class VuosijuhlaForm(ModelForm):
+	class Meta:
+		model=Vuosijuhlat
+		fields='__all__'
+
+class MuuTapahtumaForm(ModelForm):
+	class Meta:
+		model=MuuTapahtuma
+		field='__all__'
+
+class EkskursioForm(ModelForm):
+	class Meta:
+		model=Ekskursio
+		field='__all__'
