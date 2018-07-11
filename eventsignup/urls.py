@@ -8,7 +8,7 @@ urlpatterns = [
     # uuden tapahtuman lisäyslomake
     path('event/add/', views.add,name='add'),
     # oikean lomakkeen haku dropdown menusta
-    path('event/add/<string:eventtype>/', views.formtype,name='formtype'),
+    path('event/add/<str:eventtype>/', views.formtype,name='formtype'),
     # lomakkeen vastaanotto
     path('event/new/', views.new, name='new'),
     # sivupaneelin "nippelitieto"
