@@ -100,9 +100,9 @@ class VuosijuhlaForm(ModelForm):
 class MuuTapahtumaForm(ModelForm):
 	class Meta:
 		model=MuuTapahtuma
-		field='__all__'
+		fields='__all__'
 
 class EkskursioForm(ModelForm):
 	class Meta:
 		model=Ekskursio
-		field='__all__'
+		fields='__all__'
