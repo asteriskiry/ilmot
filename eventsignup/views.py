@@ -6,6 +6,8 @@ from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuo
 from .models import MuuTapahtuma, Osallistuja, Arkisto
 
 def index(request):
+	#kts tutoriaali!! template tms
+	#return render(request,'eventsignup/info.html',{'info':info})
 	return HttpResponse("Welcome!")
 
 def stats(request, uid):
@@ -15,6 +17,12 @@ def signup(request, uid, **kwargs):
 	pass
 
 def archive(request, uid):
+	pass
+
+def add(request):
+	return render(request,'eventsignup/addNewForm.html')
+
+def formtype(request,eventtype):
 	pass
 
 def new(request, **kwargs):
