@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 
 # Create your models here.
 class TapahtumaTyypit(models.Model):
@@ -84,25 +83,4 @@ class Arkisto(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return ""
-#
-# Lomakkeita varten
-#
-class SitsitForm(ModelForm):
-	class Meta:
-		model = Sitsit
-		fields = '__all__'
 
-class VuosijuhlaForm(ModelForm):
-	class Meta:
-		model=Vuosijuhla
-		fields='__all__'
-
-class MuuTapahtumaForm(ModelForm):
-	class Meta:
-		model=MuuTapahtuma
-		fields='__all__'
-
-class EkskursioForm(ModelForm):
-	class Meta:
-		model=Ekskursio
-		fields='__all__'
