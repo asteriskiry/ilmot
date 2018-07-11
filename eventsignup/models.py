@@ -94,7 +94,7 @@ class SitsitForm(ModelForm):
 
 class VuosijuhlaForm(ModelForm):
 	class Meta:
-		model=Vuosijuhlat
+		model=Vuosijuhla
 		fields='__all__'
 
 class MuuTapahtumaForm(ModelForm):
