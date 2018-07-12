@@ -62,7 +62,7 @@ class MuuTapahtuma(CommonInfo):
 class Osallistuja(models.Model):
 	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
 	nimi=models.CharField(max_length=200)
-	email=models.EmailField()
+	email=models.EmailField(verbose_name='Sähköpostiosoite')
 #	lihaton=models.NullBooleanField()
 #	holiton=models.NullBooleanField()
 #	is_member=models.NullBooleanField()

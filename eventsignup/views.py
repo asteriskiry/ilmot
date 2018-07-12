@@ -5,12 +5,12 @@ from django.http import HttpResponse
 #from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuosijuhla, Ekskursio
 #from .models import MuuTapahtuma, Osallistuja, Arkisto
 from django import forms
-from eventsignup.forms import MuuTapahtumaForm
+from eventsignup.forms import SitsitSignupForm
 
 def index(request):
 	#kts tutoriaali!! template tms
 	#return render(request,'eventsignup/info.html',{'info':info})
-	form = MuuTapahtumaForm()
+	form = SitsitSignupForm()
 	return render(request, "eventsignup/new_event.html", {'form': form})
 	#return HttpResponse("Welcome!")
 
