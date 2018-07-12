@@ -11,7 +11,7 @@ def index(request):
 	#kts tutoriaali!! template tms
 	#return render(request,'eventsignup/info.html',{'info':info})
 	form = MuuTapahtumaForm()
-	return render(request, "eventsignup/test_template.html", {'form': form})
+	return render(request, "eventsignup/new_event.html", {'form': form})
 	#return HttpResponse("Welcome!")
 
 def stats(request, uid):
