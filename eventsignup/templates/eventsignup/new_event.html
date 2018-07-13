@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'eventsignup/base.html' %}
 
 
 {% block content %}
   <form method="post" novalidate>
     {% csrf_token %}
-    {% include 'includes/form_base.html' %}
+    {% include 'eventsignup/includes/form_base.html' %}
     <button type="submit" class="btn btn-success">Post</button>
   </form>
 {% endblock %}
