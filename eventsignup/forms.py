@@ -33,7 +33,7 @@ class EkskursioForm(ModelForm):
 class SitsitSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
-	avec=forms.CharField(required=False,label='Avec',help_text='Jätä tyhjäksi, jos ei ole.')
+	avec=forms.CharField(required=False,label='Avec')
 	plaseeraus=forms.CharField(required=False,label='Plaseeraustoive',help_text='Nimi1, Nimi2, ...')
 	class Meta:
 		model=Osallistuja
