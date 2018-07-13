@@ -86,5 +86,5 @@ class Arkisto(models.Model):
 	omistaja=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.omistaja+",Alkuperäinen pitopäivä: "+self.date", Yleiskuvaus: "+self.kuvaus
+		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.omistaja+", Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.kuvaus
 
