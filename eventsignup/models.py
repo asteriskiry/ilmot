@@ -27,41 +27,37 @@ class CommonInfo(models.Model):
 	paikka=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
-	kuva=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
-	hinta=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
-	max_osallistujia=models.PositiveIntegerField(blank=True, null=True,verbose_name='Maksimimäärä osallistujia')
-	ilmo_alkaa=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
-	ilmo_loppuu=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
-
-	def __str__(self):
-		return "Tapahtuman järjestäjä: "+self.omistaja+", Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Pitopaikka "+self.paikka+", Hinta: "+self.hinta+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_osallistujia+", Ilmoittautuminen alkaa: "+self.ilmo_alkaa+", Ilmoittautuminen loppuu: "+self.ilmo_loppuu+", Yleiskuvaus: "+self.kuvaus
-
+	kuva=models.ImageField(blank=True, null=True)
+	hinta=models.CharField(max_length=500,blank=True, null=True)
+	max_osallistujia=models.PositiveIntegerField(blank=True, null=True)
+	ilmo_alkaa=models.DateField()
+	ilmo_loppuu=models.DateField(blank=True, null=True)
 	class Meta:
 		abstract = True
 
 class Sitsit(CommonInfo):
 	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
-#	avec=models.CharField(max_length=500,blank=True)
-#	plaseerustoive=models.CharField(max_length=500,blank=True)
+	avec=models.CharField(max_length=500,blank=True)
+	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
-		return super().__str__()+", Osallistujakiintiöt: "+self.quotas
+		return ""
 
 class Vuosijuhla(CommonInfo):
-#	avec=models.CharField(max_length=500,blank=True)
-#	plaseerustoive=models.CharField(max_length=500,blank=True)
+	avec=models.CharField(max_length=500,blank=True)
+	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
-		return super().__str__()
+		return ""
 
 class Ekskursio(CommonInfo):
-	date=models.DateField(verbose_name='Ekskursion aloituspäivä')
-	end_date=models.DateField(verbose_name='Ekskursion loppumispäivä')
+	#start_date=models.DateField(null=True)
+	end_date=models.DateField()
 	def __str__(self):
-		return super().__str__()+", Päättymispäivä: "+self.end_date
+		return ""
 
 class MuuTapahtuma(CommonInfo):
-	min_osallistujia=models.PositiveIntegerField(blank=True, null=True,verbose_name='Minimimäärä osallistujia')
+	min_osallistujia=models.PositiveIntegerField(blank=True, null=True)
 	def __str__(self):
-		return super().__str__()+", Minimimäärä osallistujia: "+self.min_osallistujia
+		return ""
 
 class Osallistuja(models.Model):
 	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
@@ -76,7 +72,7 @@ class Osallistuja(models.Model):
 #	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
 	miscInfo=models.TextField(editable=False)
 	def __str__(self):
-		return self.nimi+" ("+self.email+"), muut tiedot: "+self.miscInfo
+		return ""
 
 class Arkisto(models.Model):
 	tyyppi=models.CharField(max_length=500,verbose_name='Tapahtuman typpi')
@@ -86,4 +82,9 @@ class Arkisto(models.Model):
 	omistaja=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
+<<<<<<< HEAD
 		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.omistaja+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.kuvaus
+=======
+		return ""
+
+>>>>>>> parent of 66d88a6... Merge branch 'testzone' of github.com:aegan123/riskiwww into testzone
