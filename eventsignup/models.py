@@ -82,9 +82,7 @@ class Arkisto(models.Model):
 	omistaja=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
-<<<<<<< HEAD
-		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.omistaja+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.kuvaus
-=======
-		return ""
 
->>>>>>> parent of 66d88a6... Merge branch 'testzone' of github.com:aegan123/riskiwww into testzone
+		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.omistaja+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.kuvaus
+
+		return ""
