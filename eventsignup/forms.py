@@ -22,13 +22,11 @@ class EkskursioForm(ModelForm):
 		model=Ekskursio
 		fields='__all__'
 
-#class SitsitSignupForm(forms.Form):
-#	nimi=forms.charField(label='Nimi')
-#	email=forms.emailField(label='Sähköpostiosoite')
-#	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu')
-#	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu')
-#	avec=forms.charField(required=False,label='Avec')
-#	plaseeraus=forms.charField(required=False,label='Plaseeraustoive')
+class CustomForm(ModelForm):
+	#tähän jotain kenttiä vielä!!!
+	class Meta:
+		model=MuuTapahtuma
+		fields='__all__'
 
 class SitsitSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
@@ -39,3 +37,5 @@ class SitsitSignupForm(ModelForm):
 		model=Osallistuja
 		fields=['nimi','email','lihaton','holiton','avec','plaseeraus']
 
+class SelectTypeForm(forms.Form):
+	choice=forms.ChoiceField(label='Tapahtuman tyyppi',help_text='Valmiiksi määritellyillä tyypeillä tulee kyseiseen tapahtumaan soveltuva lomake. "Mukautettu" valinnalla voit mukauttaa tiedot haluamallasi tavalla.',choices=(('sitsit','Sitsit'),('vujut','Vuosijuhlat'),('eksku','Ekskursio'),('muu','Muu tapahtuma'),('custom','Mukautettu')))
