@@ -1,5 +1,5 @@
 from django.db import models
-
+#FooBar
 # Create your models here.
 class TapahtumaTyypit(models.Model):
 	tyyppi=models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
