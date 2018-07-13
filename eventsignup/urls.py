@@ -9,8 +9,6 @@ urlpatterns = [
     path('event/add/', views.add,name='add'),
     # oikean lomakkeen haku dropdown menusta
     path('event/add/<str:eventtype>/', views.formtype,name='formtype'),
-    # lomakkeen vastaanotto
-    path('event/new/', views.new, name='new'),
     # sivupaneelin "nippelitieto"
     path('event/<int:uid>/stats/', views.stats, name='stats'),
      # tapahtuman info

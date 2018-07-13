@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 #from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuosijuhla, Ekskursio
 #from .models import MuuTapahtuma, Osallistuja, Arkisto
 from django import forms
-from eventsignup.forms import SitsitSignupForm
+from eventsignup.forms import SitsitSignupForm, VuosijuhlaForm, EkskursioForm, MuuTapahtumaForm, CustomForm, SelectTypeForm, SitsitForm
 
 def index(request):
 	#kts tutoriaali!! template tms
@@ -14,23 +14,54 @@ def index(request):
 	return render(request, "eventsignup/new_event.html", {'form': form})
 	#return HttpResponse("Welcome!")
 
+#sivupaneelin nippelitieto
 def stats(request, uid):
 	pass
 
-def signup(request, uid, **kwargs):
+def signup(request, tapahtuma):
 	pass
+#	if(request.method == 'POST'):
+		#tee jotain
+#		tyyppi=get_object_or_404(Tapahtumat, uid=uid)
+#		form = SitsitSignupForm(request.POST)
+#		if(form.is_valid()):
+			#käsittele lomake
+#	else:
+#		form = SitsitSignupForm()
+#	return render(request, "eventsignup/new_event.html", {'form': form})
 
 def archive(request, uid):
 	pass
 
 def add(request):
-	return render(request,'eventsignup/addNewForm.html')
+	if(request.method=='POST'):
+		#käsittele lomake
+		form=SelectTypeForm()
+	else:
+		form=SelectTypeForm()
+	return render(request,'eventsignup/addNewForm.html',{'form':form})
 
 def formtype(request,eventtype):
-	pass
-
-def new(request, **kwargs):
-	pass
+#	sitsit, vujut, eksku, muu, custom
+	if(request.method=='POST'):
+		return HttpResponseNotAllowed(['GET'])
+	if(eventtype=='sitsit'):
+		form = SitsitForm()
+		return render(request, "eventsignup/new_event.html", {'form': form})
+	elif(eventtype=='vujut'):
+		form = VuosijuhlaForm()
+		return render(request, "eventsignup/new_event.html", {'form': form})
+	elif(eventtype=='eksku'):
+		form = EkskursioForm()
+		return render(request, "eventsignup/new_event.html", {'form': form})
+	elif(eventtype=='muu'):
+		form = MuuTapahtumaForm()
+		return render(request, "eventsignup/new_event.html", {'form': form})
+	elif(eventtype=='custom'):
+		form = CustomForm()
+		return render(request, "eventsignup/new_event.html", {'form': form})
+	else:
+		return HttpResponseBadRequest()
 
 def info(request, uid):
 	pass
