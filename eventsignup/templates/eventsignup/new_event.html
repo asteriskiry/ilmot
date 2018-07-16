@@ -1,7 +1,7 @@
 {% extends 'eventsignup/base.html' %}
 
 
-{% block content %}
+{% block center-content %}
   <form method="post" novalidate>
     {% csrf_token %}
     {% include 'eventsignup/includes/form_base.html' %}
