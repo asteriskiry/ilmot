@@ -71,3 +71,9 @@ def formtype(request,eventtype):
 
 def info(request, uid):
 	pass
+
+def management(request):
+	pass
+
+def edit(request):
+	pass

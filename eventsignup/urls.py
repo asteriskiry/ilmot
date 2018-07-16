@@ -6,7 +6,7 @@ urlpatterns = [
     # näytä tervetuloa ja ohjaa sisäänkirjautumiseen
     path('', views.index, name='index'),
     # hallintakonsoli
-    path('management',views.managenet, name='management')
+    path('management',views.management, name='management'),
     # uuden tapahtuman lisäyslomake
     path('event/add/', views.add,name='add'),
     path('event/add/<str:type>', views.add,name='add'),
@@ -17,7 +17,7 @@ urlpatterns = [
      # tapahtuman info
     path('event/<int:uid>/view/', views.info, name='view'),
     # tapahtuman muokkaus
-    path('event/<int:uid>/edit/',views.edit, name='edit')
+    path('event/<int:uid>/edit/',views.edit, name='edit'),
     # tapahtumaan osallistujan ilmoittautumislomake
     path('event/<int:uid>/signup/', views.signup, name='signup'),
     # Arkistoi tapahtuman
