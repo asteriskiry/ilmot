@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Sitsit, Vuosijuhla, MuuTapahtuma, Ekskursio, Osallistuja
+from .models import Sitz, Annualfest, OtherEvent, Excursion, Participant
 
 class SitzForm(ModelForm):
 	class Meta:

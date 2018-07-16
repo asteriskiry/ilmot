@@ -12,17 +12,17 @@ class EventOwner(models.Model):
 		return "Tapahtuman järjestäjä(t): "+self.name
 
 class Events(models.Model):
-	event_type=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
+	event_type=models.ForeignKey(EventType, on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
-	owner=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
+	owner=models.ForeignKey(EventOwner, on_delete=models.CASCADE)
 	def __str__(self):
 		return "Tapahtuman tyyppi: "+self.event_type+", uid: "+self.uid+", tapahtuman järjestäjä(t): "+self.owner
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
-	uid=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
-	event_type=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE,editable=False)
-	owner=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE,editable=False)
+	uid=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
+	event_type=models.ForeignKey(EventType, on_delete=models.CASCADE,editable=False)
+	owner=models.ForeignKey(EventOwner, on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
@@ -64,7 +64,7 @@ class OtherEvent(CommonInfo):
 		return super().__str__()+", Minimimäärä osallistujia: "+self.min_participants
 
 class Participant(models.Model):
-	event_type=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
+	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=200)
 	email=models.EmailField(verbose_name='Sähköpostiosoite')
 #	lihaton=models.NullBooleanField()
