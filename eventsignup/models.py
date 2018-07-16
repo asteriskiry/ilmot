@@ -1,71 +1,71 @@
 from django.db import models
-#FooBar
+
 # Create your models here.
-class TapahtumaTyypit(models.Model):
-	tyyppi=models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
+class EventType(models.Model):
+	event_type=models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
 	def __str__(self):
-		return "Tapahtuman typpi: "+self.tyyppi
+		return "Tapahtuman typpi: "+self.event_type
 
-class TapahtumanOmistaja(models.Model):
-	nimi=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
+class EventOwner(models.Model):
+	name=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
 	def __str__(self):
-		return "Tapahtuman järjestäjä(t): "+self.nimi
+		return "Tapahtuman järjestäjä(t): "+self.name
 
-class Tapahtumat(models.Model):
-	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
+class Events(models.Model):
+	event_type=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
-	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
+	owner=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE)
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.typpi+", uid: "+self.uid+", tapahtuman järjestäjä(t): "+self.omistaja
+		return "Tapahtuman tyyppi: "+self.event_type+", uid: "+self.uid+", tapahtuman järjestäjä(t): "+self.owner
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
 	uid=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
-	tyyppi=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE,editable=False)
-	omistaja=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE,editable=False)
-	nimi=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
-	paikka=models.CharField(max_length=200, verbose_name='Pitopaikka')
+	event_type=models.ForeignKey(TapahtumaTyypit, on_delete=models.CASCADE,editable=False)
+	owner=models.ForeignKey(TapahtumanOmistaja, on_delete=models.CASCADE,editable=False)
+	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
+	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
-	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
-	kuva=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
-	hinta=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
-	max_osallistujia=models.PositiveIntegerField(blank=True, null=True,verbose_name='Maksimimäärä osallistujia')
-	ilmo_alkaa=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
-	ilmo_loppuu=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
+	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
+	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
+	prize=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
+	max_participants=models.PositiveIntegerField(blank=True, null=True,verbose_name='Maksimimäärä osallistujia')
+	signup_starts=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
+	signup_ends=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
 
 	def __str__(self):
-		return "Tapahtuman järjestäjä: "+self.omistaja+", Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Pitopaikka "+self.paikka+", Hinta: "+self.hinta+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_osallistujia+", Ilmoittautuminen alkaa: "+self.ilmo_alkaa+", Ilmoittautuminen loppuu: "+self.ilmo_loppuu+", Yleiskuvaus: "+self.kuvaus
+		return "Tapahtuman järjestäjä: "+self.owner+", Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+self.prize+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_participants+", Ilmoittautuminen alkaa: "+self.signup_starts+", Ilmoittautuminen loppuu: "+self.signup_ends+", Yleiskuvaus: "+self.kuvaus
 
 	class Meta:
 		abstract = True
 
-class Sitsit(CommonInfo):
+class Sitz(CommonInfo):
 	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
 #	avec=models.CharField(max_length=500,blank=True)
 #	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		return super().__str__()+", Osallistujakiintiöt: "+self.quotas
 
-class Vuosijuhla(CommonInfo):
+class Annualfest(CommonInfo):
 #	avec=models.CharField(max_length=500,blank=True)
 #	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		return super().__str__()
 
-class Ekskursio(CommonInfo):
+class Excursion(CommonInfo):
 	date=models.DateField(verbose_name='Ekskursion aloituspäivä')
 	end_date=models.DateField(verbose_name='Ekskursion loppumispäivä')
 	def __str__(self):
 		return super().__str__()+", Päättymispäivä: "+self.end_date
 
-class MuuTapahtuma(CommonInfo):
-	min_osallistujia=models.PositiveIntegerField(blank=True, null=True,verbose_name='Minimimäärä osallistujia')
+class OtherEvent(CommonInfo):
+	min_participants=models.PositiveIntegerField(blank=True, null=True,verbose_name='Minimimäärä osallistujia')
 	def __str__(self):
-		return super().__str__()+", Minimimäärä osallistujia: "+self.min_osallistujia
+		return super().__str__()+", Minimimäärä osallistujia: "+self.min_participants
 
-class Osallistuja(models.Model):
-	tapahtuma=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
-	nimi=models.CharField(max_length=200)
+class Participant(models.Model):
+	event_type=models.ForeignKey(Tapahtumat, on_delete=models.CASCADE,editable=False)
+	name=models.CharField(max_length=200)
 	email=models.EmailField(verbose_name='Sähköpostiosoite')
 #	lihaton=models.NullBooleanField()
 #	holiton=models.NullBooleanField()
@@ -76,14 +76,15 @@ class Osallistuja(models.Model):
 #	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
 	miscInfo=models.TextField(editable=False)
 	def __str__(self):
-		return self.nimi+" ("+self.email+"), muut tiedot: "+self.miscInfo
+		return self.name+" ("+self.email+"), muut tiedot: "+self.miscInfo
 
-class Arkisto(models.Model):
-	tyyppi=models.CharField(max_length=500,verbose_name='Tapahtuman typpi')
-	nimi=models.CharField(max_length=500,verbose_name='Tapahtuman nimi')
-	kuvaus=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
+class Archive(models.Model):
+	event_type=models.CharField(max_length=500,verbose_name='Tapahtuman typpi')
+	name=models.CharField(max_length=500,verbose_name='Tapahtuman nimi')
+	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	participants=models.IntegerField(verbose_name='Osallistujamäärä')
-	omistaja=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
+	owner=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.tyyppi+", Tapahtuman nimi: "+self.nimi+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.omistaja+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.kuvaus
+		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.description
+

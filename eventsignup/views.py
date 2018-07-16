@@ -5,14 +5,14 @@ from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResp
 #from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuosijuhla, Ekskursio
 #from .models import MuuTapahtuma, Osallistuja, Arkisto
 #from django import forms
-from eventsignup.forms import SitsitSignupForm, VuosijuhlaForm, EkskursioForm, MuuTapahtumaForm, CustomForm, SelectTypeForm, SitsitForm
+from eventsignup.forms import SitzSignupForm, AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 #from omat import helpers
 import random
 
 def index(request):
 	#kts tutoriaali!! template tms
 	#return render(request,'eventsignup/info.html',{'info':info})
-	form = SitsitSignupForm()
+	form = SitzSignupForm()
 	return render(request, "eventsignup/new_event.html", {'form': form})
 	#return HttpResponse("Welcome!")
 
@@ -52,16 +52,16 @@ def formtype(request,eventtype):
 	if(request.method=='POST'):
 		return HttpResponseNotAllowed(['GET',''])
 	if(eventtype=='sitsit'):
-		form = SitsitForm()
+		form = SitzForm()
 		return render(request, "eventsignup/new_event.html", {'form': form})
 	elif(eventtype=='vujut'):
-		form = VuosijuhlaForm()
+		form = AnnualfestForm()
 		return render(request, "eventsignup/new_event.html", {'form': form})
 	elif(eventtype=='eksku'):
-		form = EkskursioForm()
+		form = ExcursionForm()
 		return render(request, "eventsignup/new_event.html", {'form': form})
 	elif(eventtype=='muu'):
-		form = MuuTapahtumaForm()
+		form = OtherEventForm()
 		return render(request, "eventsignup/new_event.html", {'form': form})
 	elif(eventtype=='custom'):
 		form = CustomForm()
@@ -77,3 +77,4 @@ def management(request):
 
 def edit(request):
 	pass
+
