@@ -2,6 +2,7 @@ Templatet (templates/eventsignup):
 	- base.html (sivun tyhjä peruslayout)
 		- kaikki templatet extendaa tämän
 		- sivujen eri osien nimet:
+			- header-content
 			- left-content
 			- right-content
 			- center-content
