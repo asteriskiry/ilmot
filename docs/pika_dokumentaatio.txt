@@ -1,0 +1,50 @@
+Templatet (templates/eventsignup):
+	- base.html (sivun tyhjä peruslayout)
+		- kaikki templatet extendaa tämän
+	- form_base.html (lomakikenttien muotoilut)
+		- sijaiti: templates/eventsignup/includes
+		- kaikki lomakkeet käyttävät tätä
+	- header.html
+		- sivujen yläpalkki
+		- kaikki käyttävät tätä
+		- sijaiti: templates/eventsignup/includes
+	- index.html
+		- index sivu
+		- includes header.html
+	- new_event.html
+		- uuden tapahtuman luontisivu
+		- includes form_base.html
+		- includes header.html
+	- preview.html
+		- uuden tapahtuman luonnin jälkeen näytettävä sivu, jossa lomakkeen tiedot muotoiltuna
+		- includes header.html
+	- edit_preview.html
+		- tapahtuman tiedot, josta pääsee muokkaamaan
+		- includes header.html
+	- edit.html
+		- tapahtuman muokkaussivu
+		- includes form_base.html
+		- includes header.html
+	- management.html
+		- "hallintapaneelin" layout
+		- includes header.html
+	- signup.html
+		- osallistujan tapahtumaan ilmoittautumissivu
+		- includes header.html
+		- include form_base.html
+	- login.html
+		- login sivu
+		- includes header.html
+		- includes form_base.html
+
+Tausta:
+	- urls
+		- index (=/) -> näytä tervetuloa sivu ja sisäänkirjautumisnappi
+		- /login -> sisäänkirjautuminen
+		- /event/add -> uuden tapahtuman lisäyssivu
+		- /event/add/<str:type>
+		- /event/form/<str:eventtype>/ -> lataa oikean lomakkeen dropdown menun perusteella
+		- /event/<int:uid>/stats/ -> sivupalkin widgetin data tulee täältä (json?)
+		- /event/<int:uid>/view/ -> tapahtuman info hallintapaneelista tultaessa
+		- /event/<int:uid>/edit/ -> tapahtuman muokkaussivu
+		- /event/<int:uid>/signup/ -> tapahtumaan osallistujan ilmoittautumislomake
