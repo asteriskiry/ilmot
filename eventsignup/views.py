@@ -1,11 +1,13 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
+from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse
 #from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuosijuhla, Ekskursio
 #from .models import MuuTapahtuma, Osallistuja, Arkisto
-from django import forms
+#from django import forms
 from eventsignup.forms import SitsitSignupForm, VuosijuhlaForm, EkskursioForm, MuuTapahtumaForm, CustomForm, SelectTypeForm, SitsitForm
+#from omat import helpers
+import random
 
 def index(request):
 	#kts tutoriaali!! template tms
@@ -18,8 +20,9 @@ def index(request):
 def stats(request, uid):
 	pass
 
-def signup(request, tapahtuma):
-	pass
+def signup(request, uid):
+	#return HttpResponse(filter(str.isdigit, request.path))
+	return HttpResponse(uid)
 #	if(request.method == 'POST'):
 		#tee jotain
 #		tyyppi=get_object_or_404(Tapahtumat, uid=uid)
@@ -33,18 +36,21 @@ def signup(request, tapahtuma):
 def archive(request, uid):
 	pass
 
-def add(request):
+def add(request,**kwargs):
+	if kwargs:
+		return HttpResponse(kwargs['type'])
 	if(request.method=='POST'):
+		uid=random.randint(10000, 99999)
 		#käsittele lomake
 		form=SelectTypeForm()
 	else:
 		form=SelectTypeForm()
-	return render(request,'eventsignup/addNewForm.html',{'form':form})
+	return render(request,"eventsignup/new_event.html",{'form':form})
 
 def formtype(request,eventtype):
 #	sitsit, vujut, eksku, muu, custom
 	if(request.method=='POST'):
-		return HttpResponseNotAllowed(['GET'])
+		return HttpResponseNotAllowed(['GET',''])
 	if(eventtype=='sitsit'):
 		form = SitsitForm()
 		return render(request, "eventsignup/new_event.html", {'form': form})
