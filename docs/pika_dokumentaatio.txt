@@ -1,6 +1,10 @@
 Templatet (templates/eventsignup):
 	- base.html (sivun tyhjä peruslayout)
 		- kaikki templatet extendaa tämän
+		- sivujen eri osien nimet:
+			- left-content
+			- right-content
+			- center-content
 	- form_base.html (lomakikenttien muotoilut)
 		- sijaiti: templates/eventsignup/includes
 		- kaikki lomakkeet käyttävät tätä
