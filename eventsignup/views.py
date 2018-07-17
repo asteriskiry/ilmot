@@ -12,8 +12,8 @@ import random
 def index(request):
 	#kts tutoriaali!! template tms
 	#return render(request,'eventsignup/info.html',{'info':info})
-	form = SitzSignupForm()
-	return render(request, "eventsignup/new_event.html", {'form': form})
+#	form = SitzSignupForm()
+	return render(request, "eventsignup/index.html")
 	#return HttpResponse("Welcome!")
 
 #sivupaneelin nippelitieto
