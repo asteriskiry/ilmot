@@ -1,0 +1,9 @@
+{% extends 'eventsignup/base.html' %}
+
+{% block center-content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'eventsignup/includes/form_base.html' %}
+    <button type="submit" class="btn btn-success">Kirjaudu</button>
+  </form>
+{% endblock %}

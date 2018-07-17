@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse
@@ -17,6 +18,7 @@ def index(request):
 	#return HttpResponse("Welcome!")
 
 #sivupaneelin nippelitieto
+@login_required
 def stats(request, uid):
 	pass
 
@@ -33,9 +35,11 @@ def signup(request, uid):
 #		form = SitsitSignupForm()
 #	return render(request, "eventsignup/new_event.html", {'form': form})
 
+@login_required
 def archive(request, uid):
 	pass
 
+@login_required
 def add(request,**kwargs):
 	if kwargs:
 		return HttpResponse(kwargs['type'])
@@ -47,6 +51,7 @@ def add(request,**kwargs):
 		form=SelectTypeForm()
 	return render(request,"eventsignup/new_event.html",{'form':form})
 
+@login_required
 def formtype(request,eventtype):
 #	sitsit, vujut, eksku, muu, custom
 	if(request.method=='POST'):
@@ -69,12 +74,16 @@ def formtype(request,eventtype):
 	else:
 		return HttpResponseBadRequest()
 
+@login_required
 def info(request, uid):
 	pass
 
+@login_required
 def management(request):
-	pass
+	return HttpResponse("Foobar")
 
+@login_required
 def edit(request):
 	pass
+
 

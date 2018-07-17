@@ -32,6 +32,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
+	'accounts.apps.AccountsConfig',
 	'widget_tweaks',
 	'eventsignup.apps.EventsignupConfig',
     'django.contrib.admin',
@@ -122,3 +123,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+# Muut conffit
+LOGIN_REDIRECT_URL = 'management'
