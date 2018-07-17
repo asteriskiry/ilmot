@@ -1,2 +1,32 @@
 {% extends 'eventsignup/base.html' %}
 {% include 'eventsignup/includes/header.html' %}
+
+{% block center-content %}
+<h1>
+{{ event.name }}
+</h1>
+<p>Tapahtuman järjestää: {{ event.owner }}</p>
+<p>
+{{ event.description }}
+</p>
+<p>Mikä-Missä-Milloin</p>
+<p>
+<ul>
+<li>Mikä: {{ event.name }}</li>
+<li>Missä: {{ event.place }}</li>
+<li>Milloin: {{ event.date }}</li>
+<li>Mitä maksaa: {{ event.prize }}</li>
+</ul></p>
+<hr>
+<p>
+<p>Mikä-Missä-Milloin</p><p>
+<ul>
+GenInfolla haettuna:
+{{ event.genInfo() }}
+</ul></p><hr>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'eventsignup/includes/form_base.html' %}
+    <button type="submit" class="btn btn-success">Lähetä</button> <button type="reset" class="btn btn-success">Tyhjennä</button>
+  </form>
+{% endblock %}

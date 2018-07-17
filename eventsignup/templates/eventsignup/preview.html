@@ -1,2 +1,31 @@
 {% extends 'eventsignup/base.html' %}
 {% include 'eventsignup/includes/header.html' %}
+
+{% block center-content %}
+<p>
+Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti on lähetetty käyttäjälle rekisteröityyn sähköpostiosoitteeseen. Uniikki tapahtumaan ilmoittautumislinkki on: <a href="https://example.com/event/{{event.uid}}/signup" target="_blank">https://example.com/event/{{event.uid}}/signup</a><
+</p>
+<hr>
+<h1>
+{{ event.name }}
+</h1>
+<p>Tapahtuman järjestää: {{ event.owner }}</p>
+<p>
+{{ event.description }}
+</p>
+<p>Ilmoittaudu tästä: <a href="https://example.com/event/{{event.uid}}/signup" target="_blank">https://example.com/event/{{event.uid}}/signup</a></p>
+<p>Mikä-Missä-Milloin</p>
+<p>
+<ul>
+<li>Mikä: {{ event.name }}</li>
+<li>Missä: {{ event.place }}</li>
+<li>Milloin: {{ event.date }}</li>
+<li>Mitä maksaa: {{ event.prize }}</li>
+</ul></p>
+<hr>
+<p>
+<p>Mikä-Missä-Milloin</p><p><ul>
+GenInfolla haettuna:
+{{ event.genInfo() }}
+</ul></p><hr>
+{% endblock %}

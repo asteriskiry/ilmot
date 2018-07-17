@@ -2,13 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse
-#from .models import TapahtumaTyypit, TapahtumanOmistaja, Tapahtumat, Sitsit, Vuosijuhla, Ekskursio
-#from .models import MuuTapahtuma, Osallistuja, Arkisto
+from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse, HttpResponseRedirect
+from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion
+from .models import OtherEvent, Participant
 #from django import forms
 from eventsignup.forms import SitzSignupForm, AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
-#from omat import helpers
-import random
+from omat import helpers
 
 def index(request):
 	#kts tutoriaali!! template tms
@@ -32,58 +31,70 @@ def signup(request, uid):
 #		if(form.is_valid()):
 			#käsittele lomake
 #	else:
+#		event= jotain
 #		form = SitsitSignupForm()
-#	return render(request, "eventsignup/new_event.html", {'form': form})
+#	return render(request, "eventsignup/new_event.html", {'form': form}, {'event':event} )
 
 @login_required
 def archive(request, uid):
 	pass
 
-@login_required
+#@login_required
 def add(request,**kwargs):
 	if kwargs:
-		return HttpResponse(kwargs['type'])
+		event_type=kwargs['type']
 	if(request.method=='POST'):
-		uid=random.randint(10000, 99999)
+		uid=helpers.getUid()
 		#käsittele lomake
-		form=SelectTypeForm()
+		form=helpers.getForm(event_type,request)
+		if form.is_valid():
+			#tee jotain
+			return HttpResponseRedirect(uid+'/preview/')
 	else:
-		form=SelectTypeForm()
+		if(event_type=='sitsit'):
+			form = SitzForm()
+		elif(event_type=='vujut'):
+			form = AnnualfestForm()
+		elif(event_type=='eksku'):
+			form = ExcursionForm()
+		elif(event_type=='muu'):
+			form = OtherEventForm()
+		elif(event_type=='custom'):
+			form = CustomForm()
 	return render(request,"eventsignup/new_event.html",{'form':form})
 
-@login_required
-def formtype(request,eventtype):
+#@login_required
+def formtype(request,**kwargs):
 #	sitsit, vujut, eksku, muu, custom
 	if(request.method=='POST'):
-		return HttpResponseNotAllowed(['GET',''])
-	if(eventtype=='sitsit'):
-		form = SitzForm()
-		return render(request, "eventsignup/new_event.html", {'form': form})
-	elif(eventtype=='vujut'):
-		form = AnnualfestForm()
-		return render(request, "eventsignup/new_event.html", {'form': form})
-	elif(eventtype=='eksku'):
-		form = ExcursionForm()
-		return render(request, "eventsignup/new_event.html", {'form': form})
-	elif(eventtype=='muu'):
-		form = OtherEventForm()
-		return render(request, "eventsignup/new_event.html", {'form': form})
-	elif(eventtype=='custom'):
-		form = CustomForm()
-		return render(request, "eventsignup/new_event.html", {'form': form})
+		temp=request.POST.get('choice')
+		if(temp=='sitsit'):
+			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+		elif(temp=='vujut'):
+			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+		elif(temp=='eksku'):
+			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+		elif(temp=='muu'):
+			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+		elif(temp=='custom'):
+			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
 	else:
-		return HttpResponseBadRequest()
+		form=SelectTypeForm()
+	return render(request, "eventsignup/new_event.html", {'form': form})
 
 @login_required
 def info(request, uid):
 	pass
 
-@login_required
+#@login_required
 def management(request):
-	return HttpResponse("Foobar")
+	return render(request, "eventsignup/management.html")
 
 @login_required
 def edit(request):
 	pass
 
-
+#@login_required
+def preview(request, uid):
+	event=helpers.getEvent(uid)
+	return render(request, "eventsignup/preview.html", {'event': event})
