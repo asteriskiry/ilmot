@@ -36,6 +36,12 @@ class CommonInfo(models.Model):
 	def __str__(self):
 		return "Tapahtuman järjestäjä: "+self.owner+", Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+self.prize+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_participants+", Ilmoittautuminen alkaa: "+self.signup_starts+", Ilmoittautuminen loppuu: "+self.signup_ends+", Yleiskuvaus: "+self.kuvaus
 
+	def genInfo(self):
+		if not self.prize:
+			return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+self.date+"</li><li>Mitä maksaa: Ilmainen</li>"
+		else:
+			return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+self.date+"</li><li>Mitä maksaa: "+self.prize+"Ilmainen</li>"
+
 	class Meta:
 		abstract = True
 
