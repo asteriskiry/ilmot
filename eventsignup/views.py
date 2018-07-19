@@ -80,7 +80,7 @@ def formtype(request,**kwargs):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
 	else:
 		form=SelectTypeForm()
-	return render(request, "eventsignup/new_event.html", {'form': form})
+	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True})
 
 @login_required
 def info(request, uid):
