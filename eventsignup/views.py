@@ -53,11 +53,11 @@ def add(request,**kwargs):
 	else:
 		if(event_type=='sitsit'):
 			form = SitzForm()
-		elif(event_type=='vujut'):
+		elif(event_type=='vuosijuhlat'):
 			form = AnnualfestForm()
-		elif(event_type=='eksku'):
+		elif(event_type=='ekskursio'):
 			form = ExcursionForm()
-		elif(event_type=='muu'):
+		elif(event_type=='muutapahtuma'):
 			form = OtherEventForm()
 		elif(event_type=='custom'):
 			form = CustomForm()
@@ -70,11 +70,11 @@ def formtype(request,**kwargs):
 		temp=request.POST.get('choice')
 		if(temp=='sitsit'):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
-		elif(temp=='vujut'):
+		elif(temp=='vuosijuhlat'):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
-		elif(temp=='eksku'):
+		elif(temp=='ekskursio'):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
-		elif(temp=='muu'):
+		elif(temp=='muutapahtuma'):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
 		elif(temp=='custom'):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
