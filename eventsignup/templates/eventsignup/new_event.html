@@ -2,9 +2,11 @@
 
 
 {% block center-content %}
+<p>Kuvaukseen ei tarvitse tehdä Mikä-Missä-Milloin osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
   <form method="post">
     {% csrf_token %}
     {% include 'eventsignup/includes/form_base.html' %}
     <button type="submit" class="btn btn-success">Lähetä</button>
+    <button type="reset" class="btn btn-success">Tyhjennä</button>
   </form>
 {% endblock %}

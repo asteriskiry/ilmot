@@ -2,6 +2,7 @@
 {% include 'eventsignup/includes/header.html' %}
 
 {% block center-content %}
+<!--Tähän kansikuva-->
 <h1>
 {{ event.name }}
 </h1>
@@ -9,7 +10,7 @@
 <p>
 {{ event.description }}
 </p>
-<p>Mikä-Missä-Milloin</p>
+<p><h4>Mikä-Missä-Milloin</h4></p>
 <p>
 <ul>
 <li>Mikä: {{ event.name }}</li>
@@ -27,6 +28,6 @@ GenInfolla haettuna:
   <form method="post" novalidate>
     {% csrf_token %}
     {% include 'eventsignup/includes/form_base.html' %}
-    <button type="submit" class="btn btn-success">Lähetä</button> <button type="reset" class="btn btn-success">Tyhjennä</button>
+    <button type="submit" class="btn btn-success">Lähetä</button> <button type="reset" class="btn btn-outline-secondary">Tyhjennä</button>
   </form>
 {% endblock %}

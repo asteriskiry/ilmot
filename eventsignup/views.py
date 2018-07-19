@@ -49,7 +49,7 @@ def add(request,**kwargs):
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
 			#tee jotain
-			return HttpResponseRedirect(uid+'/preview/')
+			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
 	else:
 		if(event_type=='sitsit'):
 			form = SitzForm()
