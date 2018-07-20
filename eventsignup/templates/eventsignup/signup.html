@@ -10,20 +10,7 @@
 <p>
 {{ event.description }}
 </p>
-<p><h4>Mikä-Missä-Milloin</h4></p>
-<p>
-<ul>
-<li>Mikä: {{ event.name }}</li>
-<li>Missä: {{ event.place }}</li>
-<li>Milloin: {{ event.date }}</li>
-<li>Mitä maksaa: {{ event.prize }}</li>
-</ul></p>
-<hr>
-<p>
-<p>Mikä-Missä-Milloin</p><p>
-<ul>
-GenInfolla haettuna:
-{{ event.genInfo() }}
+    {% include 'eventsignup/includes/geninfo.html' %}
 </ul></p><hr>
   <form method="post" novalidate>
     {% csrf_token %}
