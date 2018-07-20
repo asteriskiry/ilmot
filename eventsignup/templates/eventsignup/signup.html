@@ -2,7 +2,7 @@
 {% include 'eventsignup/includes/header.html' %}
 
 {% block center-content %}
-<!--Tähän kansikuva-->
+{# tähän kansikuva #}
 <h1>
 {{ event.name }}
 </h1>
@@ -11,8 +11,8 @@
 {{ event.description }}
 </p>
     {% include 'eventsignup/includes/geninfo.html' %}
-</ul></p><hr>
-  <form method="post" novalidate>
+<hr>
+  <form method="post">
     {% csrf_token %}
     {% include 'eventsignup/includes/form_base.html' %}
     <button type="submit" class="btn btn-success">Lähetä</button> <button type="reset" class="btn btn-outline-secondary">Tyhjennä</button>
