@@ -15,7 +15,6 @@ def getUid():
 
 def getForm(event_type,request):
 	form=None
-	print(event_type)
 	if(event_type=='sitsit'):
 		form=SitzForm(request.POST)
 #		return SitzForm(request.POST)
@@ -31,20 +30,22 @@ def getForm(event_type,request):
 	return form
 
 def getEvent(uid):
-#	event=None
+	event=None
 	tempevent=Events.objects.get(uid=uid)
 #	events=Events.objects.all()
 #	for field in events:
 #		try:
-#			if(field['uid']==uid):
+#			if(field.uid==uid):
 #				tempevent=Events.objects.get(uid=uid)
 #		except ObjectDoesNotExist:
 #			pass
-	if(tempevent['event_type']=='sitsit'):
-		return Sitz.objects.get(uid=uid)
-	elif(tempevent['event_type']=='vuosijuhlat'):
-		return Annualfest.objects.get(uid=uid)
-	elif(tempevent['event_type']=='ekskursio'):
-		return Excursion.objects.get(uid=uid)
-	elif(tempevent['event_type']=='muu'):
-		return OtherEvent.objects.get(uid=uid)
+	if(tempevent.event_type.event_type=='sitz'):
+		event=Sitz.objects.get(uid=uid)
+	elif(tempevent.event_type.event_type=='vuosijuhlat'):
+		event=Annualfest.objects.get(uid=uid)
+	elif(tempevent.event_type.event_type=='ekskursio'):
+		event=Excursion.objects.get(uid=uid)
+	elif(tempevent.event_type.event_type=='muu'):
+		event=OtherEvent.objects.get(uid=uid)
+	return event
+
