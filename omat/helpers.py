@@ -3,7 +3,6 @@
 from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 import random
-from django.core.exceptions import ObjectDoesNotExist
 
 def getUid():
 	uid=random.randint(10000, 99999)

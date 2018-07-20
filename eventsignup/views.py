@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse, HttpResponseRedirect
-from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion
-from .models import OtherEvent, Participant
+from .models import EventType, EventOwner, Events, Participant
 #from django import forms
 from eventsignup.forms import SitzSignupForm, AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from omat import helpers
@@ -50,7 +49,7 @@ def add(request,**kwargs):
 			#tee jotain
 			event=Events()
 			if request.user.is_authenticated:
-				event=Events(uid=uid,event_type=event_type,owner=request.user.get_username())
+				event=Events(uid,event_type,request.user.get_username())
 			else:
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
