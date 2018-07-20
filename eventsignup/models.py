@@ -4,25 +4,25 @@ from django.db import models
 class EventType(models.Model):
 	event_type=models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
 	def __str__(self):
-		return "Tapahtuman typpi: "+self.event_type
+		return "Tapahtuman tyyppi: "+str(self.event_type)
 
 class EventOwner(models.Model):
 	name=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
 	def __str__(self):
-		return "Tapahtuman järjestäjä(t): "+self.name
+		return "Tapahtuman järjestäjä(t): "+str(self.name)
 
 class Events(models.Model):
-	event_type=models.ForeignKey(EventType, on_delete=models.CASCADE)
+	event_type=models.ForeignKey(EventType, to_field='event_type' ,on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
-	owner=models.ForeignKey(EventOwner, on_delete=models.CASCADE)
+	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.event_type+", uid: "+self.uid+", tapahtuman järjestäjä(t): "+self.owner
+		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t): "+str(self.owner)
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
 	uid=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
-	event_type=models.ForeignKey(EventType, on_delete=models.CASCADE,editable=False)
-	owner=models.ForeignKey(EventOwner, on_delete=models.CASCADE,editable=False)
+	event_type=models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE,editable=False)
+	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
@@ -34,13 +34,13 @@ class CommonInfo(models.Model):
 	signup_ends=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
 
 	def __str__(self):
-		return "Tapahtuman järjestäjä: "+self.owner+", Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+self.prize+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_participants+", Ilmoittautuminen alkaa: "+self.signup_starts+", Ilmoittautuminen loppuu: "+self.signup_ends+", Yleiskuvaus: "+self.kuvaus
+		return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_participants+", Ilmoittautuminen alkaa: "+self.signup_starts+", Ilmoittautuminen loppuu: "+self.signup_ends+", Yleiskuvaus: "+self.kuvaus
 
 	def genInfo(self):
 		if not self.prize:
 			return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+self.date+"</li><li>Mitä maksaa: Ilmainen</li>"
 		else:
-			return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+self.date+"</li><li>Mitä maksaa: "+self.prize+"Ilmainen</li>"
+			return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: "+str(self.prize)+"Ilmainen</li>"
 
 	class Meta:
 		abstract = True
