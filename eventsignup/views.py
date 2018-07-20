@@ -45,10 +45,27 @@ def add(request,**kwargs):
 		event_type=kwargs['type']
 	if(request.method=='POST'):
 		uid=helpers.getUid()
-		#käsittele lomake
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
 			#tee jotain
+			event=Events()
+			if request.user.is_authenticated:
+				event=Events(uid=uid,event_type=event_type,owner=request.user.get_username())
+			else:
+				#eventType=EventType.objects.get(event_type='sitz')
+				#eventOwner=EventOwner.objects.get(name='test')
+#				event=Events(EventType.objects.get(event_type='sitz'),uid,EventOwner.objects.get(name='test'))
+				event.uid=uid
+				event.event_type=EventType.objects.get(event_type='sitz')
+				event.owner=EventOwner.objects.get(name='test')
+#			event.uid=uid
+#			print(event)
+			event.save()
+			data=form.save(commit=False)
+			data.uid=Events.objects.get(uid=uid)
+			data.event_type=EventType.objects.get(event_type=event_type)
+			data.owner=EventOwner.objects.get(name='test')
+			data.save()
 			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
 	else:
 		if(event_type=='sitsit'):
@@ -96,5 +113,5 @@ def edit(request):
 
 #@login_required
 def preview(request, uid):
-	event=helpers.getEvent(uid)
-	return render(request, "eventsignup/preview.html", {'event': event})
+	event=helpers.getEvent(uid)/
+	return render(request, "eventsignup/preview.html", {'event': event},'baseurl':'http://212.32.242.196:7777/eventsignup')

@@ -3,7 +3,7 @@
 
 {% block center-content %}
 <p>
-Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti on lähetetty käyttäjälle rekisteröityyn sähköpostiosoitteeseen. Uniikki tapahtumaan ilmoittautumislinkki on: <a href="https://example.com/event/{{event.uid}}/signup" target="_blank">https://example.com/event/{{event.uid}}/signup</a>.
+Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti on lähetetty käyttäjälle rekisteröityyn sähköpostiosoitteeseen. Uniikki ilmoittautumislinkki tapahtumaan on: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup/" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a>.
 </p>
 <hr>
 <h1>
@@ -13,19 +13,17 @@ Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti o
 <p>
 {{ event.description }}
 </p>
-<p>Ilmoittaudu tästä: <a href="https://example.com/event/{{event.uid}}/signup" target="_blank">https://example.com/event/{{event.uid}}/signup</a></p>
+<p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
 <p>Mikä-Missä-Milloin</p>
 <p>
 <ul>
 <li>Mikä: {{ event.name }}</li>
 <li>Missä: {{ event.place }}</li>
 <li>Milloin: {{ event.date }}</li>
+{% if "€" in event.prize %}
 <li>Mitä maksaa: {{ event.prize }}</li>
-</ul></p>
-<hr>
-<p>
-<p>Mikä-Missä-Milloin</p><p><ul>
-GenInfolla haettuna:
-{{ event.genInfo }}
-</ul></p><hr>
+{% else %}
+<li>Mitä maksaa: {{ event.prize }} €</li>
+{% endif %}
+</ul>
 {% endblock %}
