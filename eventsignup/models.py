@@ -38,9 +38,11 @@ class CommonInfo(models.Model):
 
 	def genInfo(self):
 		if not self.prize:
-			return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+self.date+"</li><li>Mitä maksaa: Ilmainen</li>"
+			return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
+		elif(self.prize==0):
+			return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
 		else:
-			return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: "+str(self.prize)+"Ilmainen</li>"
+			return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: "+str(self.prize)+"</li>"
 
 	class Meta:
 		abstract = True
