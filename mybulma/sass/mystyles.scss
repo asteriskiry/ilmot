@@ -1,0 +1,13 @@
+@charset "utf-8";
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+$family-sans-serif: "Nunito", sans-serif;
+
+$footer-background-color : #328c46;
+
+//navbar asetukset
+$navbar-height: 6.25rem;
+$navbar-background-color: #328c46;
+
+// import rivi aina viimeiseksi riviksi
+@import "../bulma-0.7.1/bulma.sass";
