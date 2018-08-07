@@ -34,7 +34,7 @@ class CommonInfo(models.Model):
 	signup_ends=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
 
 	def __str__(self):
-		return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+self.date+", Maksimi osallistujamäärä: "+self.max_participants+", Ilmoittautuminen alkaa: "+self.signup_starts+", Ilmoittautuminen loppuu: "+self.signup_ends+", Yleiskuvaus: "+self.kuvaus
+		return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+str(self.date)+", Maksimi osallistujamäärä: "+str(self.max_participants)+", Ilmoittautuminen alkaa: "+str(self.signup_starts)+", Ilmoittautuminen loppuu: "+str(self.signup_ends)+", Yleiskuvaus: "+self.description
 
 	def genInfo(self):
 		if not self.prize:
