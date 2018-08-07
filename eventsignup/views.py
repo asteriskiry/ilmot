@@ -49,7 +49,7 @@ def add(request,**kwargs):
 			#tee jotain
 			event=Events()
 			if request.user.is_authenticated:
-				event=Events(uid,event_type,request.user.get_username())
+				event=Events(event_type,uid,request.user.get_username())
 			else:
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
@@ -58,7 +58,6 @@ def add(request,**kwargs):
 				event.event_type=EventType.objects.get(event_type='sitz')
 				event.owner=EventOwner.objects.get(name='test')
 #			event.uid=uid
-#			print(event)
 			event.save()
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
