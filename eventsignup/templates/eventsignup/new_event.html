@@ -9,9 +9,16 @@
   <form method="post">
     {% csrf_token %}
     {% include 'eventsignup/includes/form_base.html' %}
-    <button type="submit" class="btn btn-success">Lähetä</button>
-    {% if not choice %}
-    <button type="reset" class="btn btn-success">Tyhjennä</button>
-    {% endif %}
+    <div class="field is-grouped">
+ 	 <div class="control">
+    <button class="button is-link">Lähetä</button>
+  </div>
+   {% if not choice %}
+  <div class="control">
+    <button type="reset" class="button is-text">Tyhjennä</button>
+  </div>
+  {% endif %}
+</div>
+
   </form>
 {% endblock %}

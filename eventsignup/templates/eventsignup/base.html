@@ -24,13 +24,45 @@
   </div>-->
   <div class="navbar-menu">
    <div class="navbar-start">
-    	<a class="navbar-item" href="https://asteriski.fi">
+    	<a class="navbar-brand" href="https://asteriski.fi">
   			<img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" width="150" height="148" alt="Asteriski">
 		</a>
+		<p><strong>Tämä on navbar!</strong></p>
   </div>
   </div>
     <div class="navbar-end">
     <!-- navbar items -->
+    <div class="dropdown is-hoverable is-right">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span>Dropdown button</span>
+      <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <a href="#" class="dropdown-item">
+        Dropdown item
+      </a>
+      <a class="dropdown-item">
+        Other dropdown item
+      </a>
+      <a href="#" class="dropdown-item is-active">
+        Active dropdown item
+      </a>
+      <a href="#" class="dropdown-item">
+        Other dropdown item
+      </a>
+      <hr class="dropdown-divider">
+      <a href="#" class="dropdown-item">
+        With a divider
+      </a>
+    </div>
+  </div>
+</div>
+
   </div>
   <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
   <span aria-hidden="true"></span>
@@ -39,7 +71,7 @@
 </a>
 </nav>
 
-<div class="columns">
+<div class="columns is-gapless">
   		<!--vasen palkki-->
   		<div class="column is-desktop">
 			{% block left-content %}
