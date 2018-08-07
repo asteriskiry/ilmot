@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="fi" class="has-navbar-fixed-top">
 <head>
   <title>Asteriskin ilmoittautumisjärjestelmä</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+<!--
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" integrity="sha256-zKA1Bf41O96+gJSlkn/Bh2HATW/OhwkApPlYTp3B5O8=" crossorigin="anonymous" />
+-->
+<link rel="stylesheet" href="/static/css/mystyles.css">
+<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+<!--
   <style>
 
   /* Asteriskin vihreän värikoodi: #328c46
@@ -45,45 +49,64 @@
       .row.content {height:auto;}
     }
   </style>
+-->
+
 </head>
 <body>
-
+<!--
 <nav class="navbar navbar-inverse">
       {% block header-content %}
       {% endblock %}
 </nav>
-
-<div class="container-fluid text-center">
-  <div class="row content">
-      <!--VASEN KONTENTTI -->
-    <div class="col-sm-2 sidenav">
-      {% block left-content %}
-      {% endblock %}
-    </div>
-      <!--VASEN PUOLI PÄÄTTYY-->
-
-    <!--KESKIOSAN KONTENTTI -->
-    <div class="col-sm-8 text-left">
-      {% block center-content %}
-      {% endblock %}
-    </div>
-
-    <!--KESKIOSA PÄÄTTYY -->
-
-    <!--OIKEE KULMA -->
-    <div class="col-sm-2 sidenav">
-      {% block right-content %}
-      {% endblock %}
-    </div>
-<!--OIKEE KULMA PÄÄTTYY -->
-
-
+-->
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+<!--  <div class="navbar-brand">
+    <a class="navbar-item" href="https://www.asteriski.fi">
+      <img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" alt="Asteriski" width="150" height="148">
+    </a>
+  </div>-->
+  <div class="navbar-menu">
+   <div class="navbar-start">
+    	<a class="navbar-item" href="https://asteriski.fi">
+  			<img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" width="150" height="148" alt="Asteriski">
+		</a>
   </div>
+  </div>
+    <div class="navbar-end">
+    <!-- navbar items -->
+  </div>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+</a>
+</nav>
+
+<div class="columns">
+  		<!--vasen palkki-->
+  		<div class="column is-desktop">
+			{% block left-content %}
+			{% endblock %}
+  		</div>
+  		<!--keskipalkki-->
+  		<div class="column is-three-fifths">
+			{% block center-content %}
+			{% endblock %}
+  		</div>
+  		<!--oikea palkki-->
+  		<div class="column is-desktop">
+	      {% block right-content %}
+	      {% endblock %}
+  		</div>
 </div>
 
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Tämä on footer!</strong>
+    </p>
+  </div>
+</footer>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
