@@ -3,6 +3,8 @@
 <link type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="Stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link type="text/css" href="/static/css/jquery.timepicker.css" rel="Stylesheet" />
+    <script type="text/javascript" src="/static/js/jquery.timepicker.min.js"></script>
 {% endblock %}
   {% load bulma_tags %}
 
@@ -16,6 +18,7 @@
         $("#id_signup_starts").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_signup_ends").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_start_time").timepicker({timeFormat:'H:i'});
  });
 </script>
 {% endif %}
@@ -26,6 +29,7 @@
     <div class="field is-grouped">
  	 <div class="control">
     <button type="submit" class="button is-link">Lähetä</button>
+    </div>
   </div>
    {% if not choice %}
   <div class="control">
