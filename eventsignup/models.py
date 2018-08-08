@@ -26,6 +26,7 @@ class CommonInfo(models.Model):
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
+	start_time=models.TimeField(verbose_name='Tapahtuman alkamisaika')
 	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
 	prize=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
