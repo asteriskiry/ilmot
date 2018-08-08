@@ -1,10 +1,23 @@
 {% extends 'eventsignup/base.html' %}
+{% block extra-head %}
+<link type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="Stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% endblock %}
   {% load bulma_tags %}
 
 {% block center-content %}
 {% if not choice %}
 {#% else %#}
 <p>Kuvaukseen ei tarvitse tehdä Mikä-Missä-Milloin osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
+<script type="text/javascript">
+ $(function() {
+        $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_signup_starts").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_signup_ends").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+ });
+</script>
 {% endif %}
 
 <form method="post">
@@ -25,3 +38,6 @@
  {% block right-content %}
  <p>Foobar</p>
 {% endblock %}
+ {% block extra-styles %}
+
+ {% endblock %}

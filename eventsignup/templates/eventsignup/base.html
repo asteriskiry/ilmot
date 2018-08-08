@@ -5,8 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="/static/css/mystyles.css">
-<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 
+<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+{% block extra-head %}
+{% endblock %}
 
 </head>
 <body>
@@ -98,4 +100,6 @@
 </footer>
 
 </body>
+ {% block extra-styles %}
+ {% endblock %}
 </html>
