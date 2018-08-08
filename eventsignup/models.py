@@ -64,12 +64,12 @@ class Excursion(CommonInfo):
 	date=models.DateField(verbose_name='Ekskursion aloituspäivä')
 	end_date=models.DateField(verbose_name='Ekskursion loppumispäivä')
 	def __str__(self):
-		return super().__str__()+", Päättymispäivä: "+self.end_date
+		return super().__str__()+", Päättymispäivä: "+str(self.end_date)
 
 class OtherEvent(CommonInfo):
 	min_participants=models.PositiveIntegerField(blank=True, null=True,verbose_name='Minimimäärä osallistujia')
 	def __str__(self):
-		return super().__str__()+", Minimimäärä osallistujia: "+self.min_participants
+		return super().__str__()+", Minimimäärä osallistujia: "+str(self.min_participants)
 
 class Participant(models.Model):
 	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
@@ -94,5 +94,5 @@ class Archive(models.Model):
 	owner=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+self.participants+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+self.date+", Yleiskuvaus: "+self.description
+		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description
 
