@@ -10,13 +10,9 @@
 
 </head>
 <body>
-<!--
-<nav class="navbar navbar-inverse">
-      {% block header-content %}
-      {% endblock %}
-</nav>
--->
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+
+
+  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
 <!--  <div class="navbar-brand">
     <a class="navbar-item" href="https://www.asteriski.fi">
       <img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" alt="Asteriski" width="150" height="148">
@@ -30,40 +26,8 @@
 		<p><strong>Tämä on navbar!</strong></p>
   </div>
   </div>
-    <div class="navbar-end">
-    <!-- navbar items -->
-    <div class="dropdown is-hoverable is-right">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-      <span>Dropdown button</span>
-      <span class="icon is-small">
-        <i class="fas fa-angle-down" aria-hidden="true"></i>
-      </span>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-    <div class="dropdown-content">
-      <a href="#" class="dropdown-item">
-        Dropdown item
-      </a>
-      <a class="dropdown-item">
-        Other dropdown item
-      </a>
-      <a href="#" class="dropdown-item is-active">
-        Active dropdown item
-      </a>
-      <a href="#" class="dropdown-item">
-        Other dropdown item
-      </a>
-      <hr class="dropdown-divider">
-      <a href="#" class="dropdown-item">
-        With a divider
-      </a>
-    </div>
-  </div>
-</div>
 
-  </div>
+
   <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
   <span aria-hidden="true"></span>
   <span aria-hidden="true"></span>
@@ -71,31 +35,33 @@
 </a>
 </nav>
 
-<div class="columns is-gapless">
+<!--
+<nav class="navbar navbar-inverse">
+      {% block header-content %}
+      {% endblock %}
+</nav>
+-->
+
+
+<div class="columns is-gapless is-centered is-8">
   		<!--vasen palkki-->
-  		<div class="column is-desktop">
+  		<div class="column">
 			{% block left-content %}
 			{% endblock %}
   		</div>
   		<!--keskipalkki-->
-  		<div class="column is-three-fifths">
+  		<div class="column is-8">
 			{% block center-content %}
 			{% endblock %}
   		</div>
   		<!--oikea palkki-->
-  		<div class="column is-desktop">
-	      {% block right-content %}
-	      {% endblock %}
-  		</div>
+      <div class="column is-2">
+        {% block right-content %}
+        {% endblock %}
+      </div>
 </div>
 
-<footer class="footer">
-  <div class="content has-text-centered">
-    <p>
-      <strong>Tämä on footer!</strong>
-    </p>
-  </div>
-</footer>
+
 
 </body>
 </html>
