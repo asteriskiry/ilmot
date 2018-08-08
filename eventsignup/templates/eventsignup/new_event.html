@@ -1,24 +1,27 @@
 {% extends 'eventsignup/base.html' %}
-
+  {% load bulma_tags %}
 
 {% block center-content %}
 {% if not choice %}
 {#% else %#}
 <p>Kuvaukseen ei tarvitse tehdä Mikä-Missä-Milloin osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
 {% endif %}
-  <form method="post">
-    {% csrf_token %}
-    {% include 'eventsignup/includes/form_base.html' %}
+
+<form method="post">
+   {% csrf_token %}
+   {{ form|bulma }}
     <div class="field is-grouped">
  	 <div class="control">
-    <button class="button is-link">Lähetä</button>
+    <button type="submit" class="button is-link">Lähetä</button>
   </div>
    {% if not choice %}
   <div class="control">
     <button type="reset" class="button is-text">Tyhjennä</button>
   </div>
   {% endif %}
-</div>
+</form>
 
-  </form>
+{% endblock %}
+ {% block right-content %}
+ <p>Foobar</p>
 {% endblock %}
