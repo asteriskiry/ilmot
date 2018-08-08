@@ -8,6 +8,8 @@
 {% endblock %}
   {% load bulma_tags %}
 
+
+
 {% block center-content %}
 {% if not choice %}
 {#% else %#}
@@ -36,11 +38,16 @@
     <button type="reset" class="button is-text">Tyhjennä</button>
   </div>
   {% endif %}
+  </div>
 </form>
 
 {% endblock %}
  {% block right-content %}
- <p>Foobar</p>
+<p>Missä olen right</p>
+{% endblock %}
+
+{% block left-content %}
+<p> MIssä olen left </p>
 {% endblock %}
  {% block extra-styles %}
 
