@@ -26,7 +26,7 @@ class CommonInfo(models.Model):
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
-	start_time=models.TimeField(verbose_name='Tapahtuman alkamisaika')
+	start_time=models.TimeField(verbose_name='Tapahtuman alkamisaika', default='00:00:00')
 	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
 	prize=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
@@ -99,4 +99,3 @@ class Archive(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description
-
