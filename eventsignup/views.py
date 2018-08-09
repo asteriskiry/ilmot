@@ -67,6 +67,7 @@ def add(request,**kwargs):
 			data.event_type=EventType.objects.get(event_type=event_type)
 			data.owner=EventOwner.objects.get(name='test')
 			data.save()
+			helpers.sendEmail(data,request)
 			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
 	else:
 		if(event_type=='sitsit'):
