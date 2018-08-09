@@ -5,15 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse, HttpResponseRedirect
 from .models import EventType, EventOwner, Events, Participant
 #from django import forms
-from eventsignup.forms import SitzSignupForm, AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
+from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
+from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
 
 def index(request):
-	#kts tutoriaali!! template tms
-	#return render(request,'eventsignup/info.html',{'info':info})
-#	form = SitzSignupForm()
 	return render(request, "eventsignup/index.html")
-	#return HttpResponse("Welcome!")
+
+def thanks(request):
+	return render(request, "eventsignup/thankyou.html")
+
 
 #sivupaneelin nippelitieto
 @login_required
@@ -21,18 +22,27 @@ def stats(request, uid):
 	pass
 
 def signup(request, uid):
-	#return HttpResponse(filter(str.isdigit, request.path))
-	return HttpResponse(uid)
-#	if(request.method == 'POST'):
-		#tee jotain
-#		tyyppi=get_object_or_404(Tapahtumat, uid=uid)
-#		form = SitsitSignupForm(request.POST)
-#		if(form.is_valid()):
+	temp=Events.objects.get(uid=uid)
+	event_type=temp.event_type.event_type
+	if(request.method == 'POST'):
+		form=helpers.getSignuForm(event_type,request)
+		if(form.is_valid()):
 			#käsittele lomake
-#	else:
-#		event= jotain
-#		form = SitsitSignupForm()
-#	return render(request, "eventsignup/new_event.html", {'form': form}, {'event':event} )
+			data=form.save(commit=False)
+			return HttpResponseRedirect('/eventsignup/thanks')
+	else:
+		event=helpers.getEvent(uid)
+		if(event_type=='sitz'):
+			form = SitzSignupForm()
+		elif(event_type=='vuosijuhlat'):
+			form = AnnualfestSignupForm()
+		elif(event_type=='ekskursio'):
+			form = ExcursionSignupForm()
+		elif(event_type=='muutapahtuma'):
+			form = OtherEventSignupForm()
+		elif(event_type=='custom'):
+			form = CustomSignupForm()
+	return render(request, "eventsignup/signup.html", {'form': form, 'event':event} )
 
 @login_required
 def archive(request, uid):
@@ -117,3 +127,4 @@ def edit(request):
 def preview(request, uid):
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':'http://212.32.242.196:7777/eventsignup'})
+

@@ -14,7 +14,8 @@ def getUid():
 			uid=random.randint(10000, 99999)
 	return uid
 
-# Palauttaa oikean tyyppisen form-olion, jotta saadaan oikea lomake käyttäjälle.
+# Palauttaa oikean tyyppisen form-olion, jotta saadaan oikeanlainen
+# tapahtuma tallennettua.
 def getForm(event_type,request):
 	form=None
 	if(event_type=='sitsit'):
@@ -30,6 +31,9 @@ def getForm(event_type,request):
 		form=OtherEventForm(request.POST)
 #		return OtherEventForm(request.POST)
 	return form
+
+def getSignuForm(event_type,request):
+	pass
 
 # Palauttaa tietokannasta oikeanlaisen tapahtuman
 # esikatselua varten.
@@ -53,6 +57,7 @@ def getEvent(uid):
 		event=OtherEvent.objects.get(uid=uid)
 	return event
 
+# Generoi sähköpostin viestiosan.
 def genMsg(data):
 	prize=""
 	if "€" in data.prize:

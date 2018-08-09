@@ -15,7 +15,7 @@
 <hr>
   <form method="post">
     {% csrf_token %}
-    {% form|bulma %}
+    {{ form|bulma }}
      <div class="field is-grouped">
  	 <div class="control">
     <button type="submit" class="button is-primary">Ilmoittaudu</button>
