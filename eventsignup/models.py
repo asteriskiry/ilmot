@@ -53,7 +53,10 @@ class Sitz(CommonInfo):
 #	avec=models.CharField(max_length=500,blank=True)
 #	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
-		return super().__str__()+", Osallistujakiintiöt: "+self.quotas
+		if self.quotas is None:
+			return super().__str__()+", Osallistujakiintiöt: Ei ole"
+		else:
+			return super().__str__()+", Osallistujakiintiöt: "+self.quotas
 
 class Annualfest(CommonInfo):
 #	avec=models.CharField(max_length=500,blank=True)
