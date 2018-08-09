@@ -1,2 +1,16 @@
 {% extends 'eventsignup/base.html' %}
 {% include 'eventsignup/includes/header.html' %}
+
+{% block center-content %}
+<h1>Tapahtumien hallinta</h1>
+<h1>Tulevat tapahtumat</h1>
+  {% for event in eventit %}
+  <br>
+  <br>
+        {{ event.uid }}<br> {{event.event_type}} <br>  {{ event.owner }} <br>
+  <br>
+  <br>
+  <br>
+      {% endfor %}
+<h1>Menneet tapahtumat</h1>
+{% endblock %}

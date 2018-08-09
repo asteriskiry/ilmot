@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from itertools import chain
 
 # Create your views here.
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse, HttpResponseRedirect
-from .models import EventType, EventOwner, Events, Participant
+from .models import EventType, EventOwner, Events, Participant, Sitz, Annualfest, Excursion, OtherEvent
 #from django import forms
 from eventsignup.forms import SitzSignupForm, AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from omat import helpers
@@ -53,6 +54,7 @@ def add(request,**kwargs):
 			event=Events()
 			if request.user.is_authenticated:
 				event=Events(event_type,uid,request.user.get_username())
+				nimi=request.user.get_username()
 			else:
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
@@ -65,7 +67,7 @@ def add(request,**kwargs):
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
-			data.owner=EventOwner.objects.get(name='test')
+			data.owner=EventOwner.objects.get(name=request.user.get_username())
 			data.save()
 			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
 	else:
@@ -106,7 +108,14 @@ def info(request, uid):
 
 #@login_required
 def management(request):
-	return render(request, "eventsignup/management.html")
+	#eventit = Events.objects.all()
+
+	sitsit = Sitz.objects.filter(owner=request.user.get_username())
+	ekskursiot = Excursion.objects.filter(owner=request.user.get_username())
+	muut_tapahtumat = OtherEvent.objects.filter(owner=request.user.get_username())
+	vujut = Annualfest.objects.filter(owner=request.user.get_username())
+	eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
+	return render(request, "eventsignup/management.html", {'eventit':eventit})
 
 @login_required
 def edit(request):
