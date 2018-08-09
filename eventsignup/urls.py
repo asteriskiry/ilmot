@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     # hallintakonsoli
     path('management',views.management, name='management'),
+    # kiitossivu
+    path('thanks',views.thanks, name='thanks'),
     # uuden tapahtuman lisäyslomake & dropdown menu
     path('event/add/<str:type>', views.add,name='add'),
     path('event/add/', views.formtype,name='formtype'),

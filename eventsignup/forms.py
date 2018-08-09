@@ -14,32 +14,32 @@ class SitzForm(ModelForm):
 		fields = '__all__'
 
 class AnnualfestForm(ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(AnnualfestForm, self).__init__(*args, **kwargs)
-		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
-		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
-		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+#	def __init__(self, *args, **kwargs):
+#		super(AnnualfestForm, self).__init__(*args, **kwargs)
+#		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+#		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+#		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 	class Meta:
 		model=Annualfest
 		fields='__all__'
 
 class OtherEventForm(ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(OtherEventForm, self).__init__(*args, **kwargs)
-		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
-		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
-		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+#	def __init__(self, *args, **kwargs):
+#		super(OtherEventForm, self).__init__(*args, **kwargs)
+#		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+#		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+#		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 	class Meta:
 		model=OtherEvent
 		fields='__all__'
 
 class ExcursionForm(ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(ExcursionForm, self).__init__(*args, **kwargs)
-		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
-		self.fields['end_date'].widget = MyDateInput(attrs={'class':'date'})
-		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
-		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+#	def __init__(self, *args, **kwargs):
+#		super(ExcursionForm, self).__init__(*args, **kwargs)
+#		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+#		self.fields['end_date'].widget = MyDateInput(attrs={'class':'date'})
+#		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+#		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 #		self.fields['passenger_count'].widget = MyNumberInput(attrs={'min':0})
 #		self.fields['email'].widget = MyEmailInput()
 
@@ -48,17 +48,53 @@ class ExcursionForm(ModelForm):
 		fields='__all__'
 
 class CustomForm(ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(CustomForm, self).__init__(*args, **kwargs)
-		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
-		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
-		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+#	def __init__(self, *args, **kwargs):
+#		super(CustomForm, self).__init__(*args, **kwargs)
+#		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+#		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+#		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 	#tähän jotain kenttiä vielä!!!
 	class Meta:
 		model=OtherEvent
 		fields='__all__'
 
 class SitzSignupForm(ModelForm):
+	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
+	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
+	avec=forms.CharField(required=False,label='Avec')
+	plaseeraus=forms.CharField(required=False,label='Plaseeraustoive',help_text='Nimi 1, Nimi 2, ...')
+	class Meta:
+		model=Participant
+		fields=['name','email','lihaton','holiton','avec','plaseeraus']
+
+class AnnualfestSignupForm(ModelForm):
+	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
+	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
+	avec=forms.CharField(required=False,label='Avec')
+	plaseeraus=forms.CharField(required=False,label='Plaseeraustoive',help_text='Nimi 1, Nimi 2, ...')
+	class Meta:
+		model=Participant
+		fields=['name','email','lihaton','holiton','avec','plaseeraus']
+
+class ExcursionSignupForm(ModelForm):
+	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
+	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
+	avec=forms.CharField(required=False,label='Avec')
+	plaseeraus=forms.CharField(required=False,label='Plaseeraustoive',help_text='Nimi 1, Nimi 2, ...')
+	class Meta:
+		model=Participant
+		fields=['name','email','lihaton','holiton','avec','plaseeraus']
+
+class OtherEventSignupForm(ModelForm):
+	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
+	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
+	avec=forms.CharField(required=False,label='Avec')
+	plaseeraus=forms.CharField(required=False,label='Plaseeraustoive',help_text='Nimi 1, Nimi 2, ...')
+	class Meta:
+		model=Participant
+		fields=['name','email','lihaton','holiton','avec','plaseeraus']
+
+class CustomSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
 	avec=forms.CharField(required=False,label='Avec')

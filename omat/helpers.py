@@ -3,7 +3,9 @@
 from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 import random
+from django.core.mail import send_mail
 
+# Generoi uuden uniikin uid:n tapahtumalle.
 def getUid():
 	uid=random.randint(10000, 99999)
 	events=Events.objects.all().values('uid')
@@ -12,6 +14,8 @@ def getUid():
 			uid=random.randint(10000, 99999)
 	return uid
 
+# Palauttaa oikean tyyppisen form-olion, jotta saadaan oikeanlainen
+# tapahtuma tallennettua.
 def getForm(event_type,request):
 	form=None
 	if(event_type=='sitsit'):
@@ -28,6 +32,11 @@ def getForm(event_type,request):
 #		return OtherEventForm(request.POST)
 	return form
 
+def getSignuForm(event_type,request):
+	pass
+
+# Palauttaa tietokannasta oikeanlaisen tapahtuman
+# esikatselua varten.
 def getEvent(uid):
 	event=None
 	tempevent=Events.objects.get(uid=uid)
@@ -47,4 +56,24 @@ def getEvent(uid):
 	elif(tempevent.event_type.event_type=='muu'):
 		event=OtherEvent.objects.get(uid=uid)
 	return event
+
+# Generoi sähköpostin viestiosan.
+def genMsg(data):
+	prize=""
+	if "€" in data.prize:
+		prize=str(data.prize)
+	else:
+		prize=str(data.prize)+" €"
+	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: http://212.32.242.196:7777/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
+
+# Lähettää tapahtuman tiedot
+# käyttäjälle rekisteröityyn sähköpostiosoitteeseen.
+def sendEmail(data,request):
+	send_mail(
+    '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
+    genMsg(data),
+    'noreply@asteriski.fi',
+    ['foobar@example.com'],
+    fail_silently=False,
+	)
 
