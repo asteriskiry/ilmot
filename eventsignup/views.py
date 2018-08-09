@@ -40,6 +40,9 @@ def archive(request, uid):
 
 #@login_required
 def add(request,**kwargs):
+	desktop=True
+#	if('Mobi'in request.META['HTTP_USER_AGENT']):
+#		desktop=False
 	if kwargs:
 		event_type=kwargs['type']
 	if(request.method=='POST'):
@@ -76,7 +79,7 @@ def add(request,**kwargs):
 			form = OtherEventForm()
 		elif(event_type=='custom'):
 			form = CustomForm()
-	return render(request,"eventsignup/new_event.html",{'form':form})
+	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':desktop})
 
 #@login_required
 def formtype(request,**kwargs):
