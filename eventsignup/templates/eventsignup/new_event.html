@@ -1,19 +1,23 @@
 {% extends 'eventsignup/base.html' %}
 {% block extra-head %}
+{% if desktop %}
 <link type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="Stylesheet" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link type="text/css" href="/static/css/jquery.timepicker.css" rel="Stylesheet" />
     <script type="text/javascript" src="/static/js/jquery.timepicker.min.js"></script>
+    {% endif %}
 {% endblock %}
   {% load bulma_tags %}
 
 
 
 {% block center-content %}
+
 {% if not choice %}
 {#% else %#}
 <p>Kuvaukseen ei tarvitse tehdä Mikä-Missä-Milloin osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
+{% if desktop %}
 <script type="text/javascript">
  $(function() {
         $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
@@ -24,6 +28,7 @@
  });
 </script>
 {% endif %}
+{% endif %}
 
 <form method="post">
    {% csrf_token %}
@@ -32,13 +37,15 @@
  	 <div class="control">
     <button type="submit" class="button is-link">Lähetä</button>
     </div>
-  </div>
+ 
    {% if not choice %}
   <div class="control">
     <button type="reset" class="button is-text">Tyhjennä</button>
   </div>
-  {% endif %}
-  </div>
+   {% endif %}
+   </div>
+ 
+ 
 </form>
 
 {% endblock %}
