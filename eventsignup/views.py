@@ -30,6 +30,9 @@ def signup(request, uid):
 		if(form.is_valid()):
 			#käsittele lomake
 			data=form.save(commit=False)
+			data.miscInfo=helpers.getMiscInfo(request.POST)
+			data.event_type=temp
+			data.save()
 			return HttpResponseRedirect('/eventsignup/thanks')
 	else:
 		event=helpers.getEvent(uid)

@@ -33,8 +33,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 INSTALLED_APPS = [
 	'accounts.apps.AccountsConfig',
-	'bulma',
 	'eventsignup.apps.EventsignupConfig',
+	'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
