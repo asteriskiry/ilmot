@@ -68,18 +68,10 @@ def add(request,**kwargs):
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
 			#tee jotain
-<<<<<<< HEAD
 #			event=Events()
 #			if request.user.is_authenticated:
 			event=Events(event_type,uid,request.user.get_username())
 #			else:
-=======
-			event=Events()
-			if request.user.is_authenticated:
-				event=Events(event_type,uid,request.user.get_username())
-				nimi=request.user.get_username()
-			else:
->>>>>>> 903c2d306af4685e7271367c0b6903b8ff37e36d
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
 #				event=Events(EventType.objects.get(event_type='sitz'),uid,EventOwner.objects.get(name='test'))
@@ -91,10 +83,7 @@ def add(request,**kwargs):
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
-<<<<<<< HEAD
 #			data.owner=EventOwner.objects.get(name='test')
-=======
->>>>>>> 903c2d306af4685e7271367c0b6903b8ff37e36d
 			data.owner=EventOwner.objects.get(name=request.user.get_username())
 			data.save()
 			helpers.sendEmail(data,request)
