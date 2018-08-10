@@ -28,7 +28,7 @@ def getForm(event_type,request):
 	elif(event_type=='ekskursio'):
 		form=ExcursionForm(request.POST)
 #		return ExcursionForm(request.POST)
-	elif(event_type=='muu'):
+	elif(event_type=='muutapahtuma'):
 		form=OtherEventForm(request.POST)
 #		return OtherEventForm(request.POST)
 	return form
@@ -76,10 +76,13 @@ def getEvent(uid):
 # Generoi sähköpostin viestiosan.
 def genMsg(data):
 	prize=""
-	if "€" in data.prize:
-		prize=str(data.prize)
-	else:
-		prize=str(data.prize)+" €"
+	try:
+		if "€" in data.prize:
+			prize=str(data.prize)
+		else:
+			prize=str(data.prize)+" €"
+	except:
+		prize="ilmainen"
 	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: http://212.32.242.196:7777/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
 
 # Lähettää tapahtuman tiedot
@@ -102,6 +105,7 @@ def getQuotaNames(quotas):
 	for y in temp2:
 		paluu.append(y[0])
 	return paluu
+<<<<<<< HEAD
 
 def getMiscInfo(data):
 	lihaton=False
@@ -112,3 +116,5 @@ def getMiscInfo(data):
 		holiton=False
 	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
 
+=======
+>>>>>>> a50485177092be095c14bdbf280284a8044ea302
