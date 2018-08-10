@@ -77,7 +77,7 @@ class OtherEvent(CommonInfo):
 
 class Participant(models.Model):
 	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
-	name=models.CharField(max_length=200)
+	name=models.CharField(max_length=200,verbose_name='Nimi')
 	email=models.EmailField(verbose_name='Sähköpostiosoite')
 #	lihaton=models.NullBooleanField()
 #	holiton=models.NullBooleanField()
