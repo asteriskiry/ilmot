@@ -9,14 +9,14 @@ class EventType(models.Model):
 class EventOwner(models.Model):
 	name=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
 	def __str__(self):
-		return "Tapahtuman järjestäjä(t): "+str(self.name)
+		return "Tapahtuman järjestäjä(t) "+str(self.name)
 
 class Events(models.Model):
 	event_type=models.ForeignKey(EventType, to_field='event_type' ,on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
 	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t): "+str(self.owner)
+		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t) : "+str(self.owner)
 
 class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
