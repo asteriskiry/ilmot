@@ -4,25 +4,43 @@
 
 {% block center-content %}
 {# tähän kansikuva #}
-<h1>
-{{ event.name }}
-</h1>
-<p>{{ event.owner }}</p>
-<p>
-{{ event.description }}
-</p>
+
+<section class="section">
+    <div class="container">
+      <h1 class="title">{{ event.name }}</h1>
+      <p>{{ event.owner }}</p>
+		<p>{{ event.description }}</p>
+    </div>
+  </section>
     {% include 'eventsignup/includes/geninfo.html' %}
 <hr>
+<p>
   <form method="post">
     {% csrf_token %}
-    {{ form|bulma }}
+    {#{ form|bulma }#}
+    {% include 'eventsignup/includes/form_base.html' %}
+    {% if quotas %}
+    <div class="field">
+  <div class="control">
+  <label class="label">Valitse ainejärjestösi</label>
+    <div class="select is-rounded">
+  <select>
+    {% for x in quotas %}
+    <option>{{x}}</option>
+    {% endfor %}
+    </select>
+	</div>
+	</div>
+	</div>
+    {% endif %}
      <div class="field is-grouped">
  	 <div class="control">
-    <button type="submit" class="button is-primary">Ilmoittaudu</button>
+    <button type="submit" class="button is-rounded is-primary">Ilmoittaudu</button>
     </div>
   <div class="control">
-    <button type="reset" class="button is-text">Tyhjennä</button>
+    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
   </div>
    </div>
   </form>
+</p>
 {% endblock %}
