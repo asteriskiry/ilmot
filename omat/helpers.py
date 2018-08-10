@@ -27,7 +27,7 @@ def getForm(event_type,request):
 	elif(event_type=='ekskursio'):
 		form=ExcursionForm(request.POST)
 #		return ExcursionForm(request.POST)
-	elif(event_type=='muu'):
+	elif(event_type=='muutapahtuma'):
 		form=OtherEventForm(request.POST)
 #		return OtherEventForm(request.POST)
 	return form
@@ -60,10 +60,13 @@ def getEvent(uid):
 # Generoi sähköpostin viestiosan.
 def genMsg(data):
 	prize=""
-	if "€" in data.prize:
-		prize=str(data.prize)
-	else:
-		prize=str(data.prize)+" €"
+	try:
+		if "€" in data.prize:
+			prize=str(data.prize)
+		else:
+			prize=str(data.prize)+" €"
+	except:
+		prize="ilmainen"
 	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: http://212.32.242.196:7777/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
 
 # Lähettää tapahtuman tiedot
@@ -76,4 +79,3 @@ def sendEmail(data,request):
     ['foobar@example.com'],
     fail_silently=False,
 	)
-

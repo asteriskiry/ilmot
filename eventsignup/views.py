@@ -136,4 +136,3 @@ def edit(request):
 def preview(request, uid):
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':'http://212.32.242.196:7777/eventsignup'})
-

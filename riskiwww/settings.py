@@ -125,3 +125,4 @@ STATICFILES_DIRS = [
 ]
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
