@@ -33,8 +33,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 INSTALLED_APPS = [
 	'accounts.apps.AccountsConfig',
-	'bulma',
 	'eventsignup.apps.EventsignupConfig',
+	'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,3 +125,4 @@ STATICFILES_DIRS = [
 ]
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
