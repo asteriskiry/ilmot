@@ -32,7 +32,7 @@ def getForm(event_type,request):
 #		return OtherEventForm(request.POST)
 	return form
 
-def getSignuForm(event_type,request):
+def getSignupForm(event_type,request):
 	pass
 
 # Palauttaa tietokannasta oikeanlaisen tapahtuman
