@@ -14,6 +14,11 @@ class EventsSignupExcursionTests(TestCase):
         EventOwner.objects.create(name='test')
         self.client.login(username='test', password='123')
 
+    def test_sitsit_view_status_code(self):
+        url = 'http://127.0.0.1:8000/eventsignup/event/add/ekskursio'
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
     def test_contains_form(self):
         url = 'http://127.0.0.1:8000/eventsignup/event/add/ekskursio'
         response = self.client.get(url)
@@ -57,6 +62,11 @@ class EventsSignupAnnualfestTests(TestCase):
         EventOwner.objects.create(name='test')
         self.client.login(username='test', password='123')
 
+    def test_annualfest_view_status_code(self):
+        url = 'http://127.0.0.1:8000/eventsignup/event/add/vuosijuhlat'
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
     def test_contains_form(self):
         url = 'http://127.0.0.1:8000/eventsignup/event/add/vuosijuhlat'
         response = self.client.get(url)
@@ -99,6 +109,11 @@ class EventsSignupSitzTests(TestCase):
         EventType.objects.create(event_type='sitsit')
         EventOwner.objects.create(name='test')
         self.client.login(username='test', password='123')
+
+    def test_sitsit_view_status_code(self):
+        url = 'http://127.0.0.1:8000/eventsignup/event/add/sitsit'
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
 
     def test_contains_form(self):
         url = 'http://127.0.0.1:8000/eventsignup/event/add/sitsit'
