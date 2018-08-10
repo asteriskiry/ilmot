@@ -33,8 +33,8 @@ def signup(request, uid):
 			return HttpResponseRedirect('/eventsignup/thanks')
 	else:
 		event=helpers.getEvent(uid)
-		quotas={}
-		if(event_type=='sitz'):
+		quotas=None
+		if(event_type=='sitsit'):
 			form = SitzSignupForm()
 		elif(event_type=='vuosijuhlat'):
 			form = AnnualfestSignupForm()
@@ -46,10 +46,9 @@ def signup(request, uid):
 			form = CustomSignupForm()
 	try:
 		if(event.quotas is not None):
-			quotas=event.quotas
+			quotas=helpers.getQuotaNames(event.quotas)
 	except AttributeError:
 		pass
-	print(type(quotas))
 	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas} )
 
 @login_required
