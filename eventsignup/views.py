@@ -62,9 +62,12 @@ def add(request,**kwargs):
 		if form.is_valid():
 			#tee jotain
 			event=Events()
+			data=form.save(commit=False)
+
 			if request.user.is_authenticated:
 				event=Events(event_type,uid,request.user.get_username())
 				nimi=request.user.get_username()
+				data.owner=EventOwner.objects.get(name=request.user.get_username())
 			else:
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
@@ -72,12 +75,13 @@ def add(request,**kwargs):
 				event.uid=uid
 				event.event_type=EventType.objects.get(event_type='sitz')
 				event.owner=EventOwner.objects.get(name='test')
+				data.owner=EventOwner.objects.get(name='test')
 #			event.uid=uid
 			event.save()
-			data=form.save(commit=False)
+
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
-			data.owner=EventOwner.objects.get(name=request.user.get_username())
+
 			data.save()
 			helpers.sendEmail(data,request)
 			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
