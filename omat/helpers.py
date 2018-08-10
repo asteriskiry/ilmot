@@ -105,7 +105,6 @@ def getQuotaNames(quotas):
 	for y in temp2:
 		paluu.append(y[0])
 	return paluu
-<<<<<<< HEAD
 
 def getMiscInfo(data):
 	lihaton=False
@@ -116,5 +115,3 @@ def getMiscInfo(data):
 		holiton=False
 	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
 
-=======
->>>>>>> a50485177092be095c14bdbf280284a8044ea302
