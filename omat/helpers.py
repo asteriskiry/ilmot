@@ -2,7 +2,8 @@
 # Käyttö: from omat import helpers ja helpers.<funktion_nimi>
 from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
-import random
+from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
+import random, json
 from django.core.mail import send_mail
 
 # Generoi uuden uniikin uid:n tapahtumalle.
@@ -33,7 +34,22 @@ def getForm(event_type,request):
 	return form
 
 def getSignupForm(event_type,request):
-	pass
+	form=None
+	if(event_type=='sitsit'):
+		form=SitzSignupForm(request.POST)
+#		return SitzForm(request.POST)
+	elif(event_type=='vuosijuhlat'):
+		form=AnnualfestSignupForm(request.POST)
+#		return AnnualfestForm(request.POST)
+	elif(event_type=='ekskursio'):
+		form=ExcursionSignupForm(request.POST)
+#		return ExcursionForm(request.POST)
+	elif(event_type=='muu'):
+		form=OtherEventSignupForm(request.POST)
+#		return OtherEventForm(request.POST)
+	elif(event_type=='custom'):
+		form=CustomSignupForm(request.POST)
+	return form
 
 # Palauttaa tietokannasta oikeanlaisen tapahtuman
 # esikatselua varten.
@@ -86,4 +102,13 @@ def getQuotaNames(quotas):
 	for y in temp2:
 		paluu.append(y[0])
 	return paluu
+
+def getMiscInfo(data):
+	lihaton=False
+	holiton=True
+	if(data['lihaton']=='kasvis'):
+		lihaton=True
+	if(data['holiton']=='holillinen'):
+		holiton=False
+	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
 
