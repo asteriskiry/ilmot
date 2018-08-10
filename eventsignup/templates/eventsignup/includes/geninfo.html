@@ -1,6 +1,8 @@
-<p>Mikä-Missä-Milloin</p>
-<p>
-<ul>
+
+<section class="section">
+    <div class="container">
+      <h3 class="subtitle">Mikä-Missä-Milloin:</h3>
+      <ul>
 <li>Mikä: {{ event.name }}</li>
 <li>Missä: {{ event.place }}</li>
 <li>Milloin: {{ event.date }} {{event.start_time}}</li>
@@ -9,4 +11,6 @@
 {% else %}
 <li>Mitä maksaa: {{ event.prize }} €</li>
 {% endif %}
-</ul></p>
+</ul>
+    </div>
+  </section>

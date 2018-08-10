@@ -9,6 +9,7 @@ class SitzForm(ModelForm):
 #		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
 #		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
 #		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+	quotas=forms.CharField(max_length=500,required=False,label='Järjestävien tahojen osallistujakiintiöt',help_text='Järjestö 1: lkm, Järjestö 2: lkm ...')
 	class Meta:
 		model = Sitz
 		fields = '__all__'

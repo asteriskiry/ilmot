@@ -8,7 +8,7 @@
     <script type="text/javascript" src="/static/js/jquery.timepicker.min.js"></script>
     {% endif %}
 {% endblock %}
-  {% load bulma_tags %}
+  {#% load bulma_tags %#}
 
 
 
@@ -32,15 +32,16 @@
 
 <form method="post">
    {% csrf_token %}
-   {{ form|bulma }}
+   {#{ form|bulma }#}
+   {% include 'eventsignup/includes/form_base.html' %}
     <div class="field is-grouped">
  	 <div class="control">
-    <button type="submit" class="button is-link">Lähetä</button>
+    <button type="submit" class="button is-rounded is-link">Lähetä</button>
     </div>
 
    {% if not choice %}
   <div class="control">
-    <button type="reset" class="button is-text">Tyhjennä</button>
+    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
   </div>
   {% endif %}
 </div>

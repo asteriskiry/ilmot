@@ -26,14 +26,15 @@ def signup(request, uid):
 	temp=Events.objects.get(uid=uid)
 	event_type=temp.event_type.event_type
 	if(request.method == 'POST'):
-		form=helpers.getSignuForm(event_type,request)
+		form=helpers.getSignupForm(event_type,request)
 		if(form.is_valid()):
 			#käsittele lomake
 			data=form.save(commit=False)
 			return HttpResponseRedirect('/eventsignup/thanks')
 	else:
 		event=helpers.getEvent(uid)
-		if(event_type=='sitz'):
+		quotas=None
+		if(event_type=='sitsit'):
 			form = SitzSignupForm()
 		elif(event_type=='vuosijuhlat'):
 			form = AnnualfestSignupForm()
@@ -43,13 +44,18 @@ def signup(request, uid):
 			form = OtherEventSignupForm()
 		elif(event_type=='custom'):
 			form = CustomSignupForm()
-	return render(request, "eventsignup/signup.html", {'form': form, 'event':event} )
+	try:
+		if(event.quotas is not None):
+			quotas=helpers.getQuotaNames(event.quotas)
+	except AttributeError:
+		pass
+	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas} )
 
 @login_required
 def archive(request, uid):
 	pass
 
-#@login_required
+@login_required
 def add(request,**kwargs):
 	desktop=True
 #	if('Mobi'in request.META['HTTP_USER_AGENT']):
@@ -61,22 +67,22 @@ def add(request,**kwargs):
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
 			#tee jotain
-			event=Events()
-			if request.user.is_authenticated:
-				event=Events(event_type,uid,request.user.get_username())
-				nimi=request.user.get_username()
-			else:
+#			event=Events()
+#			if request.user.is_authenticated:
+			event=Events(event_type,uid,request.user.get_username())
+#			else:
 				#eventType=EventType.objects.get(event_type='sitz')
 				#eventOwner=EventOwner.objects.get(name='test')
 #				event=Events(EventType.objects.get(event_type='sitz'),uid,EventOwner.objects.get(name='test'))
-				event.uid=uid
-				event.event_type=EventType.objects.get(event_type='sitz')
-				event.owner=EventOwner.objects.get(name='test')
+#				event.uid=uid
+#				event.event_type=EventType.objects.get(event_type='sitz')
+#				event.owner=EventOwner.objects.get(name='test')
 #			event.uid=uid
 			event.save()
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
+#			data.owner=EventOwner.objects.get(name='test')
 			data.owner=EventOwner.objects.get(name=request.user.get_username())
 			data.save()
 			helpers.sendEmail(data,request)
@@ -94,7 +100,7 @@ def add(request,**kwargs):
 			form = CustomForm()
 	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':desktop})
 
-#@login_required
+@login_required
 def formtype(request,**kwargs):
 #	sitsit, vujut, eksku, muu, custom
 	if(request.method=='POST'):
@@ -117,7 +123,7 @@ def formtype(request,**kwargs):
 def info(request, uid):
 	pass
 
-#@login_required
+@login_required
 def management(request):
 	#eventit = Events.objects.all()
 
@@ -132,7 +138,7 @@ def management(request):
 def edit(request):
 	pass
 
-#@login_required
+@login_required
 def preview(request, uid):
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':'http://212.32.242.196:7777/eventsignup'})

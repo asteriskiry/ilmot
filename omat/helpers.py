@@ -32,7 +32,7 @@ def getForm(event_type,request):
 #		return OtherEventForm(request.POST)
 	return form
 
-def getSignuForm(event_type,request):
+def getSignupForm(event_type,request):
 	pass
 
 # Palauttaa tietokannasta oikeanlaisen tapahtuman
@@ -47,7 +47,7 @@ def getEvent(uid):
 #				tempevent=Events.objects.get(uid=uid)
 #		except ObjectDoesNotExist:
 #			pass
-	if(tempevent.event_type.event_type=='sitz'):
+	if(tempevent.event_type.event_type=='sitsit'):
 		event=Sitz.objects.get(uid=uid)
 	elif(tempevent.event_type.event_type=='vuosijuhlat'):
 		event=Annualfest.objects.get(uid=uid)
@@ -79,3 +79,13 @@ def sendEmail(data,request):
     ['foobar@example.com'],
     fail_silently=False,
 	)
+
+def getQuotaNames(quotas):
+	temp=quotas.split(",")
+	paluu=[]
+	temp2=[]
+	for x in temp:
+		temp2.append(x.split(":"))
+	for y in temp2:
+		paluu.append(y[0])
+	return paluu

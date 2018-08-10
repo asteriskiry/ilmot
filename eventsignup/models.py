@@ -9,7 +9,7 @@ class EventType(models.Model):
 class EventOwner(models.Model):
 	name=models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
 	def __str__(self):
-		return "Tapahtuman järjestäjä(t) "+str(self.name)
+		return "Tapahtuman järjestäjä(t): "+str(self.name)
 
 class Events(models.Model):
 	event_type=models.ForeignKey(EventType, to_field='event_type' ,on_delete=models.CASCADE)
@@ -77,7 +77,7 @@ class OtherEvent(CommonInfo):
 
 class Participant(models.Model):
 	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
-	name=models.CharField(max_length=200)
+	name=models.CharField(max_length=200,verbose_name='Nimi')
 	email=models.EmailField(verbose_name='Sähköpostiosoite')
 #	lihaton=models.NullBooleanField()
 #	holiton=models.NullBooleanField()
