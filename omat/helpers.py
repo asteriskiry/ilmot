@@ -33,6 +33,8 @@ def getForm(event_type,request):
 #		return OtherEventForm(request.POST)
 	return form
 
+# Palauttaa oikeanlaisen form-olion, jotta saadaan
+# oikeanlainen tapahtumaanilmoittautuminen.
 def getSignupForm(event_type,request):
 	form=None
 	if(event_type=='sitsit'):
@@ -96,6 +98,7 @@ def sendEmail(data,request):
     fail_silently=False,
 	)
 
+# Palauttaa listan, jossa on järjestävien tahojen nimet, mikäli on osallistujakiintiöitä.
 def getQuotaNames(quotas):
 	temp=quotas.split(",")
 	paluu=[]
@@ -106,6 +109,7 @@ def getQuotaNames(quotas):
 		paluu.append(y[0])
 	return paluu
 
+# Generoi tapahtumaan ilmoittautujaan tallennettavia lisätietoja.
 def getMiscInfo(data):
 	lihaton=False
 	holiton=True

@@ -10,18 +10,22 @@ from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, Cus
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
 
+# Koko järjestelmän juuri (= /) sivu.
 def index(request):
 	return render(request, "eventsignup/index.html")
 
+# Tapahtumaan ilmoittautumisen jälkeen näytettävä kiitossivu.
 def thanks(request):
 	return render(request, "eventsignup/thankyou.html")
 
 
-#sivupaneelin nippelitieto
+# Tuottaa ja palauttaa oikeaann sivupaneeliin tulevat widgetin nippelitiedot.
 @login_required
 def stats(request, uid):
 	pass
 
+# Tuottaa ilmoittautumislomakkeen uid:tä vastaavaan tapahtumaan.
+# Käsittelee ja tallentaa lomakkeelta tulevan ilmoittautumisen.
 def signup(request, uid):
 	temp=Events.objects.get(uid=uid)
 	event_type=temp.event_type.event_type
@@ -52,14 +56,16 @@ def signup(request, uid):
 			quotas=helpers.getQuotaNames(event.quotas)
 	except AttributeError:
 		pass
-	if quotas:
-		pass
 	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas} )
 
+# Arkistoi tapahtuman erilliseen arkistoon (säilyttää vain olennaisimmat tapahtuman tiedot.
+# Poistaa tämän jälkeen varsinaisen tapahtuman kannasta osallistujineen.
+# Arkisto on vain ylläpitäjien nähtävissä.
 @login_required
 def archive(request, uid):
 	pass
 
+# Tuottaa lomakeen uuden tapahtuman luomiseksi ja käsittelee sen.
 @login_required
 def add(request,**kwargs):
 	desktop=True
@@ -105,6 +111,7 @@ def add(request,**kwargs):
 			form = CustomForm()
 	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':desktop})
 
+# Lomake tapahtumatyypin valintaan ennen varsinaista lomaketta.
 @login_required
 def formtype(request,**kwargs):
 #	sitsit, vujut, eksku, muu, custom
@@ -128,6 +135,9 @@ def formtype(request,**kwargs):
 def info(request, uid):
 	pass
 
+# Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".
+# Listaa sisäänkirjautuneen käyttäjän nykyiset ja menneet (ei arkistoidut) tapahtumat.
+# Mahdollistaa myös niiden muokkauksen.
 @login_required
 def management(request):
 	#eventit = Events.objects.all()
@@ -139,11 +149,14 @@ def management(request):
 	eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
 	return render(request, "eventsignup/management.html", {'eventit':eventit})
 
+# Olemassa olevan tapahtuman muokkaus.
 @login_required
 def edit(request):
 	pass
 
+# Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
 def preview(request, uid):
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':'http://212.32.242.196:7777/eventsignup'})
+
