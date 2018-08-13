@@ -48,9 +48,11 @@ def signup(request, uid):
 		elif(event_type=='custom'):
 			form = CustomSignupForm()
 	try:
-		if(event.quotas is not None):
+		if(len(event.quotas)>0):
 			quotas=helpers.getQuotaNames(event.quotas)
 	except AttributeError:
+		pass
+	if quotas:
 		pass
 	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas} )
 
