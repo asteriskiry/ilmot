@@ -1,12 +1,13 @@
 {% extends 'eventsignup/base.html' %}
 {% include 'eventsignup/includes/header.html' %}
-{% load bulma_tags %}
+{#% load bulma_tags %#}
 
 {% block center-content %}
 {# tähän kansikuva #}
 
 <section class="section">
     <div class="container">
+    <img src={{ event.pic.url }} alt={{ event.name }}>
       <h1 class="title">{{ event.name }}</h1>
       <p>{{ event.owner }}</p>
 		<p>{{ event.description }}</p>

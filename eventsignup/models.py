@@ -19,6 +19,10 @@ class Events(models.Model):
 		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t) : "+str(self.owner)
 
 class CommonInfo(models.Model):
+	def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+		return 'events/user_{0}/{1}'.format(instance.user.id, filename)
+
 	#kaikki yhteiset attribuutit tähän
 	uid=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
 	event_type=models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE,editable=False)
@@ -28,7 +32,7 @@ class CommonInfo(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	start_time=models.TimeField(verbose_name='Tapahtuman alkamisaika', default='00:00:00')
 	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
-	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
+	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva', upload_to='events/%Y/%m/')
 	prize=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
 	max_participants=models.PositiveIntegerField(blank=True, null=True,verbose_name='Maksimimäärä osallistujia')
 	signup_starts=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
