@@ -3,8 +3,8 @@
 {% block center-content %}
   <form method="post" novalidate>
     {% csrf_token %}
-    {{ form|bulma }}
-    {%# include 'eventsignup/includes/form_base.html' #%}
+    {#{ form|bulma }#}
+    {% include 'eventsignup/includes/form_base.html' %}
     <button type="submit" class="button is-primary">Kirjaudu</button>
   </form>
 {% endblock %}
