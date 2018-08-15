@@ -14,7 +14,7 @@
 <body>
 
 
-  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top" aria-label="main navigation">
 <!--  <div class="navbar-brand">
     <a class="navbar-item" href="https://www.asteriski.fi">
       <img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" alt="Asteriski" width="150" height="148">
@@ -22,11 +22,17 @@
   </div>-->
   <div class="navbar-menu">
    <div class="navbar-start">
-    	<a class="navbar-brand" href="https://asteriski.fi">
+    	<!--<a class="navbar-brand" href="https://asteriski.fi">
   			<img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" width="150" height="148" alt="Asteriski">
-		</a>
+		</a>-->
+		<strong><a class="navbar-brand" href="/eventsignup">Asteriski - Tapahtumailmoittautumisjärjestelmä</a></strong>
 		<p><strong>Tämä on navbar!</strong></p>
   </div>
+  {# navbarin navigointilinkit, jotka ovat näkyvissä vain desktop selaimilla #}
+  {# lopullinen(?)) paikka includes/header.html #}
+  {# vastaavat mobiililinkit menevät alla olevaan burger menuun #}
+  {% block desktop-content %}
+	{% endblock %}
   </div>
 
 
@@ -45,10 +51,10 @@
 -->
 
 
-
+{##}
 <div class="columns is-gapless is-8">
   		<!--vasen palkki-->
-  		<div class="column">
+  		<div class="column is-desktop">
 			{% block left-content %}
 			{% endblock %}
   		</div>
@@ -59,7 +65,7 @@
   		</div>
       
   		<!--oikea palkki-->
-      <div class="column is-2">
+      <div class="column is-2 is-desktop">
         {% block right-content %}
         {% endblock %}
       </div>

@@ -62,6 +62,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+            	'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -126,3 +127,5 @@ STATICFILES_DIRS = [
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'

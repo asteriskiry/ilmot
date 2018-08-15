@@ -1,3 +1,4 @@
-{% block header-content %}
-<p> Lorem ipsum.....</p>
-{% endblock %}
+    {% if desktop %}
+    	{% block desktop-content %}
+		{% endblock %}
+    {% endif %}

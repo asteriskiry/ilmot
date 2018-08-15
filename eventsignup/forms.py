@@ -3,6 +3,7 @@ from django import forms
 from .models import Sitz, Annualfest, OtherEvent, Excursion, Participant
 from .widgets import *
 
+# Lomake sitsit-tyypille.
 class SitzForm(ModelForm):
 #	def __init__(self, *args, **kwargs):
 #		super(SitzForm, self).__init__(*args, **kwargs)
@@ -14,6 +15,7 @@ class SitzForm(ModelForm):
 		model = Sitz
 		fields = '__all__'
 
+# Lomake vuosijuhlat-tyypille.
 class AnnualfestForm(ModelForm):
 #	def __init__(self, *args, **kwargs):
 #		super(AnnualfestForm, self).__init__(*args, **kwargs)
@@ -24,6 +26,7 @@ class AnnualfestForm(ModelForm):
 		model=Annualfest
 		fields='__all__'
 
+# Lomake muu-tyypille.
 class OtherEventForm(ModelForm):
 #	def __init__(self, *args, **kwargs):
 #		super(OtherEventForm, self).__init__(*args, **kwargs)
@@ -34,6 +37,7 @@ class OtherEventForm(ModelForm):
 		model=OtherEvent
 		fields='__all__'
 
+# Lomake ekskursio-tyypille.
 class ExcursionForm(ModelForm):
 #	def __init__(self, *args, **kwargs):
 #		super(ExcursionForm, self).__init__(*args, **kwargs)
@@ -48,6 +52,7 @@ class ExcursionForm(ModelForm):
 		model=Excursion
 		fields='__all__'
 
+# Lomake custom tapahtumalle.
 class CustomForm(ModelForm):
 #	def __init__(self, *args, **kwargs):
 #		super(CustomForm, self).__init__(*args, **kwargs)
@@ -59,6 +64,7 @@ class CustomForm(ModelForm):
 		model=OtherEvent
 		fields='__all__'
 
+# Osallistumislomake sitsit-tyypille.
 class SitzSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
@@ -68,6 +74,7 @@ class SitzSignupForm(ModelForm):
 		model=Participant
 		fields=['name','email','lihaton','holiton','avec','plaseeraus']
 
+# Osallistumislomake vuosijuhlat-tyypille.
 class AnnualfestSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
@@ -77,6 +84,7 @@ class AnnualfestSignupForm(ModelForm):
 		model=Participant
 		fields=['name','email','lihaton','holiton','avec','plaseeraus']
 
+# Osallistumislomake ekskursio-tyypille.
 class ExcursionSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
@@ -86,6 +94,7 @@ class ExcursionSignupForm(ModelForm):
 		model=Participant
 		fields=['name','email','lihaton','holiton','avec','plaseeraus']
 
+# Osallistumislomake muu-tyypille.
 class OtherEventSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
@@ -95,6 +104,7 @@ class OtherEventSignupForm(ModelForm):
 		model=Participant
 		fields=['name','email','lihaton','holiton','avec','plaseeraus']
 
+# Osallistumislomake custom-tyypille.
 class CustomSignupForm(ModelForm):
 	holiton=forms.ChoiceField(label='Holillinen/Holiton Menu',choices=(('holillinen','Alkoholillinen'),('holiton','Alkoholiton')))
 	lihaton=forms.ChoiceField(label='Liha/Kasvis Menu',choices=(('liha','Liha'),('kasvis','Kasvis')))
@@ -104,5 +114,7 @@ class CustomSignupForm(ModelForm):
 		model=Participant
 		fields=['name','email','lihaton','holiton','avec','plaseeraus']
 
+# Tapahtumatyypin valintalomake.
 class SelectTypeForm(forms.Form):
 	choice=forms.ChoiceField(label='Tapahtuman tyyppi',help_text='Valmiiksi määritellyillä tyypeillä tulee kyseiseen tapahtumaan soveltuva lomake. "Mukautettu" valinnalla voit mukauttaa tiedot haluamallasi tavalla.',choices=(('sitsit','Sitsit'),('vuosijuhlat','Vuosijuhlat'),('ekskursio','Ekskursio'),('muutapahtuma','Muu tapahtuma'),('custom','Mukautettu')))
+
