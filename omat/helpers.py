@@ -21,16 +21,12 @@ def getForm(event_type,request):
 	form=None
 	if(event_type=='sitsit'):
 		form=SitzForm(request.POST,request.FILES)
-#		return SitzForm(request.POST)
 	elif(event_type=='vuosijuhlat'):
 		form=AnnualfestForm(request.POST,request.FILES)
-#		return AnnualfestForm(request.POST)
 	elif(event_type=='ekskursio'):
 		form=ExcursionForm(request.POST,request.FILES)
-#		return ExcursionForm(request.POST)
 	elif(event_type=='muutapahtuma'):
 		form=OtherEventForm(request.POST,request.FILES)
-#		return OtherEventForm(request.POST)
 	return form
 
 # Palauttaa oikeanlaisen form-olion, jotta saadaan
@@ -39,16 +35,12 @@ def getSignupForm(event_type,request):
 	form=None
 	if(event_type=='sitsit'):
 		form=SitzSignupForm(request.POST)
-#		return SitzForm(request.POST)
 	elif(event_type=='vuosijuhlat'):
 		form=AnnualfestSignupForm(request.POST)
-#		return AnnualfestForm(request.POST)
 	elif(event_type=='ekskursio'):
 		form=ExcursionSignupForm(request.POST)
-#		return ExcursionForm(request.POST)
 	elif(event_type=='muu'):
 		form=OtherEventSignupForm(request.POST)
-#		return OtherEventForm(request.POST)
 	elif(event_type=='custom'):
 		form=CustomSignupForm(request.POST)
 	return form
@@ -58,13 +50,6 @@ def getSignupForm(event_type,request):
 def getEvent(uid):
 	event=None
 	tempevent=Events.objects.get(uid=uid)
-#	events=Events.objects.all()
-#	for field in events:
-#		try:
-#			if(field.uid==uid):
-#				tempevent=Events.objects.get(uid=uid)
-#		except ObjectDoesNotExist:
-#			pass
 	if(tempevent.event_type.event_type=='sitsit'):
 		event=Sitz.objects.get(uid=uid)
 	elif(tempevent.event_type.event_type=='vuosijuhlat'):

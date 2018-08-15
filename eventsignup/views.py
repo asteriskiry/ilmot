@@ -2,10 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
-# Create your views here.
-from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponse, HttpResponseRedirect
-from .models import EventType, EventOwner, Events, Participant, Sitz, Annualfest, Excursion, OtherEvent
-#from django import forms
+from django.http import HttpResponseRedirect
+from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
@@ -16,7 +14,14 @@ def index(request):
 
 # Tapahtumaan ilmoittautumisen jälkeen näytettävä kiitossivu.
 def thanks(request):
-	return render(request, "eventsignup/thankyou.html")
+	# refereristä uid, jotta event.name ja owner.email saadaan tietokannasta.
+	event=None
+	try:
+		uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
+		event=helpers.getEvent(uid)
+	except KeyError:
+		pass
+	return render(request, "eventsignup/thankyou.html",{'event':event})
 
 
 # Tuottaa ja palauttaa oikeaann sivupaneeliin tulevat widgetin nippelitiedot.
@@ -77,23 +82,11 @@ def add(request,**kwargs):
 		uid=helpers.getUid()
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
-			#tee jotain
-#			event=Events()
-#			if request.user.is_authenticated:
 			event=Events(event_type,uid,request.user.get_username())
-#			else:
-				#eventType=EventType.objects.get(event_type='sitz')
-				#eventOwner=EventOwner.objects.get(name='test')
-#				event=Events(EventType.objects.get(event_type='sitz'),uid,EventOwner.objects.get(name='test'))
-#				event.uid=uid
-#				event.event_type=EventType.objects.get(event_type='sitz')
-#				event.owner=EventOwner.objects.get(name='test')
-#			event.uid=uid
 			event.save()
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
-#			data.owner=EventOwner.objects.get(name='test')
 			data.owner=EventOwner.objects.get(name=request.user.get_username())
 			data.save()
 			helpers.sendEmail(data,request)

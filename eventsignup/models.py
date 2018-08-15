@@ -60,8 +60,6 @@ class CommonInfo(models.Model):
 # Sitsit tyyppinen tapahtuma.
 class Sitz(CommonInfo):
 	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
-#	avec=models.CharField(max_length=500,blank=True)
-#	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		if self.quotas is None:
 			return super().__str__()+", Osallistujakiintiöt: Ei ole"
@@ -70,8 +68,6 @@ class Sitz(CommonInfo):
 
 # Vuosijuhlat tyyppinen tapahtuman.
 class Annualfest(CommonInfo):
-#	avec=models.CharField(max_length=500,blank=True)
-#	plaseerustoive=models.CharField(max_length=500,blank=True)
 	def __str__(self):
 		return super().__str__()
 
@@ -92,12 +88,7 @@ class OtherEvent(CommonInfo):
 class Participant(models.Model):
 	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=200,verbose_name='Nimi')
-	email=models.EmailField(verbose_name='Sähköpostiosoite')
-#	lihaton=models.NullBooleanField()
-#	holiton=models.NullBooleanField()
-#	is_member=models.NullBooleanField()
-#	has_paid=models.NullBooleanField()
-#
+	email=models.EmailField(verbose_name='Sähköpostiosoite')#
 #	Tämä kenttä sisältää tiedot: holillinen/holiton, liha/kasvis, jäsen/ei jäsen, onko maksanut, avec, plaseeraustoive.
 #	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo}
 	miscInfo=models.TextField(editable=False)
