@@ -2,11 +2,12 @@
 {% include 'eventsignup/includes/header.html' %}
 
 {% block center-content %}
+<div class="content">
 <p>
 Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti on lähetetty käyttäjälle rekisteröityyn sähköpostiosoitteeseen. Uniikki ilmoittautumislinkki tapahtumaan on: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup/" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a>.
 </p>
 <hr>
-<img src={{ event.pic.url }} alt={{ event.name }}>
+<img src={{ event.pic.url }} alt={{ event.name }}></img>
 <h1>
 {{ event.name }}
 </h1>
@@ -16,4 +17,5 @@ Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti o
 </p>
 <p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
     {% include 'eventsignup/includes/geninfo.html' %}
+    </div>
 {% endblock %}
