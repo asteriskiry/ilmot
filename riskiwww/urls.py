@@ -20,6 +20,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    #älä poista homea, käytetään eventsignupin testeissä
     path('', views.home, name='home'),
 	path('eventsignup/', include('eventsignup.urls')),
 	path('accounts/', include('accounts.urls')),
