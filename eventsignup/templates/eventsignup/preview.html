@@ -7,7 +7,9 @@
 Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti on lähetetty käyttäjälle rekisteröityyn sähköpostiosoitteeseen. Uniikki ilmoittautumislinkki tapahtumaan on: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup/" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a>.
 </p>
 <hr>
+{% if event.pic %}
 <img src={{ event.pic.url }} alt={{ event.name }}></img>
+{% endif %}
 <h1>
 {{ event.name }}
 </h1>
