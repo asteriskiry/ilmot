@@ -29,6 +29,9 @@ def thanks(request):
 		pass
 	return render(request, "eventsignup/thankyou.html",{'event':event})
 
+# GDPR/tietosuojatiedot
+def privacy(request):
+	return render(request, "eventsignup/privacy.html")
 
 # Tuottaa ja palauttaa oikeaann sivupaneeliin tulevat widgetin nippelitiedot.
 @login_required
