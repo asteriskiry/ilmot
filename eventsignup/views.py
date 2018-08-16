@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
@@ -153,8 +153,11 @@ def management(request):
 
 # Olemassa olevan tapahtuman muokkaus.
 @login_required
-def edit(request):
-	pass
+def edit(request, **kwargs):
+	if(kwargs['type']=='signups'):
+		return HttpResponse('Editing signups list')
+	elif(kwargs['type']=='event'):
+		return HttpResponse('Editing event itself')
 
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
