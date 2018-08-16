@@ -16,10 +16,16 @@ def index(request):
 def thanks(request):
 	# refereristä uid, jotta event.name ja owner.email saadaan tietokannasta.
 	event=None
+	temp=request.META['HTTP_REFERER'].split("/")
 	try:
-		uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
+		for x in temp:
+			if(str.isdigit(x)):
+				uid=int(x)
+#		uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
 		event=helpers.getEvent(uid)
 	except KeyError:
+		pass
+	except OverflowError:
 		pass
 	return render(request, "eventsignup/thankyou.html",{'event':event})
 
