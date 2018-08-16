@@ -104,3 +104,8 @@ def getMiscInfo(data):
 		holiton=False
 	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
 
+def getBaseurl():
+	temp=None
+	with open('baseurl.txt') as f:
+		temp=f.read()
+	return temp
