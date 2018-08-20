@@ -1,5 +1,11 @@
 {% extends 'eventsignup/base.html' %}
 
 {% block center-content %}
+<div class="content">
+{% if event %}
+<p>Ilmoittautumisesi tapahtumaan [{{event.name}}] onnistui. Mikäli haluat perua ilmoittautumisesi, ota yhteyttä tapahtuman järjestäjään: {{event.owner.name}} ({{event.owner.email}}).</p>
+{% else %}
 <p>Ilmoittautuminen tapahtumaan onnistui. Mikäli haluat perua ilmoittautumisesi, ota yhteyttä tapahtuman järjestäjään.</p>
+{% endif %}
+</div>
 {% endblock %}

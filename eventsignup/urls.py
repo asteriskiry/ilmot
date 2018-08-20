@@ -20,10 +20,14 @@ urlpatterns = [
      # tapahtuman info
     path('event/<int:uid>/view/', views.info, name='view'),
     # tapahtuman muokkaus
-    path('event/<int:uid>/edit/',views.edit, name='edit'),
+#    path('event/<int:uid>/edit/',views.edit, name='edit'),
+    # tapahtuman osallistujalistan muokkaus
+    path('event/<int:uid>/edit/<str:type>/',views.edit, name='edit'),
     # tapahtumaan osallistujan ilmoittautumislomake
     path('event/<int:uid>/signup/', views.signup, name='signup'),
     # Poistaa (=Arkistoi) tapahtuman
     path('event/<int:uid>/delete/', views.archive, name='archive'),
+    # Näyttää tietosuojainfon
+    path('privacy', views.privacy, name='privacy'),
 
 ]
