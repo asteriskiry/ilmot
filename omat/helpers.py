@@ -1,6 +1,6 @@
 # Erilaiset omat apufunktiot tänne.
 # Käyttö: from omat import helpers ja helpers.<funktion_nimi>
-from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent
+from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 import random, json
@@ -109,4 +109,13 @@ def getBaseurl(request):
 	if(request.is_secure()):
 		protocol='https'
 	return protocol+'://'+request.META['HTTP_HOST']
+
+# Palauttaa dictionaryn, jossa on {uid:osallistujamäärä}
+def getParticipantCount():
+	events=Events.objects.all()
+	numOfParticipants={}
+	for event in events:
+		uid=str(event.uid)
+		numOfParticipants.update(uid=Participant.objects.filter(uid=event.uid).count())
+	return numOfParticipants
 

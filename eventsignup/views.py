@@ -133,7 +133,7 @@ def formtype(request,**kwargs):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
 	else:
 		form=SelectTypeForm()
-	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request))}
+	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
 
 @login_required
 def info(request, uid):
