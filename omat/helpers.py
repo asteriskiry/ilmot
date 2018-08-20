@@ -61,7 +61,7 @@ def getEvent(uid):
 	return event
 
 # Generoi sähköpostin viestiosan.
-def genMsg(data):
+def genMsg(data,request):
 	prize=""
 	try:
 		if "€" in data.prize:
@@ -70,14 +70,14 @@ def genMsg(data):
 			prize=str(data.prize)+" €"
 	except:
 		prize="ilmainen"
-	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: http://212.32.242.196:7777/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
+	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: "+getBaseurl(request)+"/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
 
 # Lähettää tapahtuman tiedot
 # käyttäjälle rekisteröityyn sähköpostiosoitteeseen.
 def sendEmail(data,request):
 	send_mail(
     '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
-    genMsg(data),
+    genMsg(data,request),
     'noreply@asteriski.fi',
     ['foobar@example.com'],
     fail_silently=False,
@@ -104,8 +104,9 @@ def getMiscInfo(data):
 		holiton=False
 	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
 
-def getBaseurl():
-	temp=None
-	with open('baseurl.txt') as f:
-		temp=f.read()
-	return temp
+def getBaseurl(request):
+	protocol='http'
+	if(request.is_secure()):
+		protocol='https'
+	return protocol+'://'+request.META['HTTP_HOST']
+

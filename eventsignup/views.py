@@ -113,7 +113,7 @@ def add(request,**kwargs):
 			form = OtherEventForm()
 		elif(event_type=='custom'):
 			form = CustomForm()
-	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':desktop})
+	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':False,'page':'Lisää tapahtuma','baseurl':getBaseurl(request)})
 
 # Lomake tapahtumatyypin valintaan ennen varsinaista lomaketta.
 @login_required
@@ -133,7 +133,7 @@ def formtype(request,**kwargs):
 			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
 	else:
 		form=SelectTypeForm()
-	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True})
+	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request))}
 
 @login_required
 def info(request, uid):
@@ -177,6 +177,8 @@ def edit(request, **kwargs):
 		return HttpResponse('Editing signups list')
 	elif(kwargs['type']=='event'):
 		return HttpResponse('Editing event itself')
+	else:
+		return HttpResponseRedirect('eventsignup/management/')
 
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
