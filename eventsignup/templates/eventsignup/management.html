@@ -21,15 +21,12 @@
           {% endif %}
           <th>
         <div class="card">
-          {% if event.pic %}
           <div class="card-image">
-
+          {% if event.pic %}
               <img src="{{event.pic.url}}" height="256" width="256">
             {% else %}
-            <div class="card-image">
-
-                <img src="{{event.pic.url}}" height="256" width="256">
-           {% endif %}
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+{% endif %}
 
             <div class="media-content is-centered">
 
@@ -39,9 +36,9 @@
                 <p class="title is-5 ">{{ event.name }}</p>
                 <p class="title is-6">{{ event.date }}</p>
                 <footer class="card-footer">
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                 </footer>
             </div>
           </div>
@@ -76,9 +73,9 @@
                   <p class="title is-5 ">{{ event.name }}</p>
                   <p class="title is-6">{{ event.date }}</p>
                   <footer class="card-footer">
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                   </footer>
               </div>
             </div>
@@ -117,9 +114,9 @@
                     <p class="title is-5 ">{{ event.name }}</p>
                     <p class="title is-6">{{ event.date }}</p>
                     <footer class="card-footer">
-                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                     </footer>
                 </div>
               </div>
@@ -161,9 +158,9 @@
                 <p class="title is-5 ">{{ event.name }}</p>
                 <p class="title is-6">{{ event.date }}</p>
                 <footer class="card-footer">
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                 </footer>
             </div>
           </div>
@@ -203,9 +200,9 @@
                   <p class="title is-5 ">{{ event.name }}</p>
                   <p class="title is-6">{{ event.date }}</p>
                   <footer class="card-footer">
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                   </footer>
               </div>
             </div>
@@ -246,9 +243,9 @@
                   <p class="title is-5 ">{{ event.name }}</p>
                   <p class="title is-6">{{ event.date }}</p>
                   <footer class="card-footer">
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Save</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Edit</a>
-                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Delete</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
                   </footer>
               </div>
             </div>
