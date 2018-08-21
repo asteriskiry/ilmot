@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import Sitz, Annualfest, OtherEvent, Excursion, Participant
-#from .widgets import *
+from .widgets import *
 
 # Lomake sitsit-tyypille.
 class SitzForm(ModelForm):
@@ -12,6 +12,12 @@ class SitzForm(ModelForm):
 
 # Lomake vuosijuhlat-tyypille.
 class AnnualfestForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(AnnualfestForm, self).__init__(*args, **kwargs)
+		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+		self.fields['start_time'].widget = MyTimeInput(attrs={'class':'date'})
+		self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+		self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 	class Meta:
 		model=Annualfest
 		fields='__all__'
