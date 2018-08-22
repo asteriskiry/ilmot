@@ -78,7 +78,7 @@ def signup(request, uid):
 			quotas=helpers.getQuotaNames(event.quotas)
 	except AttributeError:
 		pass
-	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed} )
+	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed,'page':'Ilmoittaudu'} )
 
 # Arkistoi tapahtuman erilliseen arkistoon (säilyttää vain olennaisimmat tapahtuman tiedot.
 # Poistaa tämän jälkeen varsinaisen tapahtuman kannasta osallistujineen.
