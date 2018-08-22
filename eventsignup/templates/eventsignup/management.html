@@ -15,7 +15,6 @@
     <h3 class="title is-3">sitsit</h3>
     <table class="table">
         {% for event in tulevat_sitsit %}
-
           {% if forloop.counter0|divisibleby:"3" %}
         <tr>
           {% endif %}
@@ -34,7 +33,13 @@
 
 
                 <p class="title is-5 ">{{ event.name }}</p>
+
+                <p class="title is-5 ">{{ event.uid.uid }}</p>
+
+
                 <p class="title is-6">{{ event.date }}</p>
+
+
                 <footer class="card-footer">
                     <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
                     <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
@@ -156,6 +161,7 @@
 
 
                 <p class="title is-5 ">{{ event.name }}</p>
+
                 <p class="title is-6">{{ event.date }}</p>
                 <footer class="card-footer">
                   <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
@@ -199,6 +205,7 @@
 
                   <p class="title is-5 ">{{ event.name }}</p>
                   <p class="title is-6">{{ event.date }}</p>
+
                   <footer class="card-footer">
                     <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
                     <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
@@ -241,6 +248,7 @@
 
 
                   <p class="title is-5 ">{{ event.name }}</p>
+
                   <p class="title is-6">{{ event.date }}</p>
                   <footer class="card-footer">
                     <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>

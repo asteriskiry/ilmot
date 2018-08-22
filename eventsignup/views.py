@@ -113,7 +113,7 @@ def add(request,**kwargs):
 			form = OtherEventForm()
 		elif(event_type=='custom'):
 			form = CustomForm()
-	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':False,'page':'Lisää tapahtuma','baseurl':getBaseurl(request)})
+	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':False,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
 
 # Lomake tapahtumatyypin valintaan ennen varsinaista lomaketta.
 @login_required
@@ -146,12 +146,13 @@ def info(request, uid):
 def management(request):
 	#eventit = Events.objects.all()
 	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
+	participantCount= helpers.getParticipantCount()
 	auth_user= request.user.get_username()
 	startdate = datetime.datetime.now()
 	todaysdate =startdate.strftime("%Y-%m-%d")
 	upcoming_sitz = Sitz.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_sitz = Sitz.objects.filter(date__lt=todaysdate, owner=auth_user)
-	
+
 	upcoming_otherEvents= OtherEvent.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_otherEvents = OtherEvent.objects.filter(date__lt=todaysdate, owner=auth_user)
 
@@ -166,7 +167,7 @@ def management(request):
 	 'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
 	  'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
 	   'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
-	   'baseurl':url
+	   'baseurl':url, 'osallistujamaarat': helpers.getParticipantCount()
 	  }
 	 )
 
