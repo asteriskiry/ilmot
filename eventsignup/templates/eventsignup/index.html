@@ -1,13 +1,16 @@
 {% extends 'eventsignup/base.html' %}
  {% include 'eventsignup/includes/header.html' %}
 
-{% block right-content %}
-<p>MIssä olen right</p>
-{% endblock %}
-{% block left-content %}
-<p>MIssä olen left</p>
-{% endblock %}
+
 {% block center-content %}
-<p>Tervetuloa Asteriski ry:n tapahtumailmoittautusmisjärjestelmään. Kirjaudu sisään hallinoidaksesi tapahtumiasi.</p>
+<div class="content">
+<p>Tervetuloa Asteriski ry:n tapahtumailmoittautusmisjärjestelmään.
+{% if not request.user.is_authenticated %}
+Kirjaudu sisään hallinoidaksesi tapahtumiasi.
+{% else %}
+Hallinnoidaksesi tapahtumia klikkaa Hallinnoi tapahtumia nappia.
+{% endif %}
+</p>
 <p>Mikäli yritit ilmoittautua johonkin tapahtumaan, ole hyvä ja tarkista saamasi tapahtuman ilmoittautumislinkki. Voit ilmoittautua ainoastaan sen linkin välityksellä. Tarvittaessa ota yhteyttä tapahtuman järjestäjään.</p>
+</div>
 {% endblock %}
