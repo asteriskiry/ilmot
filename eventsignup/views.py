@@ -9,6 +9,7 @@ from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, 
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
+from datetime import datetime, timezone
 
 # Koko järjestelmän juuri (= /) sivu.
 def index(request):
@@ -57,6 +58,13 @@ def signup(request, uid):
 	else:
 		event=helpers.getEvent(uid)
 		quotas=None
+		canSignup=False
+		signupPassed=False
+		now=datetime.now(timezone.utc)
+		if(event.signup_starts is not None and event.signup_starts<=now):
+			canSignup=True
+		if(event.signup_ends is not None and event.signup_ends<=now):
+			signupPassed=True
 		if(event_type=='sitsit'):
 			form = SitzSignupForm()
 		elif(event_type=='vuosijuhlat'):
@@ -72,7 +80,7 @@ def signup(request, uid):
 			quotas=helpers.getQuotaNames(event.quotas)
 	except AttributeError:
 		pass
-	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas} )
+	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed} )
 
 # Arkistoi tapahtuman erilliseen arkistoon (säilyttää vain olennaisimmat tapahtuman tiedot.
 # Poistaa tämän jälkeen varsinaisen tapahtuman kannasta osallistujineen.
@@ -186,4 +194,4 @@ def edit(request, **kwargs):
 def preview(request, uid):
 	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
 	event=helpers.getEvent(uid)
-	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':url})
+	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':helpers.getBaseurl(request)})

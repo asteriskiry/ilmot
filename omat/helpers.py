@@ -108,7 +108,7 @@ def getBaseurl(request):
 	protocol='http'
 	if(request.is_secure()):
 		protocol='https'
-	return protocol+'://'+request.META['HTTP_HOST']
+	return protocol+'://'+request.META['HTTP_HOST']+'/eventsignup'
 
 # Palauttaa dictionaryn, jossa on {uid:osallistujamäärä}
 def getParticipantCount():

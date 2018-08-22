@@ -3,7 +3,7 @@
 {#% load bulma_tags %#}
 
 {% block center-content %}
-{# tähän kansikuva #}
+{% if cansignup %}
 
 <section class="section">
     <div class="content">
@@ -50,4 +50,19 @@
    </div>
   </form>
 </p>
+{% elif signuppassed %}
+<section class="section">
+    <div class="container">
+    <p> Tapahtumaan {{event.name}} ilmoittautuminen on päättynyt jo.
+    </p>
+    </div>
+  </section>
+{% else %}
+<section class="section">
+    <div class="container">
+    <p> Tapahtumaan {{event.name}} ilmoittautuminen ei ole vielä avautunut. Ilmoittautuminen avautuu {{event.signup_starts}}.
+    </p>
+    </div>
+  </section>
+{% endif %}
 {% endblock %}
