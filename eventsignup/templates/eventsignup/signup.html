@@ -1,8 +1,9 @@
 {% extends 'eventsignup/base.html' %}
-{% include 'eventsignup/includes/header.html' %}
+{#% include 'eventsignup/includes/header.html' %#}
 {#% load bulma_tags %#}
-
+{% include 'eventsignup/includes/navbar.html' %}
 {% block center-content %}
+{% include 'eventsignup/includes/breadcrum.html' %}
 {% if cansignup %}
 
 <section class="section">
