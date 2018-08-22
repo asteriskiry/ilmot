@@ -1,7 +1,17 @@
 {# {{protocol}}://{{ request.META.HTTP_HOST }} #}
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb has-arrow-separator is-medium" aria-label="breadcrumbs">
   <ul>
-    <li><a href="{{baseurl}}/eventsignup/management">Hallinta</a></li>
-    <li><a href="#">{{page}}</a></li>
+  {% if "Ilmoittaudu" in page %}
+  	<li><a href="{{baseurl}}"><span class="icon is-small">
+          <i class="fas fa-home" aria-hidden="true"></i>
+        </span><span>Aloitussivu</span></a></li>
+  	{% else %}
+    <li><a href="{{baseurl}}/management"><span class="icon is-small">
+          <i class="fas fa-home" aria-hidden="true"></i>
+        </span><span>Hallinta</span></a></li>
+    {% endif %}
+    <li><a href="#"><span class="icon is-small">
+          <i class="fas fa-file-alt" aria-hidden="true"></i>
+        </span><span>{{page}}</span></a></li>
   </ul>
 </nav>
