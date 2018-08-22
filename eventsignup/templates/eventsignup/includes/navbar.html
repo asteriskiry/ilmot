@@ -1,35 +1,73 @@
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+
+});
+</script>
+
 <nav class="navbar is-fixed-top" aria-label="main navigation">
 <!--  <div class="navbar-brand">
     <a class="navbar-item" href="https://www.asteriski.fi">
       <img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" alt="Asteriski" width="150" height="148">
     </a>
   </div>-->
-  <div class="navbar-menu">
+    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+  <span aria-hidden="true"></span>
+</a>
+  <div class="navbar-menu" id="navMenu">
    <div class="navbar-start">
     	<!--<a class="navbar-brand" href="https://asteriski.fi">
   			<img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" width="150" height="148" alt="Asteriski">
 		</a>-->
 		<strong><a class="navbar-brand" href="/eventsignup">Asteriski - Tapahtumailmoittautumisjärjestelmä</a></strong>
-		<p><strong>Tämä on navbar!</strong></p>
   </div>
   {# navbarin navigointilinkit, jotka ovat näkyvissä vain desktop selaimilla #}
   {# lopullinen(?)) paikka includes/header.html #}
   {# vastaavat mobiililinkit menevät alla olevaan burger menuun #}
-  {% block desktop-content %}
-	{% endblock %}
+  {#% block desktop-content %#}
+  <div class="navbar-end">
+  {% if not "Ilmoittaudu" in page %}
+ 	 <div class="navbar-item">
+ 	 <div class="field">
+ 	   <p class="control">
+      		<a class="button is-primary is-rounded" href="management">
+        	<span>
+        	{% if not request.user.is_authenticated %}
+        	Kirjaudu sisään
+        	{% else %}
+        	Hallinnoi tapahtumia
+        	{% endif %}
+        	</span>
+      		</a>
+    	</p>
+    	</div></div>
+    	
+    {% endif %}
+    </div>
+	{#% endblock %#}
   </div>
 
-
-  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-  <span aria-hidden="true"></span>
-  <span aria-hidden="true"></span>
-  <span aria-hidden="true"></span>
-</a>
 </nav>
-
-<!--
-<nav class="navbar navbar-inverse">
-      {% block header-content %}
-      {% endblock %}
-</nav>
--->
