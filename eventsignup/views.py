@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from itertools import chain
 
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent
+from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
@@ -30,6 +30,10 @@ def thanks(request):
 		pass
 	return render(request, "eventsignup/thankyou.html",{'event':event})
 
+# Jos on max määrä osallistujia jo, näytetään tämä.
+def failed(request):
+	return render(request, "eventsignup/failed.html")
+
 # GDPR/tietosuojatiedot
 def privacy(request):
 	return render(request, "eventsignup/privacy.html")
@@ -44,6 +48,9 @@ def stats(request, uid):
 def signup(request, uid):
 	temp=Events.objects.get(uid=uid)
 	event_type=temp.event_type.event_type
+	event=helpers.getEvent(uid)
+	if(Participant.objects.filter(uid=uid).count()==event.max_participants):
+		return HttpResponseRedirect('/eventsignup/failed')
 	if(request.method == 'POST'):
 		form=helpers.getSignupForm(event_type,request)
 		if(form.is_valid()):
@@ -54,7 +61,6 @@ def signup(request, uid):
 			data.save()
 			return HttpResponseRedirect('/eventsignup/thanks')
 	else:
-		event=helpers.getEvent(uid)
 		quotas=None
 		canSignup=False
 		signupPassed=False
@@ -91,8 +97,8 @@ def archive(request, uid):
 @login_required
 def add(request,**kwargs):
 	desktop=True
-#	if('Mobi'in request.META['HTTP_USER_AGENT']):
-#		desktop=False
+	if('Mobi'in request.META['HTTP_USER_AGENT']):
+		desktop=False
 	if kwargs:
 		event_type=kwargs['type']
 	if(request.method=='POST'):
@@ -119,7 +125,7 @@ def add(request,**kwargs):
 			form = OtherEventForm()
 		elif(event_type=='custom'):
 			form = CustomForm()
-	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':False,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
+	return render(request,"eventsignup/new_event.html",{'form':form,'desktop':desktop,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
 
 # Lomake tapahtumatyypin valintaan ennen varsinaista lomaketta.
 @login_required
