@@ -22,7 +22,7 @@
 {% if desktop %}
 <script type="text/javascript">
  $(function() {
-        $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
+ //       $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_signup_starts").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_signup_ends").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
@@ -38,11 +38,14 @@
    {% include 'eventsignup/includes/form_base.html' %}
     <div class="field is-grouped">
 	<div class="control">
+    
+    <button type="submit" class="button is-rounded is-link">
     {% if choice %}
-    <button type="submit" class="button is-rounded is-link">Lähetä</button>
+    Lähetä
     {% else %}
-    <button type="submit" class="button is-rounded is-link">Lisää tapahtuma</button>
+    Lisää tapahtuma
     {% endif %}
+    </button>
 	</div>
    {% if not choice %}
   <div class="control">
@@ -52,13 +55,6 @@
 </div>
 </form>
 
-{% endblock %}
- {% block right-content %}
-<p>Missä olen right</p>
-{% endblock %}
-
-{% block left-content %}
-<p> MIssä olen left </p>
 {% endblock %}
  {% block extra-styles %}
 
