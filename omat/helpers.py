@@ -79,7 +79,7 @@ def sendEmail(data,request):
     '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
     genMsg(data,request),
     'noreply@asteriski.fi',
-    ['foobar@example.com'],
+    [request.user.email],
     fail_silently=False,
 	)
 
