@@ -160,7 +160,7 @@ def management(request):
 	auth_user= request.user.get_username()
 	startdate = datetime.now()
 	todaysdate =startdate.strftime("%Y-%m-%d")
-	all_lists = []
+
 
 	upcoming_sitz = Sitz.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_sitz = Sitz.objects.filter(date__lt=todaysdate, owner=auth_user)
@@ -174,8 +174,7 @@ def management(request):
 	upcoming_annualfest= Annualfest.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_annualfest = Annualfest.objects.filter(date__lt=todaysdate, owner=auth_user)
 
-	all_lists.append(upcoming_sitz)
-	all_lists.append(previous_sitz)
+
 	#eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
 	return render(request, "eventsignup/management.html",
 	{'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
@@ -183,7 +182,6 @@ def management(request):
 	 'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
 	 'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
 	 'baseurl':helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop':desktop,
-	 'all_lists':all_lists
 	  }
 	 )
 
