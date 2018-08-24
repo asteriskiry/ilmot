@@ -152,12 +152,16 @@ def info(request, uid):
 # Mahdollistaa myös niiden muokkauksen.
 @login_required
 def management(request):
-	#eventit = Events.objects.all()
-	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
+
+	desktop=True
+	if('Mobi'in request.META['HTTP_USER_AGENT']):
+		desktop=False
 	participantCount= helpers.getParticipantCount()
 	auth_user= request.user.get_username()
-	startdate = datetime.datetime.now()
+	startdate = datetime.now()
 	todaysdate =startdate.strftime("%Y-%m-%d")
+	all_lists = []
+
 	upcoming_sitz = Sitz.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_sitz = Sitz.objects.filter(date__lt=todaysdate, owner=auth_user)
 
@@ -169,25 +173,32 @@ def management(request):
 
 	upcoming_annualfest= Annualfest.objects.filter(date__gte=todaysdate, owner=auth_user)
 	previous_annualfest = Annualfest.objects.filter(date__lt=todaysdate, owner=auth_user)
+
+	all_lists.append(upcoming_sitz)
+	all_lists.append(previous_sitz)
 	#eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
 	return render(request, "eventsignup/management.html",
 	{'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
 	 'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
-	  'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
-	   'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
-	   'baseurl':url, 'osallistujamaarat': helpers.getParticipantCount()
+	 'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
+	 'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
+	 'baseurl':helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop':desktop,
+	 'all_lists':all_lists
 	  }
 	 )
 
 # Olemassa olevan tapahtuman muokkaus.
 @login_required
 def edit(request, **kwargs):
-	if(kwargs['type']=='signups'):
-		return HttpResponse('Editing signups list')
-	elif(kwargs['type']=='event'):
-		return HttpResponse('Editing event itself')
-	else:
-		return HttpResponseRedirect('eventsignup/management/')
+	event=helpers.getEvent(98100)
+	return render(request, "eventsignup/edit.html", {'event': event,'baseurl':helpers.getBaseurl(request)})
+	#if(kwargs['type']=='signups'):
+		#return HttpResponse('Editing signups list')
+	#elif(kwargs['type']=='event'):
+		#return HttpResponse('Editing event itself')
+	#else:
+		#return HttpResponseRedirect('eventsignup/management/')
+
 
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required

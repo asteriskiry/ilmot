@@ -3,9 +3,62 @@
 
 {% block center-content %}
 
+<h1 class="title is-1">Tapahtumien hallinta</h1>
+  <h2 class="title is-2">Tulevat tapahtumat</h2>
+
+{% for list in all_lists %}
 
 
+      <table class="table">
+        {% for event in list %}
 
+        {% if forloop.first %}
+          {% if event.event_type is "sitsit" %}
+          <h3 class="title is-3">Sitsit</h3>
+          {% endif %}
+            {% endif %}
+
+        {% if forloop.counter0|divisibleby:"4" and desktop %}
+          <tr>
+{% endif %}
+                        {% if desktop is False %}
+                      <tr>
+
+        {% endif %}
+          <td>
+          <div class="card">
+          <div class="card-image">
+            {% if event.pic %}
+              <img src="{{event.pic.url}}" height="256" width="256">
+            {% else %}
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+            {% endif %}
+            <div class="media-content is-centered">
+              <p class="title is-5 ">{{ event.name }}</p>
+              <p class="title is-5 ">{{ event.uid.uid }}</p>
+              <p class="title is-6">{{ event.date }}</p>
+              <footer class="card-footer">
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+              </footer>
+            </div>
+          </div>
+          </div>
+        </td>
+            <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+            {% if forloop.counter|divisibleby:"4" and desktop %}
+          </tr>
+{% endif %}
+            {%if desktop is False%}
+          </tr>
+
+            {% endif %}
+        {% endfor %}
+        </table>
+
+{% endfor %}
+<!--
 
 
 
@@ -270,5 +323,5 @@
 
       {% endif %}
 
-
+-->
 {% endblock %}
