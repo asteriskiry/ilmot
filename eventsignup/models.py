@@ -34,7 +34,7 @@ class CommonInfo(models.Model):
 	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
-	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
+	date=models.DateField(verbose_name='Tapahtuman pitopäivä')
 	start_time=models.TimeField(verbose_name='Tapahtuman alkamisaika', default='00:00:00')
 	description=models.TextField(verbose_name='Tapahtuman yleiskuvaus')
 	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva', upload_to='events/%Y/%m/')

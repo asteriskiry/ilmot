@@ -2,15 +2,360 @@
 {% include 'eventsignup/includes/header.html' %}
 
 {% block center-content %}
-<h1>Tapahtumien hallinta</h1>
-<h1>Tulevat tapahtumat</h1>
-  {% for event in eventit %}
-  <br>
-  <br>
-        {{ event.uid }}<br>
-  <br>
-  <br>
-  <br>
-      {% endfor %}
-<h1>Menneet tapahtumat</h1>
+
+<h1 class="title is-1">Tapahtumien hallinta</h1>
+  <h2 class="title is-2">Tulevat tapahtumat</h2>
+
+
+
+  {% if tulevat_sitsit %}
+    <h3 class="title is-3">Sitsit</h3>
+      <table class="table">
+        {% for event in tulevat_sitsit %}
+        {% if forloop.counter0|divisibleby:"4" and desktop %}
+          <tr>
+        {% endif %}
+        {% if desktop is False %}
+          <tr>
+        {% endif %}
+        <td>
+          <div class="card">
+          <div class="card-image">
+            {% if event.pic %}
+              <img src="{{event.pic.url}}" height="256" width="256">
+            {% else %}
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+            {% endif %}
+            <div class="media-content is-centered">
+              <p class="title is-5 ">{{ event.name }}</p>
+              <p class="title is-5 ">{{ event.uid.uid }}</p>
+              <p class="title is-6">{{ event.date }}</p>
+              <footer class="card-footer">
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+              </footer>
+            </div>
+          </div>
+          </div>
+        </td>
+            <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+        {% if forloop.counter|divisibleby:"4" and desktop %}
+          </tr>
+        {% endif %}
+        {%if desktop is False%}
+          </tr>
+
+        {% endif %}
+        {% endfor %}
+      </table>
+    {% endif %}
+
+
+      {% if tulevat_vujut %}
+        <h3 class="title is-3">Vujut</h3>
+          <table class="table">
+            {% for event in tulevat_vujut %}
+            {% if forloop.counter0|divisibleby:"4" and desktop %}
+              <tr>
+            {% endif %}
+            {% if desktop is False %}
+              <tr>
+            {% endif %}
+            <td>
+              <div class="card">
+              <div class="card-image">
+                {% if event.pic %}
+                  <img src="{{event.pic.url}}" height="256" width="256">
+                {% else %}
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                {% endif %}
+                <div class="media-content is-centered">
+                  <p class="title is-5 ">{{ event.name }}</p>
+                  <p class="title is-5 ">{{ event.uid.uid }}</p>
+                  <p class="title is-6">{{ event.date }}</p>
+                  <footer class="card-footer">
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                      <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                  </footer>
+                </div>
+              </div>
+              </div>
+            </td>
+                <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+            {% if forloop.counter|divisibleby:"4" and desktop %}
+              </tr>
+            {% endif %}
+            {%if desktop is False%}
+              </tr>
+
+            {% endif %}
+            {% endfor %}
+          </table>
+        {% endif %}
+
+
+          {% if tulevat_ekskursiot %}
+            <h3 class="title is-3">Ekskursiot</h3>
+              <table class="table">
+                {% for event in tulevat_ekskursiot %}
+                {% if forloop.counter0|divisibleby:"4" and desktop %}
+                  <tr>
+                {% endif %}
+                {% if desktop is False %}
+                  <tr>
+                {% endif %}
+                <td>
+                  <div class="card">
+                  <div class="card-image">
+                    {% if event.pic %}
+                      <img src="{{event.pic.url}}" height="256" width="256">
+                    {% else %}
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                    {% endif %}
+                    <div class="media-content is-centered">
+                      <p class="title is-5 ">{{ event.name }}</p>
+                      <p class="title is-5 ">{{ event.uid.uid }}</p>
+                      <p class="title is-6">{{ event.date }}</p>
+                      <footer class="card-footer">
+                          <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                          <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                          <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                      </footer>
+                    </div>
+                  </div>
+                  </div>
+                </td>
+                    <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                {% if forloop.counter|divisibleby:"4" and desktop %}
+                  </tr>
+                {% endif %}
+                {%if desktop is False%}
+                  </tr>
+
+                {% endif %}
+                {% endfor %}
+              </table>
+            {% endif %}
+
+
+              {% if tulevat_muutTapahtumat %}
+                <h3 class="title is-3">Muut tapahtumat</h3>
+                  <table class="table">
+                    {% for event in tulevat_muutTapahtumat %}
+                    {% if forloop.counter0|divisibleby:"4" and desktop %}
+                      <tr>
+                    {% endif %}
+                    {% if desktop is False %}
+                      <tr>
+                    {% endif %}
+                    <td>
+                      <div class="card">
+                      <div class="card-image">
+                        {% if event.pic %}
+                          <img src="{{event.pic.url}}" height="256" width="256">
+                        {% else %}
+                          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                        {% endif %}
+                        <div class="media-content is-centered">
+                          <p class="title is-5 ">{{ event.name }}</p>
+                          <p class="title is-5 ">{{ event.uid.uid }}</p>
+                          <p class="title is-6">{{ event.date }}</p>
+                          <footer class="card-footer">
+                              <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                              <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                              <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                          </footer>
+                        </div>
+                      </div>
+                      </div>
+                    </td>
+                        <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                    {% if forloop.counter|divisibleby:"4" and desktop %}
+                      </tr>
+                    {% endif %}
+                    {%if desktop is False%}
+                      </tr>
+                    {% endif %}
+                    {% endfor %}
+                  </table>
+                {% endif %}
+
+        <h2 class="title is-2">Menneet tapahtumat</h2>
+
+
+                  {% if menneet_sitsit %}
+                    <h3 class="title is-3">Sitsit</h3>
+                      <table class="table">
+                        {% for event in menneet_sitsit %}
+                        {% if forloop.counter0|divisibleby:"4" and desktop %}
+                          <tr>
+                        {% endif %}
+                        {% if desktop is False %}
+                          <tr>
+                        {% endif %}
+                        <td>
+                          <div class="card">
+                          <div class="card-image">
+                            {% if event.pic %}
+                              <img src="{{event.pic.url}}" height="256" width="256">
+                            {% else %}
+                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                            {% endif %}
+                            <div class="media-content is-centered">
+                              <p class="title is-5 ">{{ event.name }}</p>
+                              <p class="title is-5 ">{{ event.uid.uid }}</p>
+                              <p class="title is-6">{{ event.date }}</p>
+                              <footer class="card-footer">
+                                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                              </footer>
+                            </div>
+                          </div>
+                          </div>
+                        </td>
+                            <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                        {% if forloop.counter|divisibleby:"4" and desktop %}
+                          </tr>
+                        {% endif %}
+                        {%if desktop is False%}
+                          </tr>
+                        {% endif %}
+                        {% endfor %}
+                      </table>
+                    {% endif %}
+
+                    {% if menneet_vujut %}
+                      <h3 class="title is-3">Vujut</h3>
+                        <table class="table">
+                          {% for event in menneet_vujut %}
+                          {% if forloop.counter0|divisibleby:"4" and desktop %}
+                            <tr>
+                          {% endif %}
+                          {% if desktop is False %}
+                            <tr>
+                          {% endif %}
+                          <td>
+                            <div class="card">
+                            <div class="card-image">
+                              {% if event.pic %}
+                                <img src="{{event.pic.url}}" height="256" width="256">
+                              {% else %}
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                              {% endif %}
+                              <div class="media-content is-centered">
+                                <p class="title is-5 ">{{ event.name }}</p>
+                                <p class="title is-5 ">{{ event.uid.uid }}</p>
+                                <p class="title is-6">{{ event.date }}</p>
+                                <footer class="card-footer">
+                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                                </footer>
+                              </div>
+                            </div>
+                            </div>
+                          </td>
+                              <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                          {% if forloop.counter|divisibleby:"4" and desktop %}
+                            </tr>
+                          {% endif %}
+                          {%if desktop is False%}
+                            </tr>
+
+                          {% endif %}
+                          {% endfor %}
+                        </table>
+                      {% endif %}
+
+
+                        {% if menneet_ekskursiot %}
+                          <h3 class="title is-3">Ekskursiot</h3>
+                            <table class="table">
+                              {% for event in menneet_ekskursiot %}
+                              {% if forloop.counter0|divisibleby:"4" and desktop %}
+                                <tr>
+                              {% endif %}
+                              {% if desktop is False %}
+                                <tr>
+                              {% endif %}
+                              <td>
+                                <div class="card">
+                                <div class="card-image">
+                                  {% if event.pic %}
+                                    <img src="{{event.pic.url}}" height="256" width="256">
+                                  {% else %}
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                                  {% endif %}
+                                  <div class="media-content is-centered">
+                                    <p class="title is-5 ">{{ event.name }}</p>
+                                    <p class="title is-5 ">{{ event.uid.uid }}</p>
+                                    <p class="title is-6">{{ event.date }}</p>
+                                    <footer class="card-footer">
+                                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                                        <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                                    </footer>
+                                  </div>
+                                </div>
+                                </div>
+                              </td>
+                                  <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                              {% if forloop.counter|divisibleby:"4" and desktop %}
+                                </tr>
+                              {% endif %}
+                              {%if desktop is False%}
+                                </tr>
+
+                              {% endif %}
+                              {% endfor %}
+                            </table>
+                          {% endif %}
+
+
+                            {% if menneet_muutTapahtumat %}
+                              <h3 class="title is-3">Muut tapahtumat</h3>
+                                <table class="table">
+                                  {% for event in menneet_muutTapahtumat %}
+                                  {% if forloop.counter0|divisibleby:"4" and desktop %}
+                                    <tr>
+                                  {% endif %}
+                                  {% if desktop is False %}
+                                    <tr>
+                                  {% endif %}
+                                  <td>
+                                    <div class="card">
+                                    <div class="card-image">
+                                      {% if event.pic %}
+                                        <img src="{{event.pic.url}}" height="256" width="256">
+                                      {% else %}
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
+                                      {% endif %}
+                                      <div class="media-content is-centered">
+                                        <p class="title is-5 ">{{ event.name }}</p>
+                                        <p class="title is-5 ">{{ event.uid.uid }}</p>
+                                        <p class="title is-6">{{ event.date }}</p>
+                                        <footer class="card-footer">
+                                            <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                                            <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
+                                            <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                                        </footer>
+                                      </div>
+                                    </div>
+                                    </div>
+                                  </td>
+                                      <!--Jakaa listan kolmeen osaan jos käyttää desktoppia, muuten vain yksi tapahtuma per rivi-->
+                                  {% if forloop.counter|divisibleby:"4" and desktop %}
+                                    </tr>
+                                  {% endif %}
+                                  {%if desktop is False%}
+                                    </tr>
+                                  {% endif %}
+                                  {% endfor %}
+                                </table>
+                              {% endif %}
+
+
 {% endblock %}

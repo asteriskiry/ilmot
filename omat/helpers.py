@@ -131,7 +131,8 @@ def getParticipantCount():
 	numOfParticipants={}
 	for event in events:
 		uid=str(event.uid)
-		numOfParticipants.update(uid=Participant.objects.filter(uid=event.uid).count())
+		numOfParticipants[uid]=Participant.objects.filter(event_type_id=event.uid).count()
+		#numOfParticipants.update(uid=Participant.objects.filter(event_type_id=event.uid).count())
 	return numOfParticipants
 
 # Palauttaa True/False riippuen siitä onko ilmoittautumiskiintiö täynnä.

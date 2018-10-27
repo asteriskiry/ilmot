@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from itertools import chain
+import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
@@ -158,28 +160,55 @@ def info(request, uid):
 # Mahdollistaa myös niiden muokkauksen.
 @login_required
 def management(request):
-	#eventit = Events.objects.all()
 
-	sitsit = Sitz.objects.filter(owner=request.user.get_username())
-	ekskursiot = Excursion.objects.filter(owner=request.user.get_username())
-	muut_tapahtumat = OtherEvent.objects.filter(owner=request.user.get_username())
-	vujut = Annualfest.objects.filter(owner=request.user.get_username())
-	eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
-	return render(request, "eventsignup/management.html", {'eventit':eventit})
+	desktop=True
+	if('Mobi'in request.META['HTTP_USER_AGENT']):
+		desktop=False
+	participantCount= helpers.getParticipantCount()
+	auth_user= request.user.get_username()
+	startdate = datetime.now()
+	todaysdate =startdate.strftime("%Y-%m-%d")
+
+
+	upcoming_sitz = Sitz.objects.filter(date__gte=todaysdate, owner=auth_user)
+	previous_sitz = Sitz.objects.filter(date__lt=todaysdate, owner=auth_user)
+
+	upcoming_otherEvents= OtherEvent.objects.filter(date__gte=todaysdate, owner=auth_user)
+	previous_otherEvents = OtherEvent.objects.filter(date__lt=todaysdate, owner=auth_user)
+
+	upcoming_excursion= Excursion.objects.filter(date__gte=todaysdate, owner=auth_user)
+	previous_excursion = Excursion.objects.filter(date__lt=todaysdate, owner=auth_user)
+
+	upcoming_annualfest= Annualfest.objects.filter(date__gte=todaysdate, owner=auth_user)
+	previous_annualfest = Annualfest.objects.filter(date__lt=todaysdate, owner=auth_user)
+
+
+	#eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
+	return render(request, "eventsignup/management.html",
+	{'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
+	 'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
+	 'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
+	 'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
+	 'baseurl':helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop':desktop,
+	  }
+	 )
 
 # Olemassa olevan tapahtuman muokkaus.
 @login_required
 def edit(request, **kwargs):
-	if(kwargs['type']=='signups'):
-		return HttpResponse('Editing signups list')
-	elif(kwargs['type']=='event'):
-		return HttpResponse('Editing event itself')
-	else:
-		return HttpResponseRedirect('eventsignup/management/')
+	event=helpers.getEvent(98100)
+	return render(request, "eventsignup/edit.html", {'event': event,'baseurl':helpers.getBaseurl(request)})
+	#if(kwargs['type']=='signups'):
+		#return HttpResponse('Editing signups list')
+	#elif(kwargs['type']=='event'):
+		#return HttpResponse('Editing event itself')
+	#else:
+		#return HttpResponseRedirect('eventsignup/management/')
+
 
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
 def preview(request, uid):
+	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':helpers.getBaseurl(request)})
-
