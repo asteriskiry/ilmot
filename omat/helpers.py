@@ -4,7 +4,7 @@ from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, 
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 import random, json
-from django.core.mail import send_mail
+from django.core import mail
 
 # Generoi uuden uniikin uid:n tapahtumalle.
 def getUid():
@@ -75,13 +75,18 @@ def genMsg(data,request):
 # Lähettää tapahtuman tiedot
 # käyttäjälle rekisteröityyn sähköpostiosoitteeseen.
 def sendEmail(data,request):
-	send_mail(
-    '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
-    genMsg(data,request),
-    'noreply@asteriski.fi',
-    [request.user.email],
-    fail_silently=False,
-	)
+	with mail.get_connection() as connection:
+	    mail.EmailMessage(
+       ' [* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name, genMsg(data,request), 'noreply@asteriski.fi', [str(data.owner.email)],
+        connection=connection,
+   		 ).send()
+#	send_mail(
+#   '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
+#    genMsg(data,request),
+#    'noreply@asteriski.fi',
+#    [request.user.email],
+#    fail_silently=False,
+#	)
 
 # Palauttaa listan, jossa on järjestävien tahojen nimet, mikäli on osallistujakiintiöitä.
 def getQuotaNames(quotas,namesOnly):
