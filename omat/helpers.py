@@ -84,14 +84,29 @@ def sendEmail(data,request):
 	)
 
 # Palauttaa listan, jossa on järjestävien tahojen nimet, mikäli on osallistujakiintiöitä.
-def getQuotaNames(quotas):
+def getQuotaNames(quotas,namesOnly):
 	temp=quotas.split(",")
 	paluu=[]
 	temp2=[]
-	for x in temp:
-		temp2.append(x.split(":"))
-	for y in temp2:
-		paluu.append(y[0])
+	if(':' in temp[0]):
+		for x in temp:
+			temp2.append(x.split(":"))
+	else:
+		temp3=[]
+		for x in temp:
+			temp3.append(x.split())
+		for x in temp3:
+			temp4=''
+			for y in x:
+				if not str.isdigit(y):
+					temp4+=y
+				temp2.append([temp4,temp3[-1]])
+
+	if(namesOnly):
+		for y in temp2:
+			paluu.append(y[0])
+	else:
+		return temp2
 	return paluu
 
 # Generoi tapahtumaan ilmoittautujaan tallennettavia lisätietoja.
@@ -102,7 +117,7 @@ def getMiscInfo(data):
 		lihaton=True
 	if(data['holiton']=='holillinen'):
 		holiton=False
-	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus']})
+	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus'],'quota':data['name']})
 
 def getBaseurl(request):
 	protocol='http'
@@ -118,4 +133,13 @@ def getParticipantCount():
 		uid=str(event.uid)
 		numOfParticipants.update(uid=Participant.objects.filter(uid=event.uid).count())
 	return numOfParticipants
+
+# Palauttaa True/False riippuen siitä onko ilmoittautumiskiintiö täynnä.
+def isQuotaFull(event,data):
+#	haettu quota on data['name']
+	quotas=getQuotaNames(event.quotas,False)
+	numOf=Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
+	paluu=False
+#	json.loads(
+	return paluu
 
