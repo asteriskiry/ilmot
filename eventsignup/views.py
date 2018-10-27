@@ -49,12 +49,14 @@ def signup(request, uid):
 	temp=Events.objects.get(uid=uid)
 	event_type=temp.event_type.event_type
 	event=helpers.getEvent(uid)
-	if(Participant.objects.filter(uid=uid).count()==event.max_participants):
+	if(Participant.objects.filter(event_type=uid).count()==event.max_participants):
 		return HttpResponseRedirect('/eventsignup/failed')
 	if(request.method == 'POST'):
 		form=helpers.getSignupForm(event_type,request)
 		if(form.is_valid()):
 			#käsittele lomake
+			if(helpers.isQuotaFull(event,form.cleaned_data)):
+				return HttpResponseRedirect('/eventsignup/failed')
 			data=form.save(commit=False)
 			data.miscInfo=helpers.getMiscInfo(form.cleaned_data)
 			data.event_type=temp
@@ -81,7 +83,7 @@ def signup(request, uid):
 			form = CustomSignupForm()
 	try:
 		if(len(event.quotas)>0):
-			quotas=helpers.getQuotaNames(event.quotas)
+			quotas=helpers.getQuotaNames(event.quotas,True)
 	except AttributeError:
 		pass
 	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed,'page':'Ilmoittaudu'} )
