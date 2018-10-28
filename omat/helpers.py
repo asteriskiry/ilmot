@@ -39,7 +39,7 @@ def getSignupForm(event_type,request):
 		form=AnnualfestSignupForm(request.POST)
 	elif(event_type=='ekskursio'):
 		form=ExcursionSignupForm(request.POST)
-	elif(event_type=='muu'):
+	elif(event_type=='muutapahtuma'):
 		form=OtherEventSignupForm(request.POST)
 	elif(event_type=='custom'):
 		form=CustomSignupForm(request.POST)
@@ -56,7 +56,7 @@ def getEvent(uid):
 		event=Annualfest.objects.get(uid=uid)
 	elif(tempevent.event_type.event_type=='ekskursio'):
 		event=Excursion.objects.get(uid=uid)
-	elif(tempevent.event_type.event_type=='muu'):
+	elif(tempevent.event_type.event_type=='muutapahtuma'):
 		event=OtherEvent.objects.get(uid=uid)
 	return event
 
@@ -148,4 +148,3 @@ def isQuotaFull(event,data):
 	paluu=False
 #	json.loads(
 	return paluu
-
