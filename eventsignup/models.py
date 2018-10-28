@@ -44,6 +44,10 @@ class CommonInfo(models.Model):
 	signup_starts=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
 	signup_ends=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
 
+	def save(self, *args, **kwargs):
+		self.description = mark_safe(self.description.replace("\n", "<br/>"))
+		super(CommonInfo, self).save(*args, **kwargs)
+
 	def __str__(self):
 		return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+str(self.date)+", Maksimi osallistujamäärä: "+str(self.max_participants)+", Ilmoittautuminen alkaa: "+str(self.signup_starts)+", Ilmoittautuminen loppuu: "+str(self.signup_ends)+", Yleiskuvaus: "+self.description
 
@@ -61,10 +65,6 @@ class CommonInfo(models.Model):
 # Sitsit tyyppinen tapahtuma.
 class Sitz(CommonInfo):
 	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
-
-	def save(self, *args, **kwargs):
-		self.description = mark_safe(self.description.replace("\n", "<br/>"))
-		super(Sitz, self).save(*args, **kwargs)
 
 	def __str__(self):
 		if self.quotas is None:
