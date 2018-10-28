@@ -141,10 +141,13 @@ def getParticipantCount():
 	return numOfParticipants
 
 # Palauttaa True/False riippuen siitä onko ilmoittautumiskiintiö täynnä.
+
 def isQuotaFull(event,data):
-#	haettu quota on data['name']
-	quotas=getQuotaNames(event.quotas,False)
-	numOf=Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
-	paluu=False
-#	json.loads(
+	try:
+		#	haettu quota on data['name']
+		quotas=getQuotaNames(event.quotas,False)
+		numOf=Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
+		paluu=False
+	except AttributeError as e:
+		paluu=False
 	return paluu
