@@ -118,10 +118,13 @@ def getQuotaNames(quotas,namesOnly):
 def getMiscInfo(data):
 	lihaton=False
 	holiton=True
-	if(data['lihaton']=='kasvis'):
-		lihaton=True
-	if(data['holiton']=='holillinen'):
-		holiton=False
+	try:
+		if(data['lihaton']=='kasvis'):
+			lihaton=True
+		if(data['holiton']=='holillinen'):
+			holiton=False
+	except:
+		return json.dumps({'foo':'bar'})
 	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus'],'quota':data['name']})
 
 def getBaseurl(request):
