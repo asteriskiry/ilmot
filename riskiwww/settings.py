@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 	'accounts.apps.AccountsConfig',
 	'eventsignup.apps.EventsignupConfig',
 	'widget_tweaks',
+	'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

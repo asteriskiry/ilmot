@@ -15,9 +15,10 @@ Tapahtuma luotiin onnistuneesti. Alla olevan esikatselun mukainen sähköposti o
 </h1>
 <p>{{ event.owner }}</p>
 <p>
-{{ event.description }}
+{{ event.description | safe }}
 </p>
 <p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
     {% include 'eventsignup/includes/geninfo.html' %}
     </div>
+
 {% endblock %}

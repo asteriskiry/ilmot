@@ -115,6 +115,7 @@ def add(request,**kwargs):
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
 			data.owner=EventOwner.objects.get(name=request.user.get_username())
+			#data.description = data.description.replace("\n", "</p><p>")
 			data.save()
 			helpers.sendEmail(data,request)
 			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')

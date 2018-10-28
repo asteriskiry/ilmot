@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 
 # Kaikki uniikit tapahtumatyypit (esim. sitsit).
 class EventType(models.Model):
@@ -60,6 +61,11 @@ class CommonInfo(models.Model):
 # Sitsit tyyppinen tapahtuma.
 class Sitz(CommonInfo):
 	quotas=models.CharField(max_length=500,null=True, blank=True,verbose_name='Järjestävien tahojen osallistujakiintiöt')
+
+	def save(self, *args, **kwargs):
+		self.description = mark_safe(self.description.replace("\n", "<br/>"))
+		super(Sitz, self).save(*args, **kwargs)
+
 	def __str__(self):
 		if self.quotas is None:
 			return super().__str__()+", Osallistujakiintiöt: Ei ole"
