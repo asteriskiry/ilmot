@@ -3,13 +3,18 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 $family-sans-serif: "Nunito", sans-serif;
 
-$body-background-color: hsl(0, 0%, 48%);
+//$body-background-color: hsl(0, 0%, 76%);
+$body-background-color: #46328c;
 $text: hsl(0, 0%, 100%);
 $footer-background-color : #328c46;
+$link: #8c3262;
 
 //navbar asetukset
 //$navbar-height: 10.25rem;
 $navbar-background-color: #328c46;
+$navbar-item-color: #8c3278;
+$navbar-item-hover-color: hsl( 13, 64%, 37% );
+$navbar-item-active-color: hsl(253, 64%, 37%);
 
 // import rivi aina viimeiseksi riviksi
 @import "../bulma-0.7.2/bulma.sass";

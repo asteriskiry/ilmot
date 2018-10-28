@@ -107,9 +107,10 @@ venv.bak/
 #others
 media/ 
 mybulma/.sass-cache/
-mybulma/bulma-0.7.1/
+mybulma/bulma-*/
 mybulma/css
 static/bulma/
 static/css/datepicker-widget.css
 static/css/mystyles.css
 baseurl.txt
+
