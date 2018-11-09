@@ -126,6 +126,7 @@ STATICFILES_DIRS = [
 ]
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
+LOGIN_URL='/dj/accounts/login'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
