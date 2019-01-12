@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-from .models import EventType
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
+import django
+django.setup()
+from eventsignup.models import EventType
 #
 etype=EventType(event_type='custom')
 etype.save()
