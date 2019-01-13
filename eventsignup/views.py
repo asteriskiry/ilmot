@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 # Koko järjestelmän juuri (= /) sivu.
 def index(request):
-	return render(request, "eventsignup/index.html")
+	return render(request, "eventsignup/index.html",{'baseurl':helpers.getBaseurl(request)})
 
 # Tapahtumaan ilmoittautumisen jälkeen näytettävä kiitossivu.
 def thanks(request):
@@ -30,15 +30,15 @@ def thanks(request):
 		pass
 	except OverflowError:
 		pass
-	return render(request, "eventsignup/thankyou.html",{'event':event})
+	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request)})
 
 # Jos on max määrä osallistujia jo, näytetään tämä.
 def failed(request):
-	return render(request, "eventsignup/failed.html")
+	return render(request, "eventsignup/failed.html",{'baseurl':helpers.getBaseurl(request)})
 
 # GDPR/tietosuojatiedot
 def privacy(request):
-	return render(request, "eventsignup/privacy.html")
+	return render(request, "eventsignup/privacy.html",{'baseurl':helpers.getBaseurl(request)})
 
 # Tuottaa ja palauttaa oikeaann sivupaneeliin tulevat widgetin nippelitiedot.
 @login_required
@@ -88,7 +88,7 @@ def signup(request, uid):
 			quotas=helpers.getQuotaNames(event.quotas,True)
 	except AttributeError:
 		pass
-	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed,'page':'Ilmoittaudu'} )
+	return render(request, "eventsignup/signup.html", {'form': form, 'event':event, 'quotas':quotas, 'cansignup':canSignup, 'signuppassed':signupPassed,'page':'Ilmoittaudu','baseurl':helpers.getBaseurl(request)} )
 
 # Arkistoi tapahtuman erilliseen arkistoon (säilyttää vain olennaisimmat tapahtuman tiedot.
 # Poistaa tämän jälkeen varsinaisen tapahtuman kannasta osallistujineen.
@@ -213,3 +213,4 @@ def preview(request, uid):
 	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':helpers.getBaseurl(request)})
+
