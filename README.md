@@ -1,4 +1,4 @@
-# riskiwww
+# ilmojärjestelmä
 Asteriskin tapahtumailmoittautumisjärjestelmä
 
 Ohjeet devauksen aloittamiseen:
