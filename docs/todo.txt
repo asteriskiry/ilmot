@@ -1,2 +1,0 @@
-- tapahtumainfon lähetys suoraan rekisteröityyn emailiin sellaisessa muodossa, että sen voi suoraan forwardata (sis. mikä-missä-milloin)
--

@@ -1,0 +1,85 @@
+﻿Includet (eventsignup/templates/eventsignup/includes):
+	- breadcrum.html
+		- 'leivänmurunavigaatio'
+	- form_base.html (lomakikenttien muotoilut)
+		- kaikki lomakkeet käyttävät tätä
+	- geninfo.html
+		- Mitä-Missä-Milloin -osio
+	- header.html
+		- sivujen yläpalkki
+		- lähes kaikki käyttävät tätä
+	- navbar.html
+		- navigaatiopalkki
+		- mm. kirjaudu sisään- ja hallinnoi tapahtumia -napit
+
+Templatet (eventsignup/templates/eventsignup):
+	- base.html (sivun tyhjä peruslayout)
+		- kaikki templatet extendaa tämän
+		- sivujen eri osien nimet:
+			- header-content
+			- left-content
+			- right-content
+			- center-content
+	- edit.html
+		- tapahtuman muokkaussivu
+		- includes form_base.html
+		- includes header.html
+		- includes geninfo.html
+	- edit_preview.html
+		- tapahtuman tiedot, josta pääsee muokkaamaan
+		- includes header.html
+	- failed.html
+		- tapahtumaan liittyminen epäonnistui (täynnä tms.)
+		- includes header.html
+	- index.html
+		- index sivu
+		- includes header.html
+	- management.html
+		- "hallintapaneelin" layout
+		- includes header.html
+	- new_event.html
+		- uuden tapahtuman luontisivu
+		- includes form_base.html
+		- includes header.html
+		- includes breadcrum.html
+	- preview.html
+		- uuden tapahtuman luonnin jälkeen näytettävä sivu, jossa lomakkeen tiedot muotoiltuna
+		- includes header.html
+		- includes geninfo.html
+	- privacy.html
+		- GDPR-tietosuojaselvitys
+	- signup.html
+		- osallistujan tapahtumaan ilmoittautumissivu
+		- includes header.html
+		- includes form_base.html
+		- includes geninfo.html
+	- thankyou.html
+		- ilmoittautumisen onnistumisilmoitus
+
+Templatet (accounts/templates/accounts):
+	- login.html
+		- sisäänkirjautumissivu
+
+URL-ohjaukset (urls.py):
+	- riskiwww:
+		''-> views.home, name='home'; testausta varten?
+		'eventsignup/'-> include('eventsignup.urls'); 'landing page'
+		'accounts/' -> include('accounts.urls')
+		'admin/' -> admin.site.urls
+	- eventsignup
+		path('' -> views.index, name='index'
+		'management' -> views.management, name='management'
+		'thanks' -> views.thanks, name='thanks'
+		'failed' -> views.failed, name='failed'
+		'event/add/<str:type>' -> views.add,name='add'
+		'event/add/' -> views.formtype,name='formtype'
+		'event/<int:uid>/stats/' -> views.stats, name='stats'
+		'event/<int:uid>/preview/' -> views.preview, name='preview'
+		'event/<int:uid>/view/' -> views.info, name='view'
+		'event/<int:uid>/edit/' -> views.edit, name='edit'
+		'event/<int:uid>/edit/<str:type>/' -> views.edit, name='edit'
+		'event/<int:uid>/signup/' -> views.signup, name='signup'
+		'event/<int:uid>/delete/' -> views.archive, name='archive'
+		'privacy' -> views.privacy, name='privacy'
+	- accounts
+		r'^login/$' -> auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'
