@@ -15,14 +15,13 @@ def setupDjango():
 	eventTypes=True
 	from django.contrib.auth.models import User
 	from eventsignup.models import EventOwner
-	print('Luodaan uusi superuser: admin')
-	user = User.objects.create_superuser('admin', 'admin@localhost', input("Anna salasana: "))
+	print('Luodaan uusi superuser. Käyttäjätunnus/salasana: admin')
+	user = User.objects.create_superuser('admin', 'admin@localhost', 'admin')
 	user.save()
 	name='testuser'
 	email='testuser@example.com'
-	print('Luodaan uusi testikäyttäjä, joka voi luoda uusia tapahtumia. Käyttäjänimi on: testuser')
-	user = User.objects.create_user(name, email, input("Anna salasana: "))
-	print(user.get_username())
+	print('Luodaan uusi testikäyttäjä, joka voi luoda uusia tapahtumia. Käyttäjänimi/salasana on: testuser')
+	user = User.objects.create_user(name, email, 'testuser')
 	user.save()
 	user=User.objects.get(username=name)
 	print('Asetetaan testikäyttäjälle oikeat käyttöoikeudet.')
