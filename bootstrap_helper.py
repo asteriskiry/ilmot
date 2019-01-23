@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import os
+import urllib.request
+import shutil, zipfile
 
 # Luo tietokantaan muut vaaditut datat sekä
 # luo superuserin sekä testikäyttäjän, jolla on oikeat oikeudet kantaan.
@@ -39,8 +41,7 @@ def setupDjango():
 # Lataa ja purkaa Bulma css:n tiedostot oikeaan paikkaan.
 def setupBulma():
 	global bulma
-	import urllib.request
-	import shutil, zipfile
+	print('Asennetaan Bulma css.')
 	with urllib.request.urlopen('https://github.com/jgthms/bulma/releases/download/0.7.2/bulma-0.7.2.zip') as response, open('delete_me.zip', 'wb') as out_file:
 	    shutil.copyfileobj(response, out_file)
 	with zipfile.ZipFile('./delete_me.zip', 'r') as zipref:
@@ -48,6 +49,35 @@ def setupBulma():
 	os.unlink('./delete_me.zip')
 	shutil.rmtree('./mybulma/__MACOSX/')
 	bulma=True
+
+# Kääntää css:n valmiiksi käytettävään muotoon.
+def setupCss():
+	print('Käännetään css.')
+	import platform, tarfile, subprocess
+	system=platform.system()
+#	arch=platform.machine()
+	if(system=='Linux'):
+		with urllib.request.urlopen('https://github.com/sass/dart-sass/releases/download/1.16.1/dart-sass-1.16.1-linux-ia32.tar.gz') as response, open('delete_me.tar.gz', 'wb') as out_file:
+			shutil.copyfileobj(response, out_file)
+		with tarfile.open('delete_me.tar.gz','r:gz')as tarref:
+			tarfile.extractall(tarref)
+		#tähän sass:n ajaminen
+		subprocess.run(["./dart-sass/sass", "mybulma/sass/mystyles.scss static/css/mystyles.css"])	
+		os.unlink('./delete_me.tar.gz')
+		shutil.rmtree('./dart-sass/')
+	elif(system=='Darwin'):
+		print('OSX tukea ei ole implementoitu.')
+	elif(system=='Windows'):
+		with urllib.request.urlopen('https://github.com/sass/dart-sass/releases/download/1.16.1/dart-sass-1.16.1-windows-ia32.zip') as response, open('delete_me.zip', 'wb') as out_file:
+			shutil.copyfileobj(response, out_file)
+		with zipfile.ZipFile('./delete_me.zip', 'r') as zipref:
+			zipref.extractall('./')
+		#tähän sass:n ajaminen
+		subprocess.run(["./dart-sass/sass.bat", "mybulma/sass/mystyles.scss static/css/mystyles.css"])
+		os.unlink('./delete_me.zip')
+		shutil.rmtree('./dart-sass/')
+	else:
+		print('Ei tuettu järjestelmä.')
 
 def printResults():
 	if eventTypes:
@@ -69,5 +99,7 @@ accounts=False
 bulma=False
 setupDjango()
 setupBulma()
-printResults()
+setupCss()
+print('Valmis.')
+#printResults()
 
