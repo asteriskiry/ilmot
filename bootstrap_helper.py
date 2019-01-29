@@ -60,7 +60,7 @@ def setupCss():
 		with urllib.request.urlopen('https://github.com/sass/dart-sass/releases/download/1.16.1/dart-sass-1.16.1-linux-ia32.tar.gz') as response, open('delete_me.tar.gz', 'wb') as out_file:
 			shutil.copyfileobj(response, out_file)
 		with tarfile.open('delete_me.tar.gz','r:gz')as tarref:
-			tarfile.extractall(tarref)
+			tarref.extractall('./')
 		#tähän sass:n ajaminen
 		subprocess.run(["./dart-sass/sass", "mybulma/sass/mystyles.scss static/css/mystyles.css"])	
 		os.unlink('./delete_me.tar.gz')
