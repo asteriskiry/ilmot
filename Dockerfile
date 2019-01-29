@@ -8,6 +8,6 @@ RUN pip install -r requirements.txt
 
 RUN python manage.py makemigrations
 RUN python manage.py migrate
-RUN python manage.py createsuperuser
+#RUN python manage.py createsuperuser --username admin --email admin@localhost
 
-RUN python add_event_types.py
+RUN python bootstrap_helper.py
