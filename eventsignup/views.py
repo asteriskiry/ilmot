@@ -5,7 +5,7 @@ from itertools import chain
 import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
+from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
@@ -19,18 +19,19 @@ def index(request):
 def thanks(request):
 	# refereristä uid, jotta event.name ja owner.email saadaan tietokannasta.
 	event=None
-	temp=request.META['HTTP_REFERER'].split("/")
+	temp=None
 	try:
+		temp=request.META['HTTP_REFERER'].split("/")
 		for x in temp:
 			if(str.isdigit(x)):
 				uid=int(x)
 #		uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
 		event=helpers.getEvent(uid)
 	except KeyError:
-		pass
+		return HttpResponseRedirect('/eventsignup/')
 	except OverflowError:
 		pass
-	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request)})
+	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request),'page':'Ilmoittaudu'})
 
 # Jos on max määrä osallistujia jo, näytetään tämä.
 def failed(request):
