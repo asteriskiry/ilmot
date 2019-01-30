@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os
+import os,platform,subprocess
 import urllib.request
 import shutil, zipfile
 
@@ -10,6 +10,8 @@ def setupDjango():
 	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
 	import django
 	django.setup()
+#	if(system=='Linux):
+#		subprocess.run(["chmod", "666 /riskiwww/db.sqlite3"])
 	from eventsignup.models import EventType
 	for x in ['custom','muutapahtuma','ekskursio','vuosijuhlat','sitz','sitsit']:
 		etype=EventType(event_type=x)
@@ -45,16 +47,16 @@ def setupBulma():
 	with urllib.request.urlopen('https://github.com/jgthms/bulma/releases/download/0.7.2/bulma-0.7.2.zip') as response, open('delete_me.zip', 'wb') as out_file:
 	    shutil.copyfileobj(response, out_file)
 	with zipfile.ZipFile('./delete_me.zip', 'r') as zipref:
-		zipref.extractall('./mybulma/')
+		zipref.extractall('/riskiwww/mybulma/')
 	os.unlink('./delete_me.zip')
-	shutil.rmtree('./mybulma/__MACOSX/')
+	shutil.rmtree('/riskiwww/mybulma/__MACOSX/')
 	bulma=True
 
 # Kääntää css:n valmiiksi käytettävään muotoon.
 def setupCss():
 	print('Käännetään css.')
-	import platform, tarfile, subprocess
-	system=platform.system()
+	import tarfile
+
 #	arch=platform.machine()
 	if(system=='Linux'):
 		with urllib.request.urlopen('https://github.com/sass/dart-sass/releases/download/1.16.1/dart-sass-1.16.1-linux-ia32.tar.gz') as response, open('delete_me.tar.gz', 'wb') as out_file:
@@ -62,7 +64,7 @@ def setupCss():
 		with tarfile.open('delete_me.tar.gz','r:gz')as tarref:
 			tarref.extractall('./')
 		#tähän sass:n ajaminen
-		subprocess.run(["./dart-sass/sass", "mybulma/sass/mystyles.scss static/css/mystyles.css"])	
+		subprocess.run(["./dart-sass/sass", "mybulma/sass/mystyles.scss static/css/mystyles.css"])
 		os.unlink('./delete_me.tar.gz')
 		shutil.rmtree('./dart-sass/')
 	elif(system=='Darwin'):
@@ -93,13 +95,13 @@ def printResults():
 	else:
 		print('Bulma paketin purku epäonnistui')
 
-
+system=platform.system()
 eventTypes=False
 accounts=False
 bulma=False
 setupDjango()
 setupBulma()
-setupCss()
+#setupCss()
 print('Valmis.')
 #printResults()
 
