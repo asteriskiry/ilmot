@@ -80,7 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
       		</a>
     	</p>
     	</div></div>
-    	
+    	{% if request.user.is_authenticated %}
+    	<div class="navbar-item">
+ 	 <div class="field">
+ 	   <p class="control">
+      		<a class="button is-primary is-rounded" href="/accounts/logout">
+        	<span>
+        	Kirjaudu ulos
+        	</span>
+      		</a>
+    	</p>
+    	</div></div>
+    	{% endif %}
     {% endif %}
     </div>
 	{#% endblock %#}
