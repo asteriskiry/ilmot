@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Kaikki uniikit tapahtumatyypit (esim. sitsit).
 class EventType(models.Model):
@@ -18,7 +21,8 @@ class EventOwner(models.Model):
 class Events(models.Model):
 	event_type=models.ForeignKey(EventType, to_field='event_type' ,on_delete=models.CASCADE)
 	uid=models.PositiveIntegerField(primary_key=True)
-	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
+#	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
+	owner=models.ForeignKey(User, to_field='username', on_delete=models.CASCADE)
 	def __str__(self):
 		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t) : "+str(self.owner)
 
@@ -32,7 +36,8 @@ class CommonInfo(models.Model):
 	#kaikki yhteiset attribuutit tähän
 	uid=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
 	event_type=models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE,editable=False)
-	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
+#	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
+	owner=models.ForeignKey(User,to_field='username', on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
 	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
 	date=models.DateField(verbose_name='Tapahtuman pitopäivä')
@@ -111,3 +116,4 @@ class Archive(models.Model):
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
 	def __str__(self):
 		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description
+

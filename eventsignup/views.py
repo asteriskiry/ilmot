@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from itertools import chain
+from django.contrib.auth import get_user_model
 
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
@@ -109,12 +110,14 @@ def add(request,**kwargs):
 		uid=helpers.getUid()
 		form=helpers.getForm(event_type,request)
 		if form.is_valid():
+			User = get_user_model()
 			event=Events(event_type,uid,request.user.get_username())
 			event.save()
 			data=form.save(commit=False)
 			data.uid=Events.objects.get(uid=uid)
 			data.event_type=EventType.objects.get(event_type=event_type)
-			data.owner=EventOwner.objects.get(name=request.user.get_username())
+#			data.owner=EventOwner.objects.get(name=request.user.get_username())
+			data.owner=User.objects.get(username=request.user.get_username())
 			#data.description = data.description.replace("\n", "</p><p>")
 			data.save()
 			helpers.sendEmail(data,request)
@@ -210,7 +213,7 @@ def edit(request, **kwargs):
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
 def preview(request, uid):
-	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
+#	url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
 	event=helpers.getEvent(uid)
 	return render(request, "eventsignup/preview.html", {'event': event,'baseurl':helpers.getBaseurl(request)})
 

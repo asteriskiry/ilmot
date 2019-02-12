@@ -18,7 +18,7 @@ def setupDjango():
 		etype.save()
 	eventTypes=True
 	from django.contrib.auth.models import User
-	from eventsignup.models import EventOwner
+#	from eventsignup.models import EventOwner
 	print('Luodaan uusi superuser. Käyttäjätunnus/salasana: admin')
 	user = User.objects.create_superuser('admin', 'admin@localhost', 'admin')
 	user.save()
@@ -36,8 +36,8 @@ def setupDjango():
 #			permission=Permission.objects.get(codename=x)
 			user.user_permissions.add(Permission.objects.get(codename=x))
 	user.save()
-	eowner=EventOwner(email=email,name=name)
-	eowner.save()
+#	eowner=EventOwner(email=email,name=name)
+#	eowner.save()
 	accounts=True
 
 # Lataa ja purkaa Bulma css:n tiedostot oikeaan paikkaan.
