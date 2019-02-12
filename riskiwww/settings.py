@@ -27,8 +27,8 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_random_secret_key() if DEBUG else config('SECRET_KEY')
 
-#if not DEBUG:
-if DEBUG:
+if not DEBUG:
+#if DEBUG:
 	ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
