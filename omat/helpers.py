@@ -70,7 +70,7 @@ def genMsg(data,request):
 			prize=str(data.prize)+" €"
 	except:
 		prize="ilmainen"
-	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: "+getBaseurl(request)+"/eventsignup/event/"+str(data.uid.uid)+"/signup\n\nMikä-Missä-Milloin:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
+	return data.name+"\n\n"+str(data.owner)+"\n\n"+data.description+"\n\nIlmoittaudu tästä: "+getBaseurl(request)+"/event/"+str(data.uid.uid)+"/signup\n\nTL;DR:\n\nMikä: "+data.name+"\nMissä: "+data.place+"\nMilloin: "+str(data.date)+" klo: "+str(data.start_time)+"\nMitä maksaa: "+prize+"\n"
 
 # Lähettää tapahtuman tiedot
 # käyttäjälle rekisteröityyn sähköpostiosoitteeseen.
@@ -131,7 +131,7 @@ def getBaseurl(request):
 	protocol='http'
 	if(request.is_secure()):
 		protocol='https'
-	return protocol+'://'+request.META['HTTP_HOST']+'/eventsignup'
+	return protocol+'://'+request.META['HTTP_HOST']
 
 # Palauttaa dictionaryn, jossa on {uid:osallistujamäärä}
 def getParticipantCount():

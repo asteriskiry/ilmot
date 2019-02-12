@@ -23,11 +23,11 @@ from . import views
 
 urlpatterns = [
     #älä poista homea, käytetään eventsignupin testeissä
-    path('', views.home, name='home'),
-	path('eventsignup/', include('eventsignup.urls')),
+#    path('', views.home, name='home'),
+	path('', include('eventsignup.urls')),
 	path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
-    
+
 
 ]
 if settings.DEBUG:

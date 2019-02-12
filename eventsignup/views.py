@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from itertools import chain
-import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
@@ -28,7 +27,7 @@ def thanks(request):
 #		uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
 		event=helpers.getEvent(uid)
 	except KeyError:
-		return HttpResponseRedirect('/eventsignup/')
+		return HttpResponseRedirect('/')
 	except OverflowError:
 		pass
 	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request),'page':'Ilmoittaudu'})
@@ -53,18 +52,18 @@ def signup(request, uid):
 	event_type=temp.event_type.event_type
 	event=helpers.getEvent(uid)
 	if(Participant.objects.filter(event_type=uid).count()==event.max_participants):
-		return HttpResponseRedirect('/eventsignup/failed')
+		return HttpResponseRedirect('/failed')
 	if(request.method == 'POST'):
 		form=helpers.getSignupForm(event_type,request)
 		if(form.is_valid()):
 			#käsittele lomake
 			if(helpers.isQuotaFull(event,form.cleaned_data)):
-				return HttpResponseRedirect('/eventsignup/failed')
+				return HttpResponseRedirect('/failed')
 			data=form.save(commit=False)
 			data.miscInfo=helpers.getMiscInfo(form.cleaned_data)
 			data.event_type=temp
 			data.save()
-			return HttpResponseRedirect('/eventsignup/thanks')
+			return HttpResponseRedirect('/thanks')
 	else:
 		quotas=None
 		canSignup=False
@@ -119,7 +118,7 @@ def add(request,**kwargs):
 			#data.description = data.description.replace("\n", "</p><p>")
 			data.save()
 			helpers.sendEmail(data,request)
-			return HttpResponseRedirect('/eventsignup/event/'+str(uid)+'/preview/')
+			return HttpResponseRedirect('/event/'+str(uid)+'/preview/')
 	else:
 		if(event_type=='sitsit'):
 			form = SitzForm()
@@ -140,15 +139,15 @@ def formtype(request,**kwargs):
 	if(request.method=='POST'):
 		temp=request.POST.get('choice')
 		if(temp=='sitsit'):
-			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+			return HttpResponseRedirect('/event/add/'+temp)
 		elif(temp=='vuosijuhlat'):
-			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+			return HttpResponseRedirect('/event/add/'+temp)
 		elif(temp=='ekskursio'):
-			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+			return HttpResponseRedirect('/event/add/'+temp)
 		elif(temp=='muutapahtuma'):
-			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+			return HttpResponseRedirect('/event/add/'+temp)
 		elif(temp=='custom'):
-			return HttpResponseRedirect('/eventsignup/event/add/'+temp)
+			return HttpResponseRedirect('/event/add/'+temp)
 	else:
 		form=SelectTypeForm()
 	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
