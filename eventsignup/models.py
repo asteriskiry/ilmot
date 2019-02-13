@@ -100,11 +100,16 @@ class Participant(models.Model):
 	event_type=models.ForeignKey(Events, on_delete=models.CASCADE,editable=False)
 	name=models.CharField(max_length=200,verbose_name='Nimi')
 	email=models.EmailField(verbose_name='Sähköpostiosoite')
-#	Tämä kenttä sisältää tiedot: holillinen/holiton, liha/kasvis, jäsen/ei jäsen, onko maksanut, avec, plaseeraustoive, mihin kiintiöön kuuluu.
-#	datan tulee olla muodossa {lihaton: arvo, holiton:arvo, member:arvo, hasPaid:arvo, avec:arvo, plaseeraus:arvo, quota:arvo}
+	vege=models.NullBooleanField(blank=True,null=True)
+	nonholic=models.NullBooleanField(blank=True,null=True)
+	avec=models.CharField(max_length=100,blank=True,null=True)
+	plaseeraus=models.CharField(max_length=500,blank=True,null=True)
+	quota=models.CharField(max_length=200,blank=True,null=True)
+#	Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
+#	datan tulee olla muodossa {member:arvo, hasPaid:arvo}
 	miscInfo=models.TextField(editable=False)
 	def __str__(self):
-		return self.name+" ("+self.email+"), muut tiedot: "+self.miscInfo
+		return self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', muut tiedot:'+self.miscInfo
 
 # Arkistotaulu.
 class Archive(models.Model):

@@ -61,6 +61,17 @@ def signup(request, uid):
 			if(helpers.isQuotaFull(event,form.cleaned_data)):
 				return HttpResponseRedirect('/failed')
 			data=form.save(commit=False)
+			lihaton=False
+			holiton=True
+			if(form.cleaned_data['lihaton']=='kasvis'):
+				lihaton=True
+			if(form.cleaned_data['holiton']=='holillinen'):
+				holiton=False
+			data.vege=lihaton
+			data.nonholic=holiton
+			data.avec=form.cleaned_data['avec']
+			data.plaseeraus=form.cleaned_data['plaseeraus']
+			data.quota=request.POST['organization']
 			data.miscInfo=helpers.getMiscInfo(form.cleaned_data)
 			data.event_type=temp
 			data.save()

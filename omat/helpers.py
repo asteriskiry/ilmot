@@ -116,16 +116,7 @@ def getQuotaNames(quotas,namesOnly):
 
 # Generoi tapahtumaan ilmoittautujaan tallennettavia lisätietoja.
 def getMiscInfo(data):
-	lihaton=False
-	holiton=True
-	try:
-		if(data['lihaton']=='kasvis'):
-			lihaton=True
-		if(data['holiton']=='holillinen'):
-			holiton=False
-	except:
-		return json.dumps({'foo':'bar'})
-	return json.dumps({'lihaton': lihaton, 'holiton':holiton, 'member':False, 'hasPaid':False, 'avec':data['avec'], 'plaseeraus':data['plaseeraus'],'quota':data['name']})
+	return json.dumps({'member':False, 'hasPaid':False})
 
 def getBaseurl(request):
 	protocol='http'
