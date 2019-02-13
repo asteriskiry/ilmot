@@ -20,6 +20,7 @@ urlpatterns = [
     # preview uuden tapahtuman luomisen jälkeen
     path('event/<int:uid>/preview/', views.preview, name='preview'),
      # tapahtuman info
+    path('event/<int:uid>/view/<str:type>', views.info, name='view'),
     path('event/<int:uid>/view/', views.info, name='view'),
     # tapahtuman muokkaus
     path('event/<int:uid>/edit/',views.edit, name='edit'),

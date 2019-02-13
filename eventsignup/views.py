@@ -168,9 +168,16 @@ def formtype(request,**kwargs):
 		form=SelectTypeForm()
 	return render(request, "eventsignup/new_event.html", {'form': form,'choice':True,'page':'Lisää tapahtuma','baseurl':helpers.getBaseurl(request)})
 
+# Näyttää tapahtuman tiedot ja osallistujalistan.
 @login_required
-def info(request, uid):
-	pass
+def info(request, uid,**kwargs):
+	just_list=False
+	if(kwargs and kwargs['type']=='list'):
+		just_list=True
+	participants=Participant.objects.filter(event_type=uid)
+	event=helpers.getEvent(uid)
+	other=False
+	return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
 
 # Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".
 # Listaa sisäänkirjautuneen käyttäjän nykyiset ja menneet (ei arkistoidut) tapahtumat.

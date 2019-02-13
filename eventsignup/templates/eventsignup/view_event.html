@@ -1,0 +1,91 @@
+{% extends 'eventsignup/base.html' %}
+{% include 'eventsignup/includes/header.html' %}
+
+{% block center-content %}
+{% include 'eventsignup/includes/breadcrum.html' %}
+{% if not just_list %}
+<div class="content">
+<p>Alla on tapahtuman tiedot. Tietojen alta löytyy lista tapahtumaan osallistujista.</p>
+<hr>
+{% if event.pic %}
+<img src={{ event.pic.url }} alt={{ event.name }}></img>
+{% endif %}
+<h1>
+{{ event.name }}
+</h1>
+<p>{{ event.owner }}</p>
+<p>
+{{ event.description | safe }}
+</p>
+<p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
+    {% include 'eventsignup/includes/geninfo.html' %}
+    <hr>
+    <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
+</div>
+{% endif %}
+<table class="table is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Nimi</th>
+      <th>sähköposti</th>
+      {% if not other %}
+      <th>Kasvis</th>
+      <th>Holiton</th>
+      <th>Avec</th>
+      <th>Plaseeraus</th>
+      <th>Kiintiö</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Nimi</th>
+      <th>Sähköposti</th>
+      {% if not other  %}
+      <th>Kasvis</th>
+      <th>Holiton</th>
+      <th>Avec</th>
+      <th>Plaseeraus</th>
+      <th>Kiintiö</th>
+      {% endif %}
+    </tr>
+  </tfoot>
+  <tbody>
+   {% for field in participants %}
+    <tr>
+      {#<th>1</th>#}
+      <td>{{field.name}}</td>
+      <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
+      {% if not other %}
+      <td>
+      {% if field.vege %}
+      	Kyllä
+      {% endif %}
+      </td>
+      <td>
+      {% if field.nonholic %}
+      Kyllä
+      {% endif %}
+      </td>
+	<td>
+      {% if field.avec %}
+      {{field.avec}}
+      {% else %}
+      
+      
+      {% endif %}
+      </td>
+      <td>
+      {% if field.plaseeraus %}
+      {{field.plaseeraus}}
+      {% else %}
+      
+      {% endif %}
+      </td>
+      <td>{{field.quota}}</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+     </tbody>
+</table>
+{% endblock %}
