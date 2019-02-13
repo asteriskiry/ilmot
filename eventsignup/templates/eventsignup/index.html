@@ -5,6 +5,7 @@
 {% block center-content %}
 <div class="content">
 <h4>Tervetuloa Asteriski ry:n tapahtumailmoittautusmisjärjestelmään.</h4>
+<p>Järjestelmä on beta testauksessa. Virheitä ja ongelmia voi esiintyä käytön aikana. Ilmoitathan mahdollisista ongelmista ylläpidolle sähköpostilla osoitteeseen: www-asteriski(at)utu.fi. Liitäthän virheraporttii mahdollisimman tarkasti mikä virhe tapahtui, mitä yritit tehdä ja millä sivulla olit, kun virhe tapahtui. Ylläpitotiimmi kiittää.</p>
 <p>Mikäli yritit ilmoittautua johonkin tapahtumaan, ole hyvä ja tarkista saamasi tapahtuman ilmoittautumislinkki. Voit ilmoittautua ainoastaan sen linkin välityksellä. Tarvittaessa ota yhteyttä tapahtuman järjestäjään.</p>
 <p>
 {% if not request.user.is_authenticated %}
@@ -14,6 +15,6 @@ Hallinnoidaksesi tapahtumia klikkaa Hallinnoi tapahtumia nappia.
 {% endif %}
 </p>
 <p>Mikäli sinulla on kysyttävää tai haluat antaa palautetta palvelusta tai tarvitset käyttäjätunnuksen palveluun, ota yhteyttä Asteriski Ry:n hallitukseen: asteriski(at)utu.fi.</p>
-<p>Palveluun liittyvissä teknisissä kysymyksissä ota yhteyttä palvelun ylläpitäjään: www-asteriski@utu.fi</p>
+<p>Palveluun liittyvissä teknisissä kysymyksissä ota yhteyttä palvelun ylläpitäjään: www-asteriski(at)utu.fi</p>
 </div>
 {% endblock %}
