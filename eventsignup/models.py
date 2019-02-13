@@ -24,7 +24,7 @@ class Events(models.Model):
 #	owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
 	owner=models.ForeignKey(User, to_field='username', on_delete=models.CASCADE)
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t) : "+str(self.owner)
+		return str(self.event_type)+", uid: "+str(self.uid)+", tapahtuman järjestäjä(t) : "+str(self.owner)
 
 # Eri tapahtumatyyppien yhteiset attribuutit.
 # Abstrakti yläluokka.
@@ -109,7 +109,7 @@ class Participant(models.Model):
 #	datan tulee olla muodossa {member:arvo, hasPaid:arvo}
 	miscInfo=models.TextField(editable=False)
 	def __str__(self):
-		return self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', muut tiedot:'+self.miscInfo
+		return str(self.event_type)+', '+ self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', muut tiedot:'+self.miscInfo
 
 # Arkistotaulu.
 class Archive(models.Model):
