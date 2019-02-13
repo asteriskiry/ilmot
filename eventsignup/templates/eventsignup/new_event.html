@@ -23,10 +23,12 @@
 <script type="text/javascript">
  $(function() {
        $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_signup_starts").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_signup_ends").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_signup_starts_date").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#id_signup_ends_date").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
         $("#id_start_time").timepicker({timeFormat:'H:i'});
+        $("#id_signup_starts_time").timepicker({timeFormat:'H:i'});
+        $("#id_signup_ends_time").timepicker({timeFormat:'H:i'});
  });
 </script>
 {% endif %}

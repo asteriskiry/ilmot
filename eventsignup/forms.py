@@ -6,13 +6,21 @@ from .widgets import *
 # Lomake sitsit-tyypille.
 class SitzForm(ModelForm):
 	quotas=forms.CharField(max_length=500,required=False,label='Järjestävien tahojen osallistujakiintiöt',help_text='Järjestö 1: lkm, Järjestö 2: lkm ...')
+	signup_starts_date=forms.DateField(required=True,label='Ilmoittautumisen alkamispäivä')
+	signup_starts_time=forms.TimeField(required=True,label='Ilmoittautumisen alkamisaika')
+	signup_ends_date=forms.DateField(required=False,label='Ilmoittautumisen päättymispäivä')
+	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	class Meta:
 		model = Sitz
-		fields = '__all__'
+#		fields = '__all__'
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','quotas']
 
 # Lomake vuosijuhlat-tyypille.
 class AnnualfestForm(ModelForm):
-
+	signup_starts_date=forms.DateField(required=True,label='Ilmoittautumisen alkamispäivä')
+	signup_starts_time=forms.TimeField(required=True,label='Ilmoittautumisen alkamisaika')
+	signup_ends_date=forms.DateField(required=False,label='Ilmoittautumisen päättymispäivä')
+	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 #	def __init__(self, *args, **kwargs):
 #		super(AnnualfestForm, self).__init__(*args, **kwargs)
 #		self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
@@ -22,26 +30,38 @@ class AnnualfestForm(ModelForm):
 
 	class Meta:
 		model=Annualfest
-		fields='__all__'
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time']
 
 # Lomake muu-tyypille.
 class OtherEventForm(ModelForm):
+	signup_starts_date=forms.DateField(required=True,label='Ilmoittautumisen alkamispäivä')
+	signup_starts_time=forms.TimeField(required=True,label='Ilmoittautumisen alkamisaika')
+	signup_ends_date=forms.DateField(required=False,label='Ilmoittautumisen päättymispäivä')
+	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	class Meta:
 		model=OtherEvent
-		fields='__all__'
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants']
 
 # Lomake ekskursio-tyypille.
 class ExcursionForm(ModelForm):
+	signup_starts_date=forms.DateField(required=True,label='Ilmoittautumisen alkamispäivä')
+	signup_starts_time=forms.TimeField(required=True,label='Ilmoittautumisen alkamisaika')
+	signup_ends_date=forms.DateField(required=False,label='Ilmoittautumisen päättymispäivä')
+	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	class Meta:
 		model=Excursion
-		fields='__all__'
+		fields=['name','place','date','end_date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time']
 
 # Lomake custom tapahtumalle.
 class CustomForm(ModelForm):
+	signup_starts_date=forms.DateField(required=True,label='Ilmoittautumisen alkamispäivä')
+	signup_starts_time=forms.TimeField(required=True,label='Ilmoittautumisen alkamisaika')
+	signup_ends_date=forms.DateField(required=False,label='Ilmoittautumisen päättymispäivä')
+	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	#tähän jotain kenttiä vielä!!!
 	class Meta:
 		model=OtherEvent
-		fields='__all__'
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants']
 
 # Osallistumislomake sitsit-tyypille.
 class SitzSignupForm(ModelForm):
