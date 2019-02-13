@@ -84,7 +84,9 @@
       </td>
       <td>{{field.quota}}</td>
       {% endif %}
-    </tr>
+    <td><form method="post" name="uid_{{event.uid.uid}}">{% csrf_token %}<input type="hidden" name="uid" value="{{event.uid.uid}}"/><input type="hidden" name="user" value="{{field.email}}" />
+    <button type="submit" class="button is-rounded is-danger">Poista</button>
+    </form></td></tr>
     {% endfor %}
      </tbody>
 </table>
