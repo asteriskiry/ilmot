@@ -128,8 +128,26 @@ STATICFILES_DIRS = [
 ]
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
-LOGOUT_REDIRECT_URL = '/eventsignup'
+LOGOUT_REDIRECT_URL = '/'
 #LOGIN_URL='/dj/accounts/login'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+	EMAIL_BACKEND=config('EMAIL_BACKEND')
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
+FIRST_DAY_OF_WEEK=1
+if not DEBUG:
+	EMAIL_HOST=config('EMAIL_HOST')
+	EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+	EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+	EMAIL_PORT=config('EMAIL_PORT')
+	SECURE_CONTENT_TYPE_NOSNIFF=config('SECURE_CONTENT_TYPE_NOSNIFF',cast=bool)
+	SECURE_BROWSER_XSS_FILTER=config('SECURE_BROWSER_XSS_FILTER',cast=bool)
+	SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE',cast=bool)
+	CSRF_COOKIE_SECURE=config('CSRF_COOKIE_SECURE',cast=bool)
+	X_FRAME_OPTIONS=config('X_FRAME_OPTIONS')
+	SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE',cast=bool)
+
+
+
