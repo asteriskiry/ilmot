@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from itertools import chain
 from django.contrib.auth import get_user_model
 
-from django.http import HttpResponseRedirect, HttpResponse
-from .models import EventType, EventOwner, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
+from django.http import HttpResponseRedirect
+from .models import EventType, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
@@ -107,7 +105,13 @@ def signup(request, uid):
 # Arkisto on vain ylläpitäjien nähtävissä.
 @login_required
 def archive(request, uid):
-	pass
+    event=helpers.getEvent(uid)
+    archiveEvent=Archive(event_type=event.event_type,name=event.name,description=event.description,participants=Participant.objects.filter(event_type=uid).count(),owner=event.owner,date=event.date,place=event.place,pic=event.pic,prize=event.prize)
+    archiveEvent.save()
+    Events.objects.filter(uid=uid).delete()
+    return render(request, "eventsignup/delete_success.html", {'baseurl':helpers.getBaseurl(request)})
+
+
 
 # Tuottaa lomakeen uuden tapahtuman luomiseksi ja käsittelee sen.
 @login_required
@@ -217,7 +221,7 @@ def management(request):
 	 'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
 	 'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
 	 'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
-	 'baseurl':helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop':desktop,
+	 'baseurl':helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop':desktop, 'management': True,
 	  }
 	 )
 
