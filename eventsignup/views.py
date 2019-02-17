@@ -14,10 +14,15 @@ def index(request):
 	return render(request, "eventsignup/index.html",{'baseurl':helpers.getBaseurl(request)})
 
 # Tapahtumaan ilmoittautumisen jälkeen näytettävä kiitossivu.
-def thanks(request):
+def thanks(request,**kwargs):
 	# refereristä uid, jotta event.name ja owner.email saadaan tietokannasta.
 	event=None
 	temp=None
+	if(kwargs):
+		if(kwargs['type']=='2'):
+			reserve=True
+		else:
+			reserve=False
 	try:
 		temp=request.META['HTTP_REFERER'].split("/")
 		for x in temp:
@@ -29,7 +34,7 @@ def thanks(request):
 		return HttpResponseRedirect('/')
 	except OverflowError:
 		pass
-	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request),'page':'Ilmoittaudu'})
+	return render(request, "eventsignup/thankyou.html",{'event':event,'baseurl':helpers.getBaseurl(request),'page':'Ilmoittaudu','reserve':reserve})
 
 # Jos on max määrä osallistujia jo, näytetään tämä.
 def failed(request):
@@ -50,7 +55,8 @@ def signup(request, uid):
 	temp=Events.objects.get(uid=uid)
 	event_type=temp.event_type.event_type
 	event=helpers.getEvent(uid)
-	if(Participant.objects.filter(event_type=uid).count()==event.max_participants):
+	maxParticipants=Participant.objects.filter(event_type=uid,reserve_spot=False).count()==event.max_participants
+	if(not event.has_reserve_spots and maxParticipants):
 		return HttpResponseRedirect('/failed')
 	if(request.method == 'POST'):
 		form=helpers.getSignupForm(event_type,request)
@@ -65,15 +71,24 @@ def signup(request, uid):
 				lihaton=True
 			if(form.cleaned_data['holiton']=='holillinen'):
 				holiton=False
+			if(event.has_reserve_spots and maxParticipants):
+				data.reserve_spot=True
+				reserve=2
+			else:
+				data.reserve_spot=False
+				reserve=1
 			data.vege=lihaton
 			data.nonholic=holiton
 			data.avec=form.cleaned_data['avec']
 			data.plaseeraus=form.cleaned_data['plaseeraus']
-			data.quota=request.POST['organization']
+			if('organization' in request.POST):
+				data.quota=request.POST['organization']
+			else:
+				data.quota=''
 			data.miscInfo=helpers.getMiscInfo(form.cleaned_data)
 			data.event_type=temp
 			data.save()
-			return HttpResponseRedirect('/thanks')
+			return HttpResponseRedirect('/thanks/'+str(reserve))
 	else:
 		quotas=None
 		canSignup=False
@@ -124,7 +139,7 @@ def add(request,**kwargs):
 	if(request.method=='POST'):
 		uid=helpers.getUid()
 		form=helpers.getForm(event_type,request)
-		if form.is_valid():
+		if(form.is_valid()):
 			User = get_user_model()
 			event=Events(event_type,uid,request.user.get_username())
 			event.save()
@@ -182,10 +197,11 @@ def info(request, uid,**kwargs):
 		just_list=False
 		if(kwargs and kwargs['type']=='list'):
 			just_list=True
-		participants=Participant.objects.filter(event_type=uid)
+		participants=Participant.objects.filter(event_type=uid,reserve_spot=False)
+		participants_reserve=Participant.objects.filter(event_type=uid,reserve_spot=True)
 		event=helpers.getEvent(uid)
 		other=False
-		return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
+		return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'participants_reserve':participants_reserve,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
 
 # Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".
 # Listaa sisäänkirjautuneen käyttäjän nykyiset ja menneet (ei arkistoidut) tapahtumat.

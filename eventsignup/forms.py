@@ -13,7 +13,7 @@ class SitzForm(ModelForm):
 	class Meta:
 		model = Sitz
 #		fields = '__all__'
-		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','quotas']
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','quotas','has_reserve_spots']
 
 # Lomake vuosijuhlat-tyypille.
 class AnnualfestForm(ModelForm):
@@ -30,7 +30,7 @@ class AnnualfestForm(ModelForm):
 
 	class Meta:
 		model=Annualfest
-		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time']
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','has_reserve_spots']
 
 # Lomake muu-tyypille.
 class OtherEventForm(ModelForm):
@@ -40,7 +40,7 @@ class OtherEventForm(ModelForm):
 	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	class Meta:
 		model=OtherEvent
-		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants']
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants','has_reserve_spots']
 
 # Lomake ekskursio-tyypille.
 class ExcursionForm(ModelForm):
@@ -50,7 +50,7 @@ class ExcursionForm(ModelForm):
 	signup_ends_time=forms.TimeField(required=False,label='Ilmoittautumisen päättymisaika')
 	class Meta:
 		model=Excursion
-		fields=['name','place','date','end_date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time']
+		fields=['name','place','date','end_date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','has_reserve_spots']
 
 # Lomake custom tapahtumalle.
 class CustomForm(ModelForm):
@@ -61,7 +61,7 @@ class CustomForm(ModelForm):
 	#tähän jotain kenttiä vielä!!!
 	class Meta:
 		model=OtherEvent
-		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants']
+		fields=['name','place','date','start_time','description','pic','prize','max_participants','signup_starts_date','signup_starts_time','signup_ends_date','signup_ends_time','min_participants','has_reserve_spots']
 
 # Osallistumislomake sitsit-tyypille.
 class SitzSignupForm(ModelForm):

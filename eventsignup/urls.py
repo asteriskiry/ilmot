@@ -9,6 +9,7 @@ urlpatterns = [
     # hallintakonsoli
     path('management',views.management, name='management'),
     # kiitossivu
+    path('thanks/<int:type>',views.thanks, name='thanks'),
     path('thanks',views.thanks, name='thanks'),
     # Ilmoittautuminen epäonnistui (koska max osallistujia jo) sivu
     path('failed',views.failed, name='failed'),

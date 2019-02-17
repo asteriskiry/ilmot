@@ -48,6 +48,7 @@ class CommonInfo(models.Model):
 	max_participants=models.PositiveIntegerField(blank=True, null=True,verbose_name='Maksimimäärä osallistujia')
 	signup_starts=models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
 	signup_ends=models.DateTimeField(blank=True, null=True,verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
+	has_reserve_spots=models.BooleanField(verbose_name='Ota ilmoittautumisen varasijat käyttöön')
 
 	def save(self, *args, **kwargs):
 		self.description = mark_safe(self.description.replace("\n", "<br/>"))
@@ -105,6 +106,7 @@ class Participant(models.Model):
 	avec=models.CharField(max_length=100,blank=True,null=True)
 	plaseeraus=models.CharField(max_length=500,blank=True,null=True)
 	quota=models.CharField(max_length=200,blank=True,null=True)
+	reserve_spot=models.BooleanField()
 #	Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
 #	datan tulee olla muodossa {member:arvo, hasPaid:arvo}
 	miscInfo=models.TextField(editable=False)
