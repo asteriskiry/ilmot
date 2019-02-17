@@ -184,11 +184,15 @@ if __name__ == '__main__':
             setupEnv(True)
             printEnv()
             exit()
+        elif(sys.argv[1] == '-s'):
+            setupEnv(False)
+            setupDjango()
+            setupBulma()
+            setupCss()
+            printEnv()
+            exit()
         else:
             exit()
     else:
-        setupEnv(False)
-        setupDjango()
-        setupBulma()
-        setupCss()
-        printEnv()
+        print('Jotta asennus onnistuu kunnolla, asenna paketti libmysqlclient-dev järjestelmän paketinhallinnalla mikäli sitä ei ole jo asennettu.\nVarmista myös, että käytettäväksi tarkoitettu tietokanta on olemassa ja käyttäjällä on tarvittavat lisää/poista/muokkaa yms oikeudet.\nAja sitten skripti uudestaan: python3 '+sys.argv[0]+' -s')
+
