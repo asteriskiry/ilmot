@@ -26,7 +26,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_random_secret_key() if DEBUG else config('SECRET_KEY')
+if DEBUG:
+    SECRET_KEY = get_random_secret_key()
+else:
+    SECRET_KEY = config('SECRET_KEY')
 
 if not DEBUG:
 #if DEBUG:
@@ -111,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'fi-fi'
 
-TIME_ZONE = 'EET'
+TIME_ZONE = 'Europe/Helsinki'
 
 USE_I18N = True
 
