@@ -63,7 +63,7 @@ def getDBInfo():
     db_pw = input('Anna salasana: ')
     db_host = input('Anna tietokantapalvelimen ip osoite: ')
     db_port = input('Anna käytetty portti: ')
-    return [db_name, db_user, db_pw, db_host, db_port]
+    return [db_name.replace('\n', ''), db_user.replace('\n', ''), db_pw.replace('\n', ''), db_host.replace('\n', ''), db_port.replace('\n', '')]
 
 
 def getSmtpInfo():
@@ -71,7 +71,7 @@ def getSmtpInfo():
     email_user = input('Anna smtp palvelimen käyttäjänimi (jos tarvitaan): ')
     email_pw = input('Anna salasana (jos tarvitaan): ')
     email_port = input('Anna smtp palvelimen käyttämä portti: ')
-    return [email_host, email_user, email_pw, email_port]
+    return [email_host.replace('\n', ''), email_user.replace('\n', ''), email_pw.replace('\n', ''), email_port.replace('\n', '')]
 
 
 # Valmistelee järjestelmätason käyttöympäristön kuntoon ja
@@ -100,11 +100,11 @@ def setupEnv(rerun):
             with open('./riskiwww/.env', 'r') as f:
                 for line in f:
                     if('DATABASE_URL' in line):
-                        oldDBSettings = line
+                        oldDBSettings = line.replace('\n', '')
                     if('EMAIL' in line):
-                        oldSmtpSettings.append(line)
+                        oldSmtpSettings.append(line.replace('\n', ''))
                     if('ALLOWED_HOSTS' in line):
-                        oldUrl = line
+                        oldUrl = line.replace('\n', '')
         except IOError:
             print('Virhe! Vanhaa .env tiedostoa ei löydy. Asetusten uudelleen määrittely on pakollista.\n')
             forcedInfo = True
@@ -117,9 +117,11 @@ def setupEnv(rerun):
         f.write('DEBUG=False\n')
         if(forcedInfo or (rerun and input('Uusitaanko url tiedot? [k/e]: ').casefold() == 'k')):
             url = input('Anna url osoite, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
+            url = url.replace('\n', '')
             writeHost = True
         elif(not rerun):
             url = input('Anna url osoite, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
+            url = url.replace('\n', '')
             writeHost = True
         if(writeHost):
             f.write('ALLOWED_HOSTS=.localhost,127.0.0.1,'+url+'\n')
@@ -130,8 +132,8 @@ def setupEnv(rerun):
             dbInfo = getDBInfo()
             writeDB = True
         if(writeDB):
-            f.write("DATABASE_URL={'ENGINE': 'django.db.backends.mysql','NAME': '"+dbInfo[0]+"','USER': '"+dbInfo[1]+"','PASSWORD': '"+dbInfo[2]+"','HOST': '"+dbInfo[3]+"','PORT': '"+dbInfo[4]+"',}}\n")
-        f.write('EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend\n')
+            f.write("DATABASE_URL='mysql://"+dbInfo[1]+":"+dbInfo[2]+"@"+dbInfo[3]+":"+dbInfo[4]+"/"+dbInfo[0]+"'\n")
+        f.write("EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'\n")
         if(forcedInfo or (rerun and input('Uusitaanko smtp asetukset? [k/e]: ').casefold() == 'k')):
             smtpInfo = getSmtpInfo()
             writeSmtp = True
@@ -141,24 +143,23 @@ def setupEnv(rerun):
         if(writeSmtp):
             f.write('EMAIL_HOST='+smtpInfo[0]+'\n')
             if(not (smtpInfo[1] is None)):
-                f.write('EMAIL_HOST_PASSWORD='+smtpInfo[1]+'\n')
+                f.write("EMAIL_HOST_PASSWORD='"+smtpInfo[1]+"'\n")
             if(not(smtpInfo[2] is None)):
-                f.write('EMAIL_HOST_USER='+smtpInfo[2]+'\n')
-            f.write('EMAIL_PORT='+smtpInfo[3]+'\n')
+                f.write("EMAIL_HOST_USER='"+smtpInfo[2]+"'\n")
+            f.write("EMAIL_PORT='"+smtpInfo[3]+"'\n")
         if(rerun and not writeDB):
             f.write(oldDBSettings)
             f.write('\n')
         if(rerun and not writeSmtp):
             for line in oldSmtpSettings:
                 f.write(line+'\n')
-            f.write('\n')
         if(rerun and not writeHost):
             f.write(oldUrl+'\n')
         f.write('SECURE_CONTENT_TYPE_NOSNIFF=True\n')
         f.write('SECURE_BROWSER_XSS_FILTER=True\n')
         f.write('SESSION_COOKIE_SECURE=True\n')
         f.write('CSRF_COOKIE_SECURE=True\n')
-        f.write('X_FRAME_OPTIONS=DENY\n')
+        f.write("X_FRAME_OPTIONS='DENY'\n")
         f.write('SESSION_COOKIE_SECURE=True\n\n')
 
 
@@ -172,7 +173,7 @@ def setupCss():
 
 def printEnv():
     with open('./riskiwww/.env', 'r') as f:
-        print('.env tiedosto luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: python3 '+sys.argv[0]+' -r')
+        print('.env tiedosto luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: python3 '+sys.argv[0]+' -r\n')
         for line in f:
             print(line)
 
