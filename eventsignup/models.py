@@ -119,6 +119,9 @@ class Archive(models.Model):
 	participants=models.IntegerField(verbose_name='Osallistujamäärä')
 	owner=models.CharField(max_length=500,verbose_name='Tapahtuman pitäjä')
 	date=models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
+	place=models.CharField(max_length=200, verbose_name='Pitopaikka')
+	pic=models.ImageField(blank=True, null=True,verbose_name='Ilmoittautumislomakkeen kansikuva')
+	prize=models.CharField(max_length=500,blank=True, null=True,verbose_name='Tapahtuman hinta')
 	def __str__(self):
-		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description
+		return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description+', Alkuperäinen pitopaikka: '+self.place+', Mitä maksoi: '+self.prize
 
