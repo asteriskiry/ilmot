@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     	</p>
     	</div></div>
     	{% endif %}
+    	{% if not management %}
  	 <div class="navbar-item">
  	 <div class="field">
  	   <p class="control">
@@ -80,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       		</a>
     	</p>
     	</div></div>
+    	{% endif %}
     	{% if request.user.is_authenticated %}
     	<div class="navbar-item">
  	 <div class="field">

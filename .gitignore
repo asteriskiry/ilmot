@@ -115,3 +115,5 @@ static/css/mystyles.css
 static/css/mystyles.css.map
 baseurl.txt
 
+.kdev4/
+*.kdev4

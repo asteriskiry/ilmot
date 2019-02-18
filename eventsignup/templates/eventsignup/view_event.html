@@ -90,4 +90,74 @@
     {% endfor %}
      </tbody>
 </table>
+{% if event.has_reserve_spots %}
+<p>Varasijoilla olevat:</p>
+<table class="table is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Nimi</th>
+      <th>sähköposti</th>
+      {% if not other %}
+      <th>Kasvis</th>
+      <th>Holiton</th>
+      <th>Avec</th>
+      <th>Plaseeraus</th>
+      <th>Kiintiö</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Nimi</th>
+      <th>Sähköposti</th>
+      {% if not other  %}
+      <th>Kasvis</th>
+      <th>Holiton</th>
+      <th>Avec</th>
+      <th>Plaseeraus</th>
+      <th>Kiintiö</th>
+      {% endif %}
+    </tr>
+  </tfoot>
+  <tbody>
+   {% for field in participants_reserve %}
+    <tr>
+      {#<th>1</th>#}
+      <td>{{field.name}}</td>
+      <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
+      {% if not other %}
+      <td>
+      {% if field.vege %}
+      	Kyllä
+      {% endif %}
+      </td>
+      <td>
+      {% if field.nonholic %}
+      Kyllä
+      {% endif %}
+      </td>
+	<td>
+      {% if field.avec %}
+      {{field.avec}}
+      {% else %}
+      
+      
+      {% endif %}
+      </td>
+      <td>
+      {% if field.plaseeraus %}
+      {{field.plaseeraus}}
+      {% else %}
+      
+      {% endif %}
+      </td>
+      <td>{{field.quota}}</td>
+      {% endif %}
+    <td><form method="post" name="uid_{{event.uid.uid}}">{% csrf_token %}<input type="hidden" name="uid" value="{{event.uid.uid}}"/><input type="hidden" name="user" value="{{field.email}}" />
+    <button type="submit" class="button is-rounded is-danger">Poista</button>
+    </form></td></tr>
+    {% endfor %}
+     </tbody>
+</table>
+{% endif %}
 {% endblock %}

@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os, dj_database_url
+import os
+import dj_database_url
 from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
 
@@ -25,18 +26,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_random_secret_key() if DEBUG else config('SECRET_KEY')
+if DEBUG:
+    SECRET_KEY = get_random_secret_key()
+else:
+    SECRET_KEY = config('SECRET_KEY')
 
 if not DEBUG:
 #if DEBUG:
-	ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
 INSTALLED_APPS = [
-	'accounts.apps.AccountsConfig',
-	'eventsignup.apps.EventsignupConfig',
-	'widget_tweaks',
+    'accounts.apps.AccountsConfig',
+    'eventsignup.apps.EventsignupConfig',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,7 +68,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-            	'django.template.context_processors.media',
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -110,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'fi-fi'
 
-TIME_ZONE = 'EET'
+TIME_ZONE = 'Europe/Helsinki'
 
 USE_I18N = True
 
@@ -129,25 +133,24 @@ STATICFILES_DIRS = [
 # Muut conffit
 LOGIN_REDIRECT_URL = 'management'
 LOGOUT_REDIRECT_URL = '/'
-#LOGIN_URL='/dj/accounts/login'
 if DEBUG:
-	EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-	EMAIL_BACKEND=config('EMAIL_BACKEND')
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
-MEDIA_URL='/media/'
-FIRST_DAY_OF_WEEK=1
+    EMAIL_BACKEND = config('EMAIL_BACKEND')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+FIRST_DAY_OF_WEEK = 1
 if not DEBUG:
-	EMAIL_HOST=config('EMAIL_HOST')
-	EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
-	EMAIL_HOST_USER=config('EMAIL_HOST_USER')
-	EMAIL_PORT=config('EMAIL_PORT')
-	SECURE_CONTENT_TYPE_NOSNIFF=config('SECURE_CONTENT_TYPE_NOSNIFF',cast=bool)
-	SECURE_BROWSER_XSS_FILTER=config('SECURE_BROWSER_XSS_FILTER',cast=bool)
-	SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE',cast=bool)
-	CSRF_COOKIE_SECURE=config('CSRF_COOKIE_SECURE',cast=bool)
-	X_FRAME_OPTIONS=config('X_FRAME_OPTIONS')
-	SESSION_COOKIE_SECURE=config('SESSION_COOKIE_SECURE',cast=bool)
+    EMAIL_HOST = config('EMAIL_HOST')
+    EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+    EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+    EMAIL_PORT = config('EMAIL_PORT')
+    SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', cast=bool)
+    SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', cast=bool)
+    SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
+    CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
+    X_FRAME_OPTIONS = config('X_FRAME_OPTIONS')
+    SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
 
 
 
