@@ -12,9 +12,10 @@ import subprocess
 # luo superuserin sekä käyttäjän, jolla on oikeat oikeudet kantaan.
 def setupDjango():
     print('Laitetaan Django käyttökuntoon.\n')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
     subprocess.run(["python3", "manage.py", "makemigrations"])
     subprocess.run(["python3", "manage.py", "migrate"])
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
+    subprocess.run(["python3","manage.py","collectstatic"])
     import django
     django.setup()
     print('Lisätään kaikki EventTypes tietokantaan.\n')
