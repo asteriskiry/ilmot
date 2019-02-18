@@ -107,7 +107,7 @@ venv.bak/
 #others
 media/ 
 mybulma/.sass-cache/
-#mybulma/bulma-*/
+mybulma/bulma-*/
 mybulma/css
 static/bulma/
 static/css/datepicker-widget.css
@@ -115,3 +115,5 @@ static/css/mystyles.css
 static/css/mystyles.css.map
 baseurl.txt
 
+.kdev4/
+*.kdev4

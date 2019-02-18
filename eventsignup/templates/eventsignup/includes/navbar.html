@@ -27,11 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <nav class="navbar is-fixed-top" aria-label="main navigation">
+{% comment %}
 <!--  <div class="navbar-brand">
     <a class="navbar-item" href="https://www.asteriski.fi">
       <img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" alt="Asteriski" width="150" height="148">
     </a>
   </div>-->
+  {% endcomment %}
     <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
   <span aria-hidden="true"></span>
   <span aria-hidden="true"></span>
@@ -39,10 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </a>
   <div class="navbar-menu" id="navMenu">
    <div class="navbar-start">
+   {% comment %}
     	<!--<a class="navbar-brand" href="https://asteriski.fi">
   			<img src="https://www.asteriski.fi/wp-content/uploads/2018/03/Asteriski_ry_logo_2017_kelt-e1520273902199.png" width="150" height="148" alt="Asteriski">
 		</a>-->
-		<strong><a class="navbar-brand" href="/eventsignup">Asteriski - Tapahtumailmoittautumisjärjestelmä</a></strong>
+	{% endcomment %}
+		<strong><a class="navbar-brand" href="/">Asteriski - Tapahtumailmoittautumisjärjestelmä</a></strong>
   </div>
   {# navbarin navigointilinkit, jotka ovat näkyvissä vain desktop selaimilla #}
   {# lopullinen(?)) paikka includes/header.html #}
@@ -50,6 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
   {#% block desktop-content %#}
   <div class="navbar-end">
   {% if not "Ilmoittaudu" in page %}
+  {% if request.user.is_authenticated %}
+   <div class="navbar-item">
+ 	 <div class="field">
+ 	   <p class="control">
+      		<a class="button is-info is-rounded" href="event/add/">
+        	<span>
+        	Lisää uusi tapahtuma
+        	</span>
+      		</a>
+    	</p>
+    	</div></div>
+    	{% endif %}
+    	{% if not management %}
  	 <div class="navbar-item">
  	 <div class="field">
  	   <p class="control">
@@ -64,7 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
       		</a>
     	</p>
     	</div></div>
-    	
+    	{% endif %}
+    	{% if request.user.is_authenticated %}
+    	<div class="navbar-item">
+ 	 <div class="field">
+ 	   <p class="control">
+      		<a class="button is-primary is-rounded" href="/accounts/logout">
+        	<span>
+        	Kirjaudu ulos
+        	</span>
+      		</a>
+    	</p>
+    	</div></div>
+    	{% endif %}
     {% endif %}
     </div>
 	{#% endblock %#}

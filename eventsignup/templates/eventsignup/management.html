@@ -1,11 +1,7 @@
 {% extends 'eventsignup/base.html' %}
 {% include 'eventsignup/includes/header.html' %}
 {% block left-content %}
-<a class="button is-info is-rounded" href="event/add/">
-        	<span>
-        	Lisää uusi tapahtuma
-        	</span>
-      		</a>
+
 {% endblock %}
 {% block center-content %}
 
@@ -28,9 +24,9 @@
                 <p class="title is-5 ">{{ event.uid.uid }}</p>
                 <p class="title is-6">{{ event.date }}</p>
                 <footer class="card-footer">
-                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Näytä</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
                   <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Muokkaa</a>
-                  <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" class="card-footer-item">Arkistoi</a>
+                  <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Poista</a>
                 </footer>
               </div>
           </div>
