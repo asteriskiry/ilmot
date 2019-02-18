@@ -176,10 +176,14 @@ def info(request, uid,**kwargs):
 		return HttpResponseRedirect('/event/'+str(uid)+'/view/')
 	else:
 		just_list=False
-		if(kwargs and kwargs['type']=='list'):
-			just_list=True
 		participants=Participant.objects.filter(event_type=uid)
 		event=helpers.getEvent(uid)
+		if(kwargs):
+			if(kwargs['type']=='list'):
+				just_list=True
+			elif(kwargs['type']=='pdf'):
+				pdf=helpers.genPdf(request,participants,event)
+				return HttpResponseRedirect('/media/'+pdf)
 		other=False
 		return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
 

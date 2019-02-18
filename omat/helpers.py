@@ -5,6 +5,7 @@ from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, Sit
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 import random, json
 from django.core import mail
+from fpdf import FPDF, HTMLMixin
 
 # Generoi uuden uniikin uid:n tapahtumalle.
 def getUid():
@@ -145,3 +146,19 @@ def isQuotaFull(event,data):
 	except AttributeError as e:
 		paluu=False
 	return paluu
+
+class HTML2PDF(FPDF, HTMLMixin):
+    pass
+# Generoi tapahtuman osallistujalistan pdf muotoon.
+def genPdf(request,participants,event):
+	from django.template import loader
+	from django.conf import settings
+	nimi='osallistujalista_'+str(event.name).replace(' ','_')+'.pdf'
+	template = loader.get_template("eventsignup/includes/participant_table.html")
+	pdf = HTML2PDF()
+	pdf.add_page()
+	pdf.write_html(template.render({'event':event,'participants':participants},request))
+	pdf.output(settings.MEDIA_ROOT+'/'+nimi)
+	return nimi
+
+
