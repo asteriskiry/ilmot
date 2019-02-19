@@ -12,9 +12,10 @@ import subprocess
 # luo superuserin sekä käyttäjän, jolla on oikeat oikeudet kantaan.
 def setupDjango():
     print('Laitetaan Django käyttökuntoon.\n')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
     subprocess.run(["python3", "manage.py", "makemigrations"])
     subprocess.run(["python3", "manage.py", "migrate"])
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
+    subprocess.run(["python3","manage.py","collectstatic"])
     import django
     django.setup()
     print('Lisätään kaikki EventTypes tietokantaan.\n')
@@ -161,6 +162,10 @@ def setupEnv(rerun):
         f.write('CSRF_COOKIE_SECURE=True\n')
         f.write("X_FRAME_OPTIONS='DENY'\n")
         f.write('SESSION_COOKIE_SECURE=True\n\n')
+    print('Generoidaan riskiwww_uwsgi.ini.')
+    with open('riskiwww_uwsgi.ini','w')as f:
+        path=os.getcwd()
+        f.write("# riskiwww_uwsgi.ini file\n[uwsgi]\n\n# Django-related settings\n# the base directory (full path)\nchdir = "+path+"\n# Django's wsgi file\nmodule = riskiwww.wsgi\n# the virtualenv (full path)\n#home = /path/to/virtualenv\n\n# process-related settings\n# master\nmaster = true\n# maximum number of worker processes\nprocesses = 10\n# the socket (use the full path to be safe)\nsocket = /tmp/riskiwww.sock\n# ... with appropriate permissions - may be needed\n chmod-socket = 664\n# clear environment on exit\nvacuum = true\n")
 
 
 # Kääntää css:n valmiiksi käytettävään muotoon.
