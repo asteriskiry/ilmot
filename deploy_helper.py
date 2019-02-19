@@ -12,9 +12,10 @@ import subprocess
 # luo superuserin sekä käyttäjän, jolla on oikeat oikeudet kantaan.
 def setupDjango():
     print('Laitetaan Django käyttökuntoon.\n')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
     subprocess.run(["python3", "manage.py", "makemigrations"])
     subprocess.run(["python3", "manage.py", "migrate"])
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
+    subprocess.run(["python3","manage.py","collectstatic"])
     import django
     django.setup()
     print('Lisätään kaikki EventTypes tietokantaan.\n')
@@ -62,16 +63,18 @@ def getDBInfo():
     db_user = input('Anna tietokantaan tarvittava käyttäjätunnus: ')
     db_pw = input('Anna salasana: ')
     db_host = input('Anna tietokantapalvelimen ip osoite: ')
-    db_port = input('Anna käytetty portti: ')
-    return [db_name.replace('\n', ''), db_user.replace('\n', ''), db_pw.replace('\n', ''), db_host.replace('\n', ''), db_port.replace('\n', '')]
+    #db_port = input('Anna käytetty portti: ')
+    #return [db_name.replace('\n', ''), db_user.replace('\n', ''), db_pw.replace('\n', ''), db_host.replace('\n', ''), db_port.replace('\n', '')]
+    return [db_name.replace('\n', ''), db_user.replace('\n', ''), db_pw.replace('\n', ''), db_host.replace('\n', '')]
 
 
 def getSmtpInfo():
     email_host = input('Anna smtp palvelimen nimi: ')
     email_user = input('Anna smtp palvelimen käyttäjänimi (jos tarvitaan): ')
     email_pw = input('Anna salasana (jos tarvitaan): ')
-    email_port = input('Anna smtp palvelimen käyttämä portti: ')
-    return [email_host.replace('\n', ''), email_user.replace('\n', ''), email_pw.replace('\n', ''), email_port.replace('\n', '')]
+    #email_port = input('Anna smtp palvelimen käyttämä portti: ')
+    #return [email_host.replace('\n', ''), email_user.replace('\n', ''), email_pw.replace('\n', ''), email_port.replace('\n', '')]
+    return [email_host.replace('\n', ''), email_user.replace('\n', ''), email_pw.replace('\n', '')]
 
 
 # Valmistelee järjestelmätason käyttöympäristön kuntoon ja
@@ -132,7 +135,7 @@ def setupEnv(rerun):
             dbInfo = getDBInfo()
             writeDB = True
         if(writeDB):
-            f.write("DATABASE_URL='mysql://"+dbInfo[1]+":"+dbInfo[2]+"@"+dbInfo[3]+":"+dbInfo[4]+"/"+dbInfo[0]+"'\n")
+            f.write("DATABASE_URL='mysql://"+dbInfo[1]+":"+dbInfo[2]+"@"+dbInfo[3]+":3306/"+dbInfo[0]+"'\n")
         f.write("EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'\n")
         if(forcedInfo or (rerun and input('Uusitaanko smtp asetukset? [k/e]: ').casefold() == 'k')):
             smtpInfo = getSmtpInfo()
@@ -146,7 +149,7 @@ def setupEnv(rerun):
                 f.write("EMAIL_HOST_PASSWORD='"+smtpInfo[1]+"'\n")
             if(not(smtpInfo[2] is None)):
                 f.write("EMAIL_HOST_USER='"+smtpInfo[2]+"'\n")
-            f.write("EMAIL_PORT='"+smtpInfo[3]+"'\n")
+            f.write("EMAIL_PORT='25'\n")
         if(rerun and not writeDB):
             f.write(oldDBSettings)
             f.write('\n')
@@ -161,6 +164,11 @@ def setupEnv(rerun):
         f.write('CSRF_COOKIE_SECURE=True\n')
         f.write("X_FRAME_OPTIONS='DENY'\n")
         f.write('SESSION_COOKIE_SECURE=True\n\n')
+        f.write("STATIC_ROOT='"+os.getcwd()+"/static/'")
+    print('Generoidaan riskiwww_uwsgi.ini.')
+    with open('riskiwww_uwsgi.ini','w')as f:
+        path=os.getcwd()
+        f.write("# riskiwww_uwsgi.ini file\n[uwsgi]\n\n# Django-related settings\n# the base directory (full path)\nchdir = "+path+"\n# Django's wsgi file\nmodule = riskiwww.wsgi\n# the virtualenv (full path)\n#home = /path/to/virtualenv\n\n# process-related settings\n# master\nmaster = true\n# maximum number of worker processes\nprocesses = 10\n# the socket (use the full path to be safe)\nsocket = /tmp/riskiwww.sock\n# ... with appropriate permissions - may be needed\n chmod-socket = 664\n# clear environment on exit\nvacuum = true\n")
 
 
 # Kääntää css:n valmiiksi käytettävään muotoon.
