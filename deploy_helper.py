@@ -202,5 +202,5 @@ if __name__ == '__main__':
         else:
             exit()
     else:
-        print('Jotta asennus onnistuu kunnolla, asenna paketti libmysqlclient-dev järjestelmän paketinhallinnalla mikäli sitä ei ole jo asennettu.\nVarmista myös, että käytettäväksi tarkoitettu tietokanta on olemassa ja käyttäjällä on tarvittavat lisää/poista/muokkaa yms oikeudet.\nAja sitten skripti uudestaan: '+pbin+' '+sys.argv[0]+' -s')
+        print('Jotta asennus onnistuu kunnolla, asenna järjestelmän paketinhallinnalla paketti, joka sisältää <mysql_config> tiedoston, mikäli sitä ei ole jo asennettu.\nVarmista myös, että käytettäväksi tarkoitettu tietokanta on olemassa ja käyttäjällä on tarvittavat lisää/poista/muokkaa yms oikeudet.\nAja sitten skripti uudestaan: '+pbin+' '+sys.argv[0]+' -s')
 
