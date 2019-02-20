@@ -167,8 +167,8 @@ def setupEnv(rerun):
     print('Generoidaan riskiwww_uwsgi.ini.')
     with open('riskiwww_uwsgi.ini', 'w')as f:
         f.write("# riskiwww_uwsgi.ini file\n[uwsgi]\n\n# Django-related settings\n# the base directory (full path)\nchdir = "+path+"\n# Django's wsgi file\nmodule = riskiwww.wsgi\n# the virtualenv (full path)\n#home = /path/to/virtualenv\n\n# process-related settings\n# master\nmaster = true\n# maximum number of worker processes\nprocesses = 10\n# the socket (use the full path to be safe)\nsocket = /tmp/riskiwww.sock\n# ... with appropriate permissions - may be needed\n chmod-socket = 664\n# clear environment on exit\nvacuum = true\n")
-    with open(path+'/mybulma/sass/mystyles.sass', 'a') as f:
-        f.write('@import "'+path+'bulma-0.7.2/bulma.sass";')
+#    with open(path+'/mybulma/sass/mystyles.scss', 'a') as f:
+#        f.write('@import "'+path+'bulma-0.7.2/bulma.sass";')
 
 
 # Kääntää css:n valmiiksi käytettävään muotoon.

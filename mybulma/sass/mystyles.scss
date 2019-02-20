@@ -17,5 +17,5 @@ $navbar-item-hover-color: hsl( 13, 64%, 37% );
 $navbar-item-active-color: hsl(253, 64%, 37%);
 
 // import rivi aina viimeiseksi riviksi
-// deploy_helper lisää viimeisen import rivin, jotta polku olisi oikein
+@import "../bulma-0.7.2/bulma.sass";
 
