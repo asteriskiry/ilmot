@@ -60,11 +60,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'riskiwww.wsgi.application'
 
+#DATABASES = {
+#    'default': dj_database_url.config(config('DATABASE_URL')
+#    )
+#}
 DATABASES = {
-    'default': dj_database_url.config(config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': './my.cnf',
+            'init_command': 'SET storage_engine=INNODB',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
+    }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

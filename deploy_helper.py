@@ -132,7 +132,9 @@ def setupEnv(rerun):
             dbInfo = getDBInfo()
             writeDB = True
         if(writeDB):
-            f.write("DATABASE_URL='mysql://"+dbInfo[1]+":"+dbInfo[2]+"@"+dbInfo[3]+":3306/"+dbInfo[0]+"'\n")
+            with open('./my.cnf', 'w') as e:
+                e.write("# my.cnf\n[client]\ndatabase = "+dbInfo[0]+"\nuser = "+dbInfo[1]+"\npassword = "+dbInfo[2]+"\ndefault-character-set = utf8\n")
+            #f.write("DATABASE_URL='mysql://"+dbInfo[1]+":"+dbInfo[2]+"@"+dbInfo[3]+":3306/"+dbInfo[0]+"'\n")
         f.write("EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'\n")
         if(forcedInfo or (rerun and input('Uusitaanko smtp asetukset? [k/e]: ').casefold() == 'k')):
             smtpInfo = getSmtpInfo()
@@ -161,7 +163,7 @@ def setupEnv(rerun):
         f.write('CSRF_COOKIE_SECURE=True\n')
         f.write("X_FRAME_OPTIONS='DENY'\n")
         f.write('SESSION_COOKIE_SECURE=True\n\n')
-        f.write("STATIC_ROOT='"+path+"static/'")
+        f.write("STATIC_ROOT='"+path+"static/'\n")
     print('Generoidaan riskiwww_uwsgi.ini.')
     with open('riskiwww_uwsgi.ini', 'w')as f:
         f.write("# riskiwww_uwsgi.ini file\n[uwsgi]\n\n# Django-related settings\n# the base directory (full path)\nchdir = "+path+"\n# Django's wsgi file\nmodule = riskiwww.wsgi\n# the virtualenv (full path)\n#home = /path/to/virtualenv\n\n# process-related settings\n# master\nmaster = true\n# maximum number of worker processes\nprocesses = 10\n# the socket (use the full path to be safe)\nsocket = /tmp/riskiwww.sock\n# ... with appropriate permissions - may be needed\n chmod-socket = 664\n# clear environment on exit\nvacuum = true\n")
@@ -177,9 +179,14 @@ def setupCss():
 
 
 def printEnv():
+    print('Konfiguraatiot luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: '+pbin+' '+sys.argv[0]+' -r\n')
     with open(path+'riskiwww/.env', 'r') as f:
-        print('.env tiedosto luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: '+pbin+' '+sys.argv[0]+' -r\n')
+        print('Djangon Konfiguraatiot .env')
         for line in f:
+            print(line)
+    with open(path+'my.cnf', 'r') as e:
+        print('\nTietokannan konfiguraatio my.cnf\n')
+        for line in e:
             print(line)
 
 
