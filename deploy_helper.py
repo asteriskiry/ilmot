@@ -13,9 +13,9 @@ import subprocess
 def setupDjango():
     print('Laitetaan Django käyttökuntoon.\n')
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
-    subprocess.run(["python3", "manage.py", "makemigrations"])
-    subprocess.run(["python3", "manage.py", "migrate"])
-    subprocess.run(["python3","manage.py","collectstatic"])
+    subprocess.run([pbin, "manage.py", "makemigrations"])
+    subprocess.run([pbin, "manage.py", "migrate"])
+    subprocess.run([pbin, "manage.py", "collectstatic"])
     import django
     django.setup()
     print('Lisätään kaikki EventTypes tietokantaan.\n')
@@ -24,7 +24,6 @@ def setupDjango():
         etype = EventType(event_type=x)
         etype.save()
     from django.contrib.auth.models import User
-#    from eventsignup.models import EventOwner
     print('Luodaan uusi superuser.')
     uname = input('Anna haluttu käyttäjänimi: ')
     pw = input('Anna salasana: ')
@@ -38,10 +37,8 @@ def setupDjango():
     user = User.objects.get(username=name)
     print('Asetetaan käyttäjälle <'+name+'> oikeat käyttöoikeudet.')
     from django.contrib.auth.models import Permission
-#    perms=list(Permission.objects.values_list('codename',flat=True))
     for x in list(Permission.objects.values_list('codename', flat=True)):
         if(not ('log' in x or 'group' in x or 'permission' in x or 'user' in x or 'type' in x or 'owner' in x or 'session' in x)):
-#            permission=Permission.objects.get(codename=x)
             user.user_permissions.add(Permission.objects.get(codename=x))
     user.save()
 
@@ -83,7 +80,7 @@ def setupEnv(rerun):
     if(not rerun):
         print('Asennetaan tarvittavat python moduulit.\n')
         try:
-            with open('./requirements.txt', 'r') as f:
+            with open(path+'requirements.txt', 'r') as f:
                 modules = []
                 for line in f:
                     modules.append(line.replace('\n', ''))
@@ -100,7 +97,7 @@ def setupEnv(rerun):
         oldSmtpSettings = []
         oldUrl = ''
         try:
-            with open('./riskiwww/.env', 'r') as f:
+            with open(path+'riskiwww/.env', 'r') as f:
                 for line in f:
                     if('DATABASE_URL' in line):
                         oldDBSettings = line.replace('\n', '')
@@ -111,7 +108,7 @@ def setupEnv(rerun):
         except IOError:
             print('Virhe! Vanhaa .env tiedostoa ei löydy. Asetusten uudelleen määrittely on pakollista.\n')
             forcedInfo = True
-    with open('./riskiwww/.env', 'w') as f:
+    with open(path+'riskiwww/.env', 'w') as f:
         writeDB = False
         writeSmtp = False
         writeHost = False
@@ -119,7 +116,7 @@ def setupEnv(rerun):
         f.write('SECRET_KEY='+get_random_secret_key()+'\n')
         f.write('DEBUG=False\n')
         if(forcedInfo or (rerun and input('Uusitaanko url tiedot? [k/e]: ').casefold() == 'k')):
-            url = input('Anna url osoite, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
+            url = input('Anna palvelimen domain nimi, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
             url = url.replace('\n', '')
             writeHost = True
         elif(not rerun):
@@ -164,27 +161,30 @@ def setupEnv(rerun):
         f.write('CSRF_COOKIE_SECURE=True\n')
         f.write("X_FRAME_OPTIONS='DENY'\n")
         f.write('SESSION_COOKIE_SECURE=True\n\n')
-        f.write("STATIC_ROOT='"+os.getcwd()+"/static/'")
+        f.write("STATIC_ROOT='"+path+"static/'")
     print('Generoidaan riskiwww_uwsgi.ini.')
-    with open('riskiwww_uwsgi.ini','w')as f:
-        path=os.getcwd()
+    with open('riskiwww_uwsgi.ini', 'w')as f:
         f.write("# riskiwww_uwsgi.ini file\n[uwsgi]\n\n# Django-related settings\n# the base directory (full path)\nchdir = "+path+"\n# Django's wsgi file\nmodule = riskiwww.wsgi\n# the virtualenv (full path)\n#home = /path/to/virtualenv\n\n# process-related settings\n# master\nmaster = true\n# maximum number of worker processes\nprocesses = 10\n# the socket (use the full path to be safe)\nsocket = /tmp/riskiwww.sock\n# ... with appropriate permissions - may be needed\n chmod-socket = 664\n# clear environment on exit\nvacuum = true\n")
+    with open(path+'/mybulma/sass/mystyles.sass', 'a') as f:
+        f.write('@import "'+path+'bulma-0.7.2/bulma.sass";')
 
 
 # Kääntää css:n valmiiksi käytettävään muotoon.
 def setupCss():
     print('Käännetään css.')
     import sass
-    path = os.getcwd()
-    sass.compile(dirname=(path+"/mybulma/sass/", path+"/static/css/"))
+    sass.compile(dirname=(path+"mybulma/sass/", path+"static/css/"))
 
 
 def printEnv():
-    with open('./riskiwww/.env', 'r') as f:
-        print('.env tiedosto luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: python3 '+sys.argv[0]+' -r\n')
+    with open(path+'riskiwww/.env', 'r') as f:
+        print('.env tiedosto luotiin seuraavilla tiedoilla. Mikäli syötetyissä tiedoissa oli virheitä, aja skripti uudestaan: '+pbin+' '+sys.argv[0]+' -r\n')
         for line in f:
             print(line)
 
+
+pbin = sys.executable or 'python3'
+path = os.path.abspath(__file__).replace(sys.argv[0], '')
 
 if __name__ == '__main__':
     if(len(sys.argv) > 1):
@@ -202,5 +202,5 @@ if __name__ == '__main__':
         else:
             exit()
     else:
-        print('Jotta asennus onnistuu kunnolla, asenna paketti libmysqlclient-dev järjestelmän paketinhallinnalla mikäli sitä ei ole jo asennettu.\nVarmista myös, että käytettäväksi tarkoitettu tietokanta on olemassa ja käyttäjällä on tarvittavat lisää/poista/muokkaa yms oikeudet.\nAja sitten skripti uudestaan: python3 '+sys.argv[0]+' -s')
+        print('Jotta asennus onnistuu kunnolla, asenna paketti libmysqlclient-dev järjestelmän paketinhallinnalla mikäli sitä ei ole jo asennettu.\nVarmista myös, että käytettäväksi tarkoitettu tietokanta on olemassa ja käyttäjällä on tarvittavat lisää/poista/muokkaa yms oikeudet.\nAja sitten skripti uudestaan: '+pbin+' '+sys.argv[0]+' -s')
 
