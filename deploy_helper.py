@@ -120,7 +120,7 @@ def setupEnv(rerun):
             url = url.replace('\n', '')
             writeHost = True
         elif(not rerun):
-            url = input('Anna url osoite, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
+            url = input('Anna palvelimen domain nimi, josta palvelun saa kiinni (eg. url.asteriski.fi) (lisätään allowed host tietoihin): ')
             url = url.replace('\n', '')
             writeHost = True
         if(writeHost):

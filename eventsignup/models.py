@@ -14,12 +14,12 @@ class EventType(models.Model):
 
 
 # Tapahtuman järjestäjä (esim. Asteriski).
-class EventOwner(models.Model):
-    name = models.CharField(max_length=191, unique=True, verbose_name='Järjestävä taho')
-    email = models.EmailField(verbose_name='Sähköpostiosoite')
-
-    def __str__(self):
-        return "Tapahtuman järjestäjä(t): "+str(self.name)+", Sähköposti: "+str(self.email)
+#class EventOwner(models.Model):
+#    name = models.CharField(max_length=191, unique=True, verbose_name='Järjestävä taho')
+#    email = models.EmailField(verbose_name='Sähköpostiosoite')
+#
+#    def __str__(self):
+#        return "Tapahtuman järjestäjä(t): "+str(self.name)+", Sähköposti: "+str(self.email)
 
 
 # Kaikki tapahtumat koodusti.
