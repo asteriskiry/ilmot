@@ -105,7 +105,6 @@ venv.bak/
 *~
 */migrations/*
 #others
-media/ 
 mybulma/.sass-cache/
 mybulma/bulma-*/
 mybulma/css
@@ -117,3 +116,8 @@ baseurl.txt
 
 .kdev4/
 *.kdev4
+
+media/
+my.cnf
+riskiwww_uwsgi.ini
+static/admin/
