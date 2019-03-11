@@ -100,6 +100,7 @@ def signup(request, uid):
         canSignup = False
         signupPassed = False
         now = datetime.now(timezone.utc)
+        participants = Participant.objects.filter(event_type=uid)
         if(event.signup_starts is not None and event.signup_starts <= now):
             canSignup = True
         if(event.signup_ends is not None and event.signup_ends <= now):
@@ -119,7 +120,7 @@ def signup(request, uid):
             quotas = helpers.getQuotaNames(event.quotas, True)
     except AttributeError:
         pass
-    return render(request, "eventsignup/signup.html", {'form': form, 'event': event, 'quotas': quotas, 'cansignup': canSignup, 'signuppassed': signupPassed, 'page': 'Ilmoittaudu', 'baseurl': helpers.getBaseurl(request)})
+    return render(request, "eventsignup/signup.html", {'form': form, 'event': event, 'quotas': quotas, 'cansignup': canSignup, 'signuppassed': signupPassed, 'page': 'Ilmoittaudu', 'participants': participants, 'baseurl': helpers.getBaseurl(request)})
 
 
 # Arkistoi tapahtuman erilliseen arkistoon (säilyttää vain olennaisimmat tapahtuman tiedot.

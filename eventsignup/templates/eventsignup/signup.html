@@ -49,6 +49,25 @@
   </div>
    </div>
   </form>
+  <hr>
+  <table class="table is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Nimi</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Nimi</th>
+    </tr>
+  </tfoot>
+  <tbody>
+   {% for field in participants %}
+    <tr>
+      <td>{{field.name}}</td>
+      {% endfor %}
+     </tbody>
+</table>
 </p>
 {% elif signuppassed %}
 <section class="section">
