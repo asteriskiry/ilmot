@@ -172,7 +172,7 @@ def add(request, **kwargs):
             form = OtherEventForm()
         elif(event_type == 'custom'):
             form = CustomForm()
-    return render(request, "eventsignup/new_event.html", {'form': form, 'desktop': desktop, 'page': 'Lisää tapahtuma', 'baseurl': helpers.getBaseurl(request)})
+    return render(request, "eventsignup/new_event.html", {'form': form, 'edit': False, 'desktop': desktop, 'page': 'Lisää tapahtuma', 'baseurl': helpers.getBaseurl(request)})
 
 
 # Lomake tapahtumatyypin valintaan ennen varsinaista lomaketta.
@@ -255,19 +255,30 @@ def management(request):
 # Olemassa olevan tapahtuman muokkaus.
 @login_required
 def edit(request, **kwargs):
-    event=helpers.getEvent(98100)
-    return render(request, "eventsignup/edit.html", {'event': event, 'baseurl': helpers.getBaseurl(request)})
-    #if(kwargs['type']=='signups'):
-        #return HttpResponse('Editing signups list')
-    #elif(kwargs['type']=='event'):
-        #return HttpResponse('Editing event itself')
-    #else:
-        #return HttpResponseRedirect('eventsignup/management/')
+    event = helpers.getEvent(kwargs['uid'])
+    form = helpers.getEditableForm(event)
+    desktop = True
+    if(request.method == 'POST'):
+        form = helpers.getForm(event.event_type.event_type, request, initial=event)
+        if(form.is_valid()):
+            data = form.save(commit=False)
+            data.signup_starts = datetime.combine(form.cleaned_data['signup_starts_date'], form.cleaned_data['signup_starts_time'], tzinfo=timezone.utc)
+            data.signup_ends = datetime.combine(form.cleaned_data['signup_ends_date'], form.cleaned_data['signup_ends_time'], tzinfo=timezone.utc)
+            data.save()
+            helpers.sendEmail(data, request)
+            return HttpResponseRedirect('/event/'+str(event.uid.uid)+'/preview/edit')
+    else:
+        if('Mobi'in request.META['HTTP_USER_AGENT']):
+            desktop = False
+    return render(request, "eventsignup/new_event.html", {'event': event, 'form': form, 'edit': True,'page': 'Muokkaa tapahtumaa', 'desktop': desktop, 'baseurl': helpers.getBaseurl(request)})
 
 
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
-def preview(request, uid):
+def preview(request, uid, **kwargs):
 #    url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
     event = helpers.getEvent(uid)
-    return render(request, "eventsignup/preview.html", {'event': event, 'baseurl': helpers.getBaseurl(request)})
+    edit = False
+    if(kwargs and kwargs['type'] == 'edit'):
+        edit = True
+    return render(request, "eventsignup/preview.html", {'event': event, 'edit': edit, 'baseurl': helpers.getBaseurl(request)})

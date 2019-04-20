@@ -21,16 +21,33 @@ def getUid():
 
 # Palauttaa oikean tyyppisen form-olion, jotta saadaan oikeanlainen
 # tapahtuma tallennettua.
-def getForm(event_type, request):
+def getForm(event_type, request, **kwargs):
     form = None
+    initial = None
+    if(kwargs and kwargs['initial']):
+        initial = kwargs['initial']
     if(event_type == 'sitsit'):
-        form = SitzForm(request.POST, request.FILES)
+        form = SitzForm(request.POST or None, request.FILES or None, instance=initial)
     elif(event_type == 'vuosijuhlat'):
-        form = AnnualfestForm(request.POST, request.FILES)
+        form = AnnualfestForm(request.POST or None, request.FILES or None, instance=initial)
     elif(event_type == 'ekskursio'):
-        form = ExcursionForm(request.POST, request.FILES)
+        form = ExcursionForm(request.POST or None, request.FILES or None, instance=initial)
     elif(event_type == 'muutapahtuma'):
-        form = OtherEventForm(request.POST, request.FILES)
+        form = OtherEventForm(request.POST or None, request.FILES or None, instance=initial)
+    return form
+
+
+# Palauttaa oikean tyyppisen form-olion editointia varten.
+def getEditableForm(event):
+    form = None
+    if(event.event_type.event_type == 'sitsit'):
+        form = SitzForm(initial={'name': event.name, 'place': event.place, 'date': event.date, 'start_time': event.start_time, 'description': event.description, 'prize': event.prize, 'max_participants': event.max_participants, 'signup_starts_date': event.signup_starts.date(), 'signup_starts_time': event.signup_starts.strftime("%X"), 'signup_ends_date': event.signup_ends.date(), 'signup_ends_time': event.signup_ends.strftime("%X"), 'quotas': event.quotas, 'has_reserve_spots': event.has_reserve_spots})
+    elif(event.event_type.event_type == 'vuosijuhlat'):
+        form = AnnualfestForm(initial={'name': event.name, 'place': event.place, 'date': event.date, 'start_time': event.start_time, 'description': event.description, 'prize': event.prize, 'max_participants': event.max_participants, 'signup_starts_date': event.signup_starts.date(), 'signup_starts_time': event.signup_starts.strftime("%X"), 'signup_ends_date': event.signup_ends.date(), 'signup_ends_time': event.signup_ends.strftime("%X"), 'has_reserve_spots': event.has_reserve_spots})
+    elif(event.event_type.event_type == 'ekskursio'):
+        form = ExcursionForm(initial={'name': event.name, 'place': event.place, 'date': event.date, 'end_date': event.end_date, 'start_time': event.start_time, 'description': event.description, 'pic': event.pic, 'prize': event.prize, 'max_participants': event.max_participants, 'signup_starts_date': event.signup_starts.date(), 'signup_starts_time': event.signup_starts.strftime("%X"), 'signup_ends_date': event.signup_ends.date(), 'signup_ends_time': event.signup_ends.strftime("%X"), 'has_reserve_spots': event.has_reserve_spots})
+    elif(event.event_type.event_type == 'muutapahtuma'):
+        form = OtherEventForm(initial={'name': event.name, 'place': event.place, 'date': event.date, 'start_time': event.start_time, 'description': event.description, 'prize': event.prize, 'max_participants': event.max_participants, 'signup_starts_date': event.signup_starts.date(), 'signup_starts_time': event.signup_starts.strftime("%X"), 'signup_ends_date': event.signup_ends.date(), 'signup_ends_time': event.signup_ends.strftime("%X"),'min_participants': event.min_participants, 'has_reserve_spots': event.has_reserve_spots})
     return form
 
 

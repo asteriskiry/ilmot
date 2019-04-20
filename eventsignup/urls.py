@@ -19,6 +19,7 @@ urlpatterns = [
     # sivupaneelin "nippelitieto"
     path('event/<int:uid>/stats/', views.stats, name='stats'),
     # preview uuden tapahtuman luomisen jälkeen
+    path('event/<int:uid>/preview/<str:type>', views.preview, name='preview'),
     path('event/<int:uid>/preview/', views.preview, name='preview'),
     # tapahtuman info
     path('event/<int:uid>/view/<str:type>', views.info, name='view'),

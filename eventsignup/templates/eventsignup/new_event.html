@@ -35,7 +35,12 @@
 </script>
 {% endif %}
 {% endif %}
-
+{% if edit %}
+<div class="content">
+<p>Lomake on valmiiksi täytetty tapahtuman olemassa olevilla tiedoilla. Mikäli tapahtumaan oli aiemmin lisätty kuva, ei sitä tarvitse uudelleen asettaa tässä. 
+Vanha kuva säilyy vaikkei sitä tässä näytetäkään.</p>
+</div>
+{% endif %}
 <form method="post" enctype="multipart/form-data">
    {% csrf_token %}
    {#{ form|bulma }#}
@@ -46,6 +51,8 @@
     <button type="submit" class="button is-rounded is-link">
     {% if choice %}
     Lähetä
+    {% elif edit %}
+    Muokkaa tapahtumaa
     {% else %}
     Lisää tapahtuma
     {% endif %}

@@ -17,7 +17,7 @@
         {% render_field field class="help is-success" %}
       {% endif %}
     {% else %}
-      {% render_field field class="control" %}
+      {% render_field field class="control" placeholder=form.text.label  %}
     {% endif %}
 
     {% if field.help_text %}
