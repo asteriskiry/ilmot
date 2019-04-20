@@ -13,9 +13,8 @@ from fpdf import FPDF, HTMLMixin
 def getUid():
     uid = random.randint(10000, 99999)
     events = Events.objects.all().values('uid')
-    for field in events:
-        if(field['uid'] == uid):
-            uid = random.randint(10000, 99999)
+    while(events.count(uid) > 0):
+        uid = random.randint(10000, 99999)
     return uid
 
 
