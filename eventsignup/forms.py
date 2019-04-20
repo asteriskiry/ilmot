@@ -74,8 +74,8 @@ class CustomForm(ModelForm):
 
 # Osallistumislomake sitsit-tyypille.
 class SitzSignupForm(ModelForm):
-    holiton = forms.ChoiceField(label='Holillinen/Holiton Menu', choices=(('holillinen', 'Alkoholillinen'), ('holiton', 'Alkoholiton')))
-    lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('liha', 'Liha'), ('kasvis', 'Kasvis')))
+    holiton = forms.ChoiceField(label='Holillinen/Holiton Menu', choices=(('null', ''), ('holillinen', 'Alkoholillinen'), ('holiton', 'Alkoholiton')))
+    lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('null', ''), ('liha', 'Liha'), ('kasvis', 'Kasvis')))
     avec = forms.CharField(required=False, label='Avec')
     plaseeraus = forms.CharField(required=False, label='Plaseeraustoive', help_text='Nimi 1, Nimi 2, ...')
     gender = forms.ChoiceField(label='Sukupuoli', choices=(('null', ''), ('man' , 'Mies'), ('woman' , 'Nainen'), ('other' , 'Muu/Määrittelemätön')), help_text='Automaattisen plaseerauksen helpottamiseksi.')
@@ -87,8 +87,8 @@ class SitzSignupForm(ModelForm):
 
 # Osallistumislomake vuosijuhlat-tyypille.
 class AnnualfestSignupForm(ModelForm):
-    holiton = forms.ChoiceField(label='Holillinen/Holiton Menu', choices=(('holillinen', 'Alkoholillinen'), ('holiton', 'Alkoholiton')))
-    lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('liha', 'Liha'), ('kasvis', 'Kasvis')))
+    holiton = forms.ChoiceField(label='Holillinen/Holiton Menu', choices=(('null', ''), ('holillinen', 'Alkoholillinen'), ('holiton', 'Alkoholiton')))
+    lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('null', ''), ('liha', 'Liha'), ('kasvis', 'Kasvis')))
     avec = forms.CharField(required=False, label='Avec')
     plaseeraus = forms.CharField(required=False, label='Plaseeraustoive', help_text='Nimi 1, Nimi 2, ...')
 
@@ -101,14 +101,17 @@ class AnnualfestSignupForm(ModelForm):
 class ExcursionSignupForm(ModelForm):
     class Meta:
         model = Participant
-        fields = '__all__'
+        fields = ['name', 'email']
 
 
 # Osallistumislomake muu-tyypille.
 class OtherEventSignupForm(ModelForm):
+    holiton = forms.ChoiceField(label='Holillinen/Holiton Menu', choices=(('null', ''), ('holillinen', 'Alkoholillinen'), ('holiton', 'Alkoholiton')))
+    lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('null', ''), ('liha', 'Liha'), ('kasvis', 'Kasvis')))
+
     class Meta:
         model = Participant
-        fields = '__all__'
+        fields = ['name', 'email', 'lihaton', 'holiton']
 
 
 # Osallistumislomake custom-tyypille.
@@ -120,4 +123,4 @@ class CustomSignupForm(ModelForm):
 
 # Tapahtumatyypin valintalomake.
 class SelectTypeForm(forms.Form):
-    choice = forms.ChoiceField(label='Tapahtuman tyyppi', help_text='Valmiiksi määritellyillä tyypeillä tulee kyseiseen tapahtumaan soveltuva lomake. "Mukautettu" valinnalla voit mukauttaa tiedot haluamallasi tavalla.', choices=(('sitsit', 'Sitsit'), ('vuosijuhlat', 'Vuosijuhlat'), ('ekskursio', 'Ekskursio'), ('muutapahtuma', 'Muu tapahtuma'), ('custom', 'Mukautettu')))
+    choice = forms.ChoiceField(label='Tapahtuman tyyppi', help_text='Valmiiksi määritellyillä tyypeillä tulee kyseiseen tapahtumaan soveltuva lomake.', choices=(('sitsit', 'Sitsit'), ('vuosijuhlat', 'Vuosijuhlat'), ('ekskursio', 'Ekskursio'), ('muutapahtuma', 'Muu tapahtuma')))

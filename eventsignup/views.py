@@ -96,8 +96,6 @@ def signup(request, uid):
                 reserve = '1'
             data.vege = lihaton
             data.nonholic = holiton
-            data.avec = form.cleaned_data['avec']
-            data.plaseeraus = form.cleaned_data['plaseeraus']
             if('organization' in request.POST):
                 data.quota = request.POST['organization']
             else:
