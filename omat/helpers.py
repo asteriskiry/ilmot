@@ -12,7 +12,7 @@ from fpdf import FPDF, HTMLMixin
 # Generoi uuden uniikin uid:n tapahtumalle.
 def getUid():
     uid = random.randint(10000, 99999)
-    events = Events.objects.all().values('uid')
+    events = list(Events.objects.values_list('uid', flat=True))
     while(events.count(uid) > 0):
         uid = random.randint(10000, 99999)
     return uid
