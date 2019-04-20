@@ -115,8 +115,8 @@ class Participant(models.Model):
     nonholic = models.NullBooleanField(blank=True, null=True)
     avec = models.CharField(max_length=100, blank=True, null=True)
     plaseeraus = models.CharField(max_length=500, blank=True, null=True)
-    quota = models.CharField(max_length=200, blank=True, null=True)
-    reserve_spot = models.BooleanField()
+    quota = models.CharField(max_length=200, blank=True, null=True, editable=False)
+    reserve_spot = models.BooleanField(editable=False)
     gender = models.CharField(max_length=10, blank=True, null=True)
 #    Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
 #    datan tulee olla muodossa {member:arvo, hasPaid:arvo}

@@ -75,8 +75,19 @@ def signup(request, uid):
             holiton = True
             if(form.cleaned_data['lihaton'] == 'kasvis'):
                 lihaton = True
+            elif(form.cleaned_data['lihaton'] == 'null'):
+                lihaton = None
             if(form.cleaned_data['holiton'] == 'holillinen'):
                 holiton = False
+            elif(form.cleaned_data['holiton'] == 'null'):
+                holiton = None
+            try:
+                if(form.cleaned_data['gender'] and form.cleaned_data['gender'] == 'null'):
+                    data.gender = None
+                data.avec = form.cleaned_data['avec']
+                data.plaseeraus = form.cleaned_data['plaseeraus']
+            except KeyError:
+                pass
             if(event.has_reserve_spots and maxParticipants):
                 data.reserve_spot = True
                 reserve = 2
@@ -85,8 +96,6 @@ def signup(request, uid):
                 reserve = 1
             data.vege = lihaton
             data.nonholic = holiton
-            data.avec = form.cleaned_data['avec']
-            data.plaseeraus = form.cleaned_data['plaseeraus']
             if('organization' in request.POST):
                 data.quota = request.POST['organization']
             else:
