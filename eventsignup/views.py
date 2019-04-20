@@ -73,16 +73,16 @@ def signup(request, uid):
             data = form.save(commit=False)
             lihaton = False
             holiton = True
-            if(form.cleaned_data['lihaton'] == 'kasvis'):
-                lihaton = True
-            elif(form.cleaned_data['lihaton'] == 'null'):
-                lihaton = None
-            if(form.cleaned_data['holiton'] == 'holillinen'):
-                holiton = False
-            elif(form.cleaned_data['holiton'] == 'null'):
-                holiton = None
             try:
-                if(form.cleaned_data['gender'] and form.cleaned_data['gender'] == 'null'):
+                if(form.cleaned_data['lihaton'] == 'kasvis'):
+                    lihaton = True
+                elif(form.cleaned_data['lihaton'] == 'null'):
+                    lihaton = None
+                if(form.cleaned_data['holiton'] == 'holillinen'):
+                    holiton = False
+                elif(form.cleaned_data['holiton'] == 'null'):
+                    holiton = None
+                if(form.cleaned_data['gender'] == 'null'):
                     data.gender = None
                 data.avec = form.cleaned_data['avec']
                 data.plaseeraus = form.cleaned_data['plaseeraus']
@@ -90,10 +90,10 @@ def signup(request, uid):
                 pass
             if(event.has_reserve_spots and maxParticipants):
                 data.reserve_spot = True
-                reserve = 2
+                reserve = '2'
             else:
                 data.reserve_spot = False
-                reserve = 1
+                reserve = '1'
             data.vege = lihaton
             data.nonholic = holiton
             if('organization' in request.POST):
@@ -103,7 +103,7 @@ def signup(request, uid):
             data.miscInfo = helpers.getMiscInfo(form.cleaned_data)
             data.event_type = temp
             data.save()
-            return HttpResponseRedirect('/thanks/'+str(reserve))
+            return HttpResponseRedirect('/thanks/'+reserve)
     else:
         quotas = None
         canSignup = False
