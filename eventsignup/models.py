@@ -117,6 +117,7 @@ class Participant(models.Model):
     plaseeraus = models.CharField(max_length=500, blank=True, null=True)
     quota = models.CharField(max_length=200, blank=True, null=True)
     reserve_spot = models.BooleanField()
+    gender = models.CharField(max_length=10, blank=True, null=True)
 #    Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
 #    datan tulee olla muodossa {member:arvo, hasPaid:arvo}
     miscInfo = models.TextField(editable=False)

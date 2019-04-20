@@ -78,10 +78,11 @@ class SitzSignupForm(ModelForm):
     lihaton = forms.ChoiceField(label='Liha/Kasvis Menu', choices=(('liha', 'Liha'), ('kasvis', 'Kasvis')))
     avec = forms.CharField(required=False, label='Avec')
     plaseeraus = forms.CharField(required=False, label='Plaseeraustoive', help_text='Nimi 1, Nimi 2, ...')
+    gender = forms.ChoiceField(label='Sukupuoli', choices=(('null', ''), ('man' , 'Mies'), ('woman' , 'Nainen'), ('other' , 'Muu/Määrittelemätön')), help_text='Automaattisen plaseerauksen helpottamiseksi.')
 
     class Meta:
         model = Participant
-        fields = ['name', 'email', 'lihaton', 'holiton', 'avec', 'plaseeraus']
+        fields = ['name', 'email', 'lihaton', 'holiton', 'avec', 'plaseeraus', 'gender']
 
 
 # Osallistumislomake vuosijuhlat-tyypille.
