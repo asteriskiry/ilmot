@@ -7,19 +7,19 @@ User = get_user_model()
 
 # Kaikki uniikit tapahtumatyypit (esim. sitsit).
 class EventType(models.Model):
-    event_type = models.CharField(max_length=500,unique=True, verbose_name='Tapahtuman tyyppi')
+    event_type = models.CharField(max_length=191, unique=True, verbose_name='Tapahtuman tyyppi')
 
     def __str__(self):
         return "Tapahtuman tyyppi: "+str(self.event_type)
 
 
 # Tapahtuman järjestäjä (esim. Asteriski).
-class EventOwner(models.Model):
-    name = models.CharField(max_length=500, unique=True, verbose_name='Järjestävä taho')
-    email = models.EmailField(verbose_name='Sähköpostiosoite')
-
-    def __str__(self):
-        return "Tapahtuman järjestäjä(t): "+str(self.name)+", Sähköposti: "+str(self.email)
+#class EventOwner(models.Model):
+#    name = models.CharField(max_length=191, unique=True, verbose_name='Järjestävä taho')
+#    email = models.EmailField(verbose_name='Sähköpostiosoite')
+#
+#    def __str__(self):
+#        return "Tapahtuman järjestäjä(t): "+str(self.name)+", Sähköposti: "+str(self.email)
 
 
 # Kaikki tapahtumat koodusti.
@@ -41,13 +41,13 @@ class CommonInfo(models.Model):
     event_type = models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE, editable=False)
 #    owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
     owner = models.ForeignKey(User, to_field='username', on_delete=models.CASCADE, editable=False)
-    name = models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
+    name = models.CharField(max_length=200, verbose_name='Tapahtuman nimi')
     place = models.CharField(max_length=200, verbose_name='Pitopaikka')
     date = models.DateField(verbose_name='Tapahtuman pitopäivä')
     start_time = models.TimeField(verbose_name='Tapahtuman alkamisaika', default='00:00:00')
     description = models.TextField(verbose_name='Tapahtuman yleiskuvaus')
     pic = models.ImageField(blank=True, null=True, verbose_name='Ilmoittautumislomakkeen kansikuva', upload_to='events/%Y/%m/')
-    prize = models.CharField(max_length=500, blank=True, null=True, verbose_name='Tapahtuman hinta')
+    prize = models.CharField(max_length=200, blank=True, null=True, verbose_name='Tapahtuman hinta')
     max_participants = models.PositiveIntegerField(blank=True, null=True, verbose_name='Maksimimäärä osallistujia')
     signup_starts = models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
     signup_ends = models.DateTimeField(blank=True, null=True, verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
@@ -74,7 +74,7 @@ class CommonInfo(models.Model):
 
 # Sitsit tyyppinen tapahtuma.
 class Sitz(CommonInfo):
-    quotas = models.CharField(max_length=500, null=True, blank=True, verbose_name='Järjestävien tahojen osallistujakiintiöt')
+    quotas = models.CharField(max_length=191, null=True, blank=True, verbose_name='Järjestävien tahojen osallistujakiintiöt')
 
     def __str__(self):
         if self.quotas is None:
@@ -128,15 +128,15 @@ class Participant(models.Model):
 
 # Arkistotaulu.
 class Archive(models.Model):
-    event_type = models.CharField(max_length=500, verbose_name='Tapahtuman typpi')
-    name = models.CharField(max_length=500, verbose_name='Tapahtuman nimi')
+    event_type = models.CharField(max_length=191, verbose_name='Tapahtuman typpi')
+    name = models.CharField(max_length=191, verbose_name='Tapahtuman nimi')
     description = models.TextField(verbose_name='Tapahtuman yleiskuvaus')
     participants = models.IntegerField(verbose_name='Osallistujamäärä')
-    owner = models.CharField(max_length=500, verbose_name='Tapahtuman pitäjä')
+    owner = models.CharField(max_length=191, verbose_name='Tapahtuman pitäjä')
     date = models.DateTimeField(verbose_name='Tapahtuman pitopäivä')
-    place = models.CharField(max_length=200, verbose_name='Pitopaikka')
+    place = models.CharField(max_length=191, verbose_name='Pitopaikka')
     pic = models.ImageField(blank=True, null=True, verbose_name='Ilmoittautumislomakkeen kansikuva')
-    prize = models.CharField(max_length=500, blank=True, null=True, verbose_name='Tapahtuman hinta')
+    prize = models.CharField(max_length=191, blank=True, null=True, verbose_name='Tapahtuman hinta')
 
     def __str__(self):
         return "Tapahtuman tyyppi: "+self.event_type+", Tapahtuman nimi: "+self.name+", Kokonaisosallistujamäärä: "+str(self.participants)+", Tapahtuman järjestäjä: "+self.owner+",Alkuperäinen pitopäivä: "+str(self.date)+", Yleiskuvaus: "+self.description+', Alkuperäinen pitopaikka: '+self.place+', Mitä maksoi: '+self.prize

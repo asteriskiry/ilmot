@@ -4,8 +4,8 @@
 $family-sans-serif: "Nunito", sans-serif;
 
 //$body-background-color: hsl(0, 0%, 76%);
-$body-background-color: #46328c;
-$text: hsl(0, 0%, 100%);
+//$body-background-color: #46328c;
+//$text: hsl(0, 0%, 100%);
 $footer-background-color : #328c46;
 $link: #8c3262;
 
@@ -16,5 +16,15 @@ $navbar-item-color: #8c3278;
 $navbar-item-hover-color: hsl( 13, 64%, 37% );
 $navbar-item-active-color: hsl(253, 64%, 37%);
 
+.navbar-brand {
+  color: #ffffff;
+  font-size: 1.1em;
+  padding: 0.5em;
+}
+a:hover.navbar-brand  {
+  color: #e3E3E3;
+}
+
 // import rivi aina viimeiseksi riviksi
-@import "/riskiwww/mybulma/bulma-0.7.2/bulma.sass";
+@import "../bulma-0.7.2/bulma.sass";
+
