@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  riskiwww:
+    build: .
+    command: uwsgi --ini riskiwww_uwsgi.ini
+    container_name: riskiwww
+    volumes:
+      - .:/riskiwww
+#    ports:
+#      - "8000:8000"
+#  compass:
+#    image: antonienko/compass-watch
+#    command: watch --poll /riskiwww/mybulma/
+#    volumes:
+#      - .:/riskiwww
