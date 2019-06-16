@@ -7,3 +7,5 @@ libsass==0.17.0
 mysqlclient==1.4.2.post1
 PyMySQL==0.9.3
 fpdf==1.7.2
+XlsxWriter==1.1.8
+numpy==1.16.3

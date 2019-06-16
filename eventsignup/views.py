@@ -7,6 +7,7 @@ from .models import EventType, Events, Sitz, Annualfest, Excursion, OtherEvent, 
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
+from omat.seatingArrangement import makeSeating
 from datetime import datetime, timezone
 
 

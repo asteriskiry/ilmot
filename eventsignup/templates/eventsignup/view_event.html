@@ -21,6 +21,9 @@
     {% include 'eventsignup/includes/geninfo.html' %}
     <hr>
     <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
+  {% if event.seating_arrangement %}
+  <p><a href="{{ event.seating_arrangement.url}}">Lataa automaattisesti generoitu plaseeraus</a> (Excel muodossa).</p>
+  {% endif %}
 </div>
 {% endif %}
 <table class="table is-striped is-hoverable">
