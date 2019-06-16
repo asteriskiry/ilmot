@@ -52,7 +52,7 @@ class CommonInfo(models.Model):
     signup_starts = models.DateTimeField(verbose_name='Tapahtumaan ilmoittautuminen avautuu')
     signup_ends = models.DateTimeField(blank=True, null=True, verbose_name='Tapahtumaan ilmoittautuminen sulkeutuu')
     has_reserve_spots = models.BooleanField(verbose_name='Ota ilmoittautumisen varasijat käyttöön')
-    seating_arrangement = models.FileField(editable=False, upload_to='events/seating/%Y/%m/')
+    seating_arrangement = models.FileField(blank=True, null=True, editable=False, upload_to='events/seating/%Y/%m/')
 
     def save(self, *args, **kwargs):
         self.description = mark_safe(self.description.replace("\n", "<br/>"))
