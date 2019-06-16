@@ -57,7 +57,7 @@ def istumaan(participant, table=None, participants=None):
             if index % 2 != 1:
                 temp = index
                 while temp < n:
-                    if table[temp] is None:
+                    if table and table[temp] is None:
                         table[temp] = participant
                         break
                     temp += 2
@@ -65,7 +65,7 @@ def istumaan(participant, table=None, participants=None):
             elif index + 1 < n:
                 temp = index + 1
                 while temp < n:
-                    if table[temp] is None:
+                    if table and table[temp] is None:
                         table[temp] = participant
                         break
                     temp += 2
@@ -74,12 +74,12 @@ def istumaan(participant, table=None, participants=None):
                 if index + 1 >= n:
                     index = 0
 
-                if table[index] is None:
+                if table and table[index] is None:
                     table[index] = participant
 
                 else:
                     for i in range(n):
-                        if table[i] is None:
+                        if table and  table[i] is None:
                             table[i] = participant
                             break
             if index + 1 >= n:
@@ -218,12 +218,15 @@ def excel(food, drink, poytienmaara, uusipoyta, event=None):
                 ecol += 3
                 poytanro += 1
                 worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
-            worksheet.write(erow, ecol,
-                            matrix[row][col].name + ', ' + matrix[row][col].holiton + ', ' + matrix[row][col].lihaton)
+                if(matrix[row][col] is not None):
+
+                    worksheet.write(erow, ecol,
+                                    matrix[row][col].name + ', ' + matrix[row][col].holiton + ', ' + matrix[row][col].lihaton)
             istutettu += 1
-            worksheet.write(erow, ecol + 1,
-                            matrix[row][col + 1].name + ', ' + matrix[row][col + 1].holiton + ', ' + matrix[row][
-                                col + 1].lihaton)
+            if(matrix[row][col] is not None):
+                worksheet.write(erow, ecol + 1,
+                                matrix[row][col + 1].name + ', ' + matrix[row][col + 1].holiton + ', ' + matrix[row][
+                                    col + 1].lihaton)
             istutettu += 1
             row += 1
             erow += 1
