@@ -209,21 +209,32 @@ def formtype(request, **kwargs):
 # Näyttää tapahtuman tiedot ja osallistujalistan.
 @login_required
 def info(request, uid,**kwargs):
-	if(request.method=='POST'):
-		Participant.objects.filter(event_type=uid,email=request.POST['user']).delete()
-		return HttpResponseRedirect('/event/'+str(uid)+'/view/')
-	else:
-		just_list=False
-		participants=Participant.objects.filter(event_type=uid)
-		event=helpers.getEvent(uid)
-		if(kwargs):
-			if(kwargs['type']=='list'):
-				just_list=True
-			elif(kwargs['type']=='pdf'):
-				pdf=helpers.genPdf(request,participants,event)
-				return HttpResponseRedirect('/media/'+pdf)
-		other=False
-		return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
+    if(request.method=='POST'):
+        if('user' in request.POST):
+            Participant.objects.filter(event_type=uid,email=request.POST['user']).delete()
+            return HttpResponseRedirect('/event/'+str(uid)+'/view/')
+
+        elif ('plaseeraus' in request.POST and request.POST['plaseeraus']=='true'):
+            from pathlib import Path
+            from django.conf import settings
+            event = helpers.getEvent(uid)
+            participants = list(Participant.objects.filter(event_type=uid))
+            filename = makeSeating(event, participants, 4)
+            today = datetime.today().date()
+            Path(filename).rename(settings.MEDIA_ROOT+'/'+str(today.year)+'/'+str(today.month)+'/'+filename)
+            return HttpResponseRedirect('/event/'+str(uid)+'/view/')
+    else:
+        just_list=False
+        participants=Participant.objects.filter(event_type=uid)
+        event=helpers.getEvent(uid)
+        if(kwargs):
+            if(kwargs['type']=='list'):
+                just_list=True
+            elif(kwargs['type']=='pdf'):
+                pdf=helpers.genPdf(request,participants,event)
+                return HttpResponseRedirect('/media/'+pdf)
+        other=False
+        return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
 
 
 # Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".

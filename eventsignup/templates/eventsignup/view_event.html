@@ -23,6 +23,9 @@
     <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
   {% if event.seating_arrangement %}
   <p><a href="{{ event.seating_arrangement.url}}">Lataa automaattisesti generoitu plaseeraus</a> (Excel muodossa).</p>
+  {% else %}
+  <p><form method="post" name="plaseeraus">{% csrf_token %}<input type="hidden" name="plaseeraus" value="true"/><input type="hidden" name="uid" value="{{event.uid.uid}}"/>
+  <button type="submit" class="button is-rounded">Luo plaseeraus</button></form></p>
   {% endif %}
 </div>
 {% endif %}
