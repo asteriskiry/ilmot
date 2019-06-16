@@ -275,7 +275,10 @@ def edit(request, **kwargs):
         if(form.is_valid()):
             data = form.save(commit=False)
             data.signup_starts = datetime.combine(form.cleaned_data['signup_starts_date'], form.cleaned_data['signup_starts_time'], tzinfo=timezone.utc)
-            data.signup_ends = datetime.combine(form.cleaned_data['signup_ends_date'], form.cleaned_data['signup_ends_time'], tzinfo=timezone.utc)
+            if (not (form.cleaned_data['signup_ends_date'] is None or form.cleaned_data['signup_ends_time'] is None)):
+                data.signup_ends = datetime.combine(form.cleaned_data['signup_ends_date'], form.cleaned_data['signup_ends_time'], tzinfo=timezone.utc)
+            else:
+                data.signup_ends = None
             data.save()
             helpers.sendEmail(data, request)
             return HttpResponseRedirect('/event/'+str(event.uid.uid)+'/preview/edit')
