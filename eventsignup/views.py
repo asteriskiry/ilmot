@@ -221,7 +221,14 @@ def info(request, uid,**kwargs):
             participants = list(Participant.objects.filter(event_type=uid))
             filename = makeSeating(event, participants, 4)
             today = datetime.today().date()
-            Path(filename).rename(settings.MEDIA_ROOT+'/'+str(today.year)+'/'+str(today.month)+'/'+filename)
+            path = '/events/seating/'+str(today.year)+'/'+str(today.month)+'/'
+            if(Path(settings.MEDIA_ROOT+path).exists()):
+                Path(filename).rename(settings.MEDIA_ROOT+path+filename)
+            else:
+                Path(settings.MEDIA_ROOT+path).mkdir(parents=True)
+                Path(filename).rename(settings.MEDIA_ROOT+path+filename)
+            event.seating_arrangement = path+filename
+            event.save()
             return HttpResponseRedirect('/event/'+str(uid)+'/view/')
     else:
         just_list=False
