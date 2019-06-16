@@ -3,163 +3,155 @@
 # Additional development and integration: Juhani Vähä-Mäkilä
 
 import random
-import xlsxwriter
 from numpy import reshape
-
-# Alkuun oliolista osallistujista
-
-# # lajittelemattomat = [Participant.objects.filter(event_type=uid)]
-# # Ylempi tulee korvaamaan alemman
-# lajittelemattomat = list(tuolista())
-# # lajittelemattomat listaan
-# random.shuffle(lajittelemattomat)
+from datetime import datetime
 
 # Kohta kertoo missä ollaan lajittelemattomien listalla
-kohta = 0
-
-n = len(lajittelemattomat)
-
-poyta = [None] * n
+index = 0
 
 
-def istumaan(henkilo):
-    global kohta
-    global n
-    global poyta
+def istumaan(participant, table=None, participants=None):
+    global index
+    n = len(participants)
 
-    if henkilo:
-        if henkilo.gender == "woman" and henkilo in lajittelemattomat:
+    if participant:
+        if participant.gender == "woman" and participant in participants:
 
-            if kohta % 2 != 0:
-                temp = kohta
+            if index % 2 != 0:
+                temp = index
                 while temp < n:
-                    if poyta[temp] is None:
-                        poyta[temp] = henkilo
+                    if table[temp] is None:
+                        table[temp] = participant
                         break
                     temp += 2
 
-            elif kohta + 1 < round(n):
-                temp = kohta + 1
+            elif index + 1 < round(n):
+                temp = index + 1
                 while temp < n:
-                    if poyta[temp] is None:
-                        poyta[temp] = henkilo
+                    if table[temp] is None:
+                        table[temp] = participant
                         break
                     temp += 2
 
             else:
-                if kohta + 1 >= n:
-                    kohta = 0
+                if index + 1 >= n:
+                    index = 0
 
-                if poyta[kohta] is None:
-                    poyta[kohta] = henkilo
+                if table[index] is None:
+                    table[index] = participant
 
                 else:
                     for i in range(n):
-                        if poyta[i] is None:
-                            poyta[i] = henkilo
+                        if table[i] is None:
+                            table[i] = participant
                             break
-            if kohta + 1 >= n:
-                kohta = 0
+            if index + 1 >= n:
+                index = 0
 
             else:
-                kohta += 1
+                index += 1
 
-            lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+            participants[participants.index(participant)] = None
 
-        elif henkilo.gender == "man" and henkilo in lajittelemattomat:
-            if kohta % 2 != 1:
-                temp = kohta
+        elif participant.gender == "man" and participant in participants:
+            if index % 2 != 1:
+                temp = index
                 while temp < n:
-                    if poyta[temp] is None:
-                        poyta[temp] = henkilo
+                    if table[temp] is None:
+                        table[temp] = participant
                         break
                     temp += 2
 
-            elif kohta + 1 < n:
-                temp = kohta + 1
+            elif index + 1 < n:
+                temp = index + 1
                 while temp < n:
-                    if poyta[temp] is None:
-                        poyta[temp] = henkilo
+                    if table[temp] is None:
+                        table[temp] = participant
                         break
                     temp += 2
 
             else:
-                if kohta + 1 >= n:
-                    kohta = 0
+                if index + 1 >= n:
+                    index = 0
 
-                if poyta[kohta] is None:
-                    poyta[kohta] = henkilo
+                if table[index] is None:
+                    table[index] = participant
 
                 else:
                     for i in range(n):
-                        if poyta[i] is None:
-                            poyta[i] = henkilo
+                        if table[i] is None:
+                            table[i] = participant
                             break
-            if kohta + 1 >= n:
-                kohta = 0
+            if index + 1 >= n:
+                index = 0
 
             else:
-                kohta += 1
+                index += 1
 
-            lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+            participants[participants.index(participant)] = None
 
         else:
-            if henkilo in lajittelemattomat:
+            if participant in participants:
                 for i in range(n):
-                    if poyta[i] is None:
-                        poyta[i] = henkilo
+                    if table[i] is None:
+                        table[i] = participant
                         break
-                lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+                participants[participants.index(participant)] = None
 
 
-def poytaseurueistumaan(henkilo):
-    if henkilo:
-        if henkilo.friends:
-            for h in henkilo.friends:
-                istumaan(h)
+def poytaseurueistumaan(participant):
+    if participant:
+        friends = participant.plaseeraus.split(",")
+        if friends:
+            for person in friends:
+                istumaan(person)
 
 
-def vaihda():
-    for i in range(len(poyta)):
+def vaihda(table):
+    for i in range(len(table)):
         if i % 2 == 0 and i % 4 != 0:
-            temp = poyta[i]
-            poyta[i] = poyta[i + 1]
-            poyta[i + 1] = temp
+            temp = table[i]
+            table[i] = table[i + 1]
+            table[i + 1] = temp
 
 
-def plaseeraus():
+def plaseeraus(participants, table):
     paikka = 0
     i = 0
-    while paikka < len(lajittelemattomat):
-        istumaan(lajittelemattomat[paikka])
-        while i < len(poyta) and poyta[i]:
-            poytaseurueistumaan(poyta[i])
+    while paikka < len(participants):
+        istumaan(participants[paikka], None, participants)
+        while i < len(table) and table[i]:
+            poytaseurueistumaan(table[i])
             i += 1
         paikka += 1
-    vaihda()
-    if None in poyta:
-        poyta.remove(None)
-    tarkista = list(tuolista())
+    vaihda(table)
+    if None in table:
+        table.remove(None)
+    tarkista = list(participants)
     for i in range(len(tarkista)):
-        if tarkista[i] not in poyta:
-            poyta.append(tarkista[i])
-    return poyta
+        if tarkista[i] not in table:
+            table.append(tarkista[i])
+    return table
 
 
 def matriisi(lista):
+    from omat.helpers import genNullParticipant
     shape = (round(len(lista) / 2), 2)
-    if len(lista) % 2 == 1:
-        tyhja = Henkilo("-", "-", [], "-", "-")
+    if len(lista) % 2 != 0:
+        tyhja = genNullParticipant()
         lista.append(tyhja)
     lista = reshape(lista, shape)
     return lista
 
 
-def excel(food, drink, poytienmaara, uusipoyta):
+def excel(food, drink, poytienmaara, uusipoyta, event=None):
+    import xlsxwriter
     # Koodi exceliin
+    today = datetime.today().date()
+    filename = 'Plaseeraus_'+str(event.name).replace(' ', '_')+'_'+today.isoformat()+'.xlsx'
     matrix = matriisi(uusipoyta)
-    workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
-    worksheet = workbook.add_worksheet('Plaseeraus')
+    workbook = xlsxwriter.Workbook(filename)
+    worksheet = workbook.add_worksheet('Plaseeraus '+str(event.name))
     erow = 1
     ecol = 0
     row = 0
@@ -168,7 +160,7 @@ def excel(food, drink, poytienmaara, uusipoyta):
     poytaosallistujat = int(len(uusipoyta)/int(poytienmaara))
     istutettu = 0
     poytanro = 1
-    # Käyttöliittymästä true/false food ja drink attribuutteihin
+
     if not food and not drink:
         worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
         while row < rivit:
@@ -237,7 +229,13 @@ def excel(food, drink, poytienmaara, uusipoyta):
             erow += 1
 
     workbook.close()
+    return filename
 
 
-def makeSeating(event, participants):
-    pass
+# Entry point to the seating generator
+def makeSeating(event, participants, numOfTables):
+    random.shuffle(participants)
+    table = [None] * len(participants)
+    table = plaseeraus(participants, table)
+    filename = excel(True, True, numOfTables, table, event)
+    return filename
