@@ -5,165 +5,175 @@
 {% include 'eventsignup/includes/breadcrum.html' %}
 {% if not just_list %}
 <div class="content">
-<p>Alla on tapahtuman tiedot. Tietojen alta löytyy lista tapahtumaan osallistujista.</p>
-<hr>
-{% if event.pic %}
-<img src={{ event.pic.url }} alt={{ event.name }}></img>
-{% endif %}
-<h1>
-{{ event.name }}
-</h1>
-<p>{{ event.owner }}</p>
-<p>
-{{ event.description | safe }}
-</p>
-<p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
-    {% include 'eventsignup/includes/geninfo.html' %}
-    <hr>
-    <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
-  {% if event.seating_arrangement %}
-  <p><a href="{{ event.seating_arrangement.url}}">Lataa automaattisesti generoitu plaseeraus</a> (Excel muodossa).</p>
-  {% else %}
-  <p><form method="post" name="plaseeraus">{% csrf_token %}<input type="hidden" name="plaseeraus" value="true"/><input type="hidden" name="uid" value="{{event.uid.uid}}"/>
-  <button type="submit" class="button is-rounded">Luo plaseeraus</button></form></p>
+  <p>Alla on tapahtuman tiedot. Tietojen alta löytyy lista tapahtumaan osallistujista.</p>
+  <hr>
+  {% if event.pic %}
+  <img src={{ event.pic.url }} alt={{ event.name }}></img>
   {% endif %}
+  <h1>
+    {{ event.name }}
+  </h1>
+  <p>{{ event.owner }}</p>
+  <p>
+    {{ event.description | safe }}
+  </p>
+  <p>Ilmoittaudu tästä: <a href="{{baseurl}}/event/{{event.uid.uid}}/signup" target="_blank">{{baseurl}}/event/{{event.uid.uid}}/signup</a></p>
+  {% include 'eventsignup/includes/geninfo.html' %}
+  <hr>
+  <p>Plaseerauksen automaattinen generointi.</p>
+  {% if event.seating_arrangement %}
+  <div class="field is-grouped">
+    <p class="control">
+      <a class="button is-rounded is-focused is-success" href="{{ event.seating_arrangement.url}}">Lataa plaseeraus</a>
+    <form method="post" name="plaseeraus">{% csrf_token %}<input type="hidden" name="plaseeraus" value="true"/><input type="hidden" name="uid" value="{{event.uid.uid}}"/>
+      <button type="submit" class="button is-rounded is-focused is-warning">Luo plaseeraus uudestaan</button></form>
+    </p>
+  </div>
+  {% else %}
+  <p>
+  <form method="post" name="plaseeraus">{% csrf_token %}<input type="hidden" name="plaseeraus" value="true"/><input type="hidden" name="uid" value="{{event.uid.uid}}"/>
+    <button type="submit" class="button is-rounded is-hovered">Luo plaseeraus</button></form>
+  </p>
+  {% endif %}
+  <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
+
 </div>
 {% endif %}
 <table class="table is-striped is-hoverable">
   <thead>
-    <tr>
-      <th>Nimi</th>
-      <th>sähköposti</th>
-      {% if not other %}
-      <th>Kasvis</th>
-      <th>Holiton</th>
-      <th>Avec</th>
-      <th>Plaseeraus</th>
-      <th>Kiintiö</th>
-      {% endif %}
-    </tr>
+  <tr>
+    <th>Nimi</th>
+    <th>sähköposti</th>
+    {% if not other %}
+    <th>Kasvis</th>
+    <th>Holiton</th>
+    <th>Avec</th>
+    <th>Plaseeraus</th>
+    <th>Kiintiö</th>
+    {% endif %}
+  </tr>
   </thead>
   <tfoot>
-    <tr>
-      <th>Nimi</th>
-      <th>Sähköposti</th>
-      {% if not other  %}
-      <th>Kasvis</th>
-      <th>Holiton</th>
-      <th>Avec</th>
-      <th>Plaseeraus</th>
-      <th>Kiintiö</th>
-      {% endif %}
-    </tr>
+  <tr>
+    <th>Nimi</th>
+    <th>Sähköposti</th>
+    {% if not other  %}
+    <th>Kasvis</th>
+    <th>Holiton</th>
+    <th>Avec</th>
+    <th>Plaseeraus</th>
+    <th>Kiintiö</th>
+    {% endif %}
+  </tr>
   </tfoot>
   <tbody>
-   {% for field in participants %}
-    <tr>
-      {#<th>1</th>#}
-      <td>{{field.name}}</td>
-      <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
-      {% if not other %}
-      <td>
+  {% for field in participants %}
+  <tr>
+    {#<th>1</th>#}
+    <td>{{field.name}}</td>
+    <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
+    {% if not other %}
+    <td>
       {% if field.vege %}
-      	Kyllä
+      Kyllä
       {% endif %}
-      </td>
-      <td>
+    </td>
+    <td>
       {% if field.nonholic %}
       Kyllä
       {% endif %}
-      </td>
-	<td>
+    </td>
+    <td>
       {% if field.avec %}
       {{field.avec}}
       {% else %}
-      
-      
+
+
       {% endif %}
-      </td>
-      <td>
+    </td>
+    <td>
       {% if field.plaseeraus %}
       {{field.plaseeraus}}
       {% else %}
-      
+
       {% endif %}
-      </td>
-      <td>{{field.quota}}</td>
-      {% endif %}
+    </td>
+    <td>{{field.quota}}</td>
+    {% endif %}
     <td><form method="post" name="uid_{{event.uid.uid}}">{% csrf_token %}<input type="hidden" name="uid" value="{{event.uid.uid}}"/><input type="hidden" name="user" value="{{field.email}}" />
-    <button type="submit" class="button is-rounded is-danger">Poista</button>
+      <button type="submit" class="button is-rounded is-danger">Poista</button>
     </form></td></tr>
-    {% endfor %}
-     </tbody>
+  {% endfor %}
+  </tbody>
 </table>
 {% if event.has_reserve_spots %}
 <p>Varasijoilla olevat:</p>
 <table class="table is-striped is-hoverable">
   <thead>
-    <tr>
-      <th>Nimi</th>
-      <th>sähköposti</th>
-      {% if not other %}
-      <th>Kasvis</th>
-      <th>Holiton</th>
-      <th>Avec</th>
-      <th>Plaseeraus</th>
-      <th>Kiintiö</th>
-      {% endif %}
-    </tr>
+  <tr>
+    <th>Nimi</th>
+    <th>sähköposti</th>
+    {% if not other %}
+    <th>Kasvis</th>
+    <th>Holiton</th>
+    <th>Avec</th>
+    <th>Plaseeraus</th>
+    <th>Kiintiö</th>
+    {% endif %}
+  </tr>
   </thead>
   <tfoot>
-    <tr>
-      <th>Nimi</th>
-      <th>Sähköposti</th>
-      {% if not other  %}
-      <th>Kasvis</th>
-      <th>Holiton</th>
-      <th>Avec</th>
-      <th>Plaseeraus</th>
-      <th>Kiintiö</th>
-      {% endif %}
-    </tr>
+  <tr>
+    <th>Nimi</th>
+    <th>Sähköposti</th>
+    {% if not other  %}
+    <th>Kasvis</th>
+    <th>Holiton</th>
+    <th>Avec</th>
+    <th>Plaseeraus</th>
+    <th>Kiintiö</th>
+    {% endif %}
+  </tr>
   </tfoot>
   <tbody>
-   {% for field in participants_reserve %}
-    <tr>
-      {#<th>1</th>#}
-      <td>{{field.name}}</td>
-      <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
-      {% if not other %}
-      <td>
+  {% for field in participants_reserve %}
+  <tr>
+    {#<th>1</th>#}
+    <td>{{field.name}}</td>
+    <td><a href="mailto:{{field.email}}">{{field.email}}</a></td>
+    {% if not other %}
+    <td>
       {% if field.vege %}
-      	Kyllä
+      Kyllä
       {% endif %}
-      </td>
-      <td>
+    </td>
+    <td>
       {% if field.nonholic %}
       Kyllä
       {% endif %}
-      </td>
-	<td>
+    </td>
+    <td>
       {% if field.avec %}
       {{field.avec}}
       {% else %}
-      
-      
+
+
       {% endif %}
-      </td>
-      <td>
+    </td>
+    <td>
       {% if field.plaseeraus %}
       {{field.plaseeraus}}
       {% else %}
-      
+
       {% endif %}
-      </td>
-      <td>{{field.quota}}</td>
-      {% endif %}
+    </td>
+    <td>{{field.quota}}</td>
+    {% endif %}
     <td><form method="post" name="uid_{{event.uid.uid}}">{% csrf_token %}<input type="hidden" name="uid" value="{{event.uid.uid}}"/><input type="hidden" name="user" value="{{field.email}}" />
-    <button type="submit" class="button is-rounded is-danger">Poista</button>
+      <button type="submit" class="button is-rounded is-danger">Poista</button>
     </form></td></tr>
-    {% endfor %}
-     </tbody>
+  {% endfor %}
+  </tbody>
 </table>
 {% endif %}
 {% endblock %}
