@@ -23,7 +23,7 @@ def getUid():
 def getForm(event_type, request, **kwargs):
     form = None
     initial = None
-    if(kwargs and kwargs['initial']):
+    if(kwargs and 'initial' in kwargs):
         initial = kwargs['initial']
     if(event_type == 'sitsit'):
         form = SitzForm(request.POST or None, request.FILES or None, instance=initial)
