@@ -101,8 +101,8 @@ def genMsg(data, request):
 def sendEmail(data, request):
     with mail.get_connection() as connection:
         mail.EmailMessage(
-       ' [* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name, genMsg(data,request), 'noreply@asteriski.fi', [str(data.owner.email)],
-        connection=connection,
+            ' [* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name, genMsg(data,request), 'noreply@asteriski.fi', [str(data.owner.email)],
+            connection=connection,
             ).send()
 #    send_mail(
 #   '[* tapahtumailmoittautumisjärjestelmä] Lisätty tapahtuma: '+data.name,
@@ -164,27 +164,25 @@ def getParticipantCount():
 
 
 def isQuotaFull(event,data):
-	try:
-		#	haettu quota on data['name']
-		quotas=getQuotaNames(event.quotas,False)
-		numOf=Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
-		paluu=False
-	except AttributeError as e:
-		paluu=False
-	return paluu
+    try:
+        #	haettu quota on data['name']
+        quotas=getQuotaNames(event.quotas,False)
+        numOf=Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
+        paluu=False
+    except AttributeError as e:
+        paluu=False
+    return paluu
 
 class HTML2PDF(FPDF, HTMLMixin):
     pass
 # Generoi tapahtuman osallistujalistan pdf muotoon.
 def genPdf(request,participants,event):
-	from django.template import loader
-	from django.conf import settings
-	nimi='osallistujalista_'+str(event.name).replace(' ','_')+'.pdf'
-	template = loader.get_template("eventsignup/includes/participant_table.html")
-	pdf = HTML2PDF()
-	pdf.add_page()
-	pdf.write_html(template.render({'event':event,'participants':participants},request))
-	pdf.output(settings.MEDIA_ROOT+'/'+nimi)
-	return nimi
-
-
+    from django.template import loader
+    from django.conf import settings
+    nimi='osallistujalista_'+str(event.name).replace(' ','_')+'.pdf'
+    template = loader.get_template("eventsignup/includes/participant_table.html")
+    pdf = HTML2PDF()
+    pdf.add_page()
+    pdf.write_html(template.render({'event': event, 'participants': participants}, request))
+    pdf.output(settings.MEDIA_ROOT+'/'+nimi)
+    return nimi

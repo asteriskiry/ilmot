@@ -30,7 +30,7 @@ def thanks(request, **kwargs):
         for x in temp:
             if(str.isdigit(x)):
                 uid = int(x)
-#        uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
+        #        uid=''.join(filter(str.isdigit, request.META['HTTP_REFERER']))
         event = helpers.getEvent(uid)
     except KeyError:
         return HttpResponseRedirect('/')
@@ -162,7 +162,7 @@ def add(request, **kwargs):
             data = form.save(commit=False)
             data.uid = Events.objects.get(uid=uid)
             data.event_type = EventType.objects.get(event_type=event_type)
-#            data.owner=EventOwner.objects.get(name=request.user.get_username())
+            #            data.owner=EventOwner.objects.get(name=request.user.get_username())
             data.owner = User.objects.get(username=request.user.get_username())
             #data.description = data.description.replace("\n", "</p><p>")
             data.signup_starts = datetime.combine(form.cleaned_data['signup_starts_date'], form.cleaned_data['signup_starts_time'], tzinfo=timezone.utc)
@@ -211,21 +211,21 @@ def formtype(request, **kwargs):
 # Näyttää tapahtuman tiedot ja osallistujalistan.
 @login_required
 def info(request, uid,**kwargs):
-	if(request.method=='POST'):
-		Participant.objects.filter(event_type=uid,email=request.POST['user']).delete()
-		return HttpResponseRedirect('/event/'+str(uid)+'/view/')
-	else:
-		just_list=False
-		participants=Participant.objects.filter(event_type=uid)
-		event=helpers.getEvent(uid)
-		if(kwargs):
-			if(kwargs['type']=='list'):
-				just_list=True
-			elif(kwargs['type']=='pdf'):
-				pdf=helpers.genPdf(request,participants,event)
-				return HttpResponseRedirect('/media/'+pdf)
-		other=False
-		return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
+    if(request.method=='POST'):
+        Participant.objects.filter(event_type=uid,email=request.POST['user']).delete()
+        return HttpResponseRedirect('/event/'+str(uid)+'/view/')
+    else:
+        just_list=False
+        participants=Participant.objects.filter(event_type=uid)
+        event=helpers.getEvent(uid)
+        if(kwargs):
+            if(kwargs['type']=='list'):
+                just_list=True
+            elif(kwargs['type']=='pdf'):
+                pdf=helpers.genPdf(request,participants,event)
+                return HttpResponseRedirect('/media/'+pdf)
+        other=False
+        return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
 
 
 # Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".
@@ -256,13 +256,13 @@ def management(request):
     previous_annualfest = Annualfest.objects.filter(date__lt=todaysdate, owner=auth_user)
     # eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
     return render(request, "eventsignup/management.html",
-    {'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
-     'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
-     'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
-     'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
-     'baseurl': helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop': desktop, 'management': True,
-    }
-    )
+                  {'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
+                   'menneet_muutTapahtumat': previous_otherEvents, 'tulevat_muutTapahtumat': upcoming_otherEvents,
+                   'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
+                   'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
+                   'baseurl': helpers.getBaseurl(request), 'osallistujamaarat': helpers.getParticipantCount(), 'desktop': desktop, 'management': True,
+                   }
+                  )
 
 # Olemassa olevan tapahtuman muokkaus.
 @login_required
@@ -291,7 +291,7 @@ def edit(request, **kwargs):
 # Uuden tapahtuman luonnin jälkeen näytettävä esikatselu.
 @login_required
 def preview(request, uid, **kwargs):
-#    url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
+    #    url = reverse('home',urlconf='riskiwww.urls')+"eventsignup"
     event = helpers.getEvent(uid)
     edit = False
     if(kwargs and kwargs['type'] == 'edit'):

@@ -50,17 +50,19 @@ def setupCss():
     import sass
     sass.compile(dirname=(path+"mybulma/sass/", path+"static/css/"))
 
+
 def setupEnv():
-	print("Asetetaan muu dev ympäristö kuntoon.")
-	print("Linkitetään oikea docker tiedosto dec ympäristöä varten.")
-	os.link('./Dockerfile.dev', 'Dockerfile')
-	os.link('./docker-compose.yml.dev', 'docker-compose.yml')
+    print("Asetetaan muu dev ympäristö kuntoon.")
+    print("Linkitetään oikea docker tiedosto dec ympäristöä varten.")
+    os.link('./Dockerfile.dev', 'Dockerfile')
+    os.link('./docker-compose.yml.dev', 'docker-compose.yml')
+
 
 if __name__ == '__main__':
-	path = os.path.abspath(__file__).replace(sys.argv[0], '')
-	setupDjango()
-	setupBulma()
-	setupCss()
-	setupEnv()
-	print('Valmis.')
+    path = os.path.abspath(__file__).replace(sys.argv[0], '')
+    setupDjango()
+    setupBulma()
+    setupCss()
+    setupEnv()
+    print('Valmis.')
 

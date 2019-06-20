@@ -23,12 +23,12 @@ class AnnualfestForm(ModelForm):
     signup_starts_time = forms.TimeField(required=True, label='Ilmoittautumisen alkamisaika')
     signup_ends_date = forms.DateField(required=False, label='Ilmoittautumisen päättymispäivä')
     signup_ends_time = forms.TimeField(required=False, label='Ilmoittautumisen päättymisaika')
-#    def __init__(self, *args, **kwargs):
-#        super(AnnualfestForm, self).__init__(*args, **kwargs)
-#        self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
-#        self.fields['start_time'].widget = MyTimeInput(attrs={'class':'date'})
-#        self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
-#        self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
+    #    def __init__(self, *args, **kwargs):
+    #        super(AnnualfestForm, self).__init__(*args, **kwargs)
+    #        self.fields['date'].widget = MyDateInput(attrs={'class':'date'})
+    #        self.fields['start_time'].widget = MyTimeInput(attrs={'class':'date'})
+    #        self.fields['signup_starts'].widget = MyDateTimeInput(attrs={'class':'date'})
+    #        self.fields['signup_ends'].widget = MyDateTimeInput(attrs={'class':'date'})
 
     class Meta:
         model = Annualfest
