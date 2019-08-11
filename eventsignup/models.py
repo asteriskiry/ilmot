@@ -121,8 +121,8 @@ class Participant(models.Model):
     #    Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
     #    datan tulee olla muodossa {member:arvo, hasPaid:arvo}
     # miscInfo = models.TextField(editable=False)
-    member = models.BooleanField(editable=False, blank=True, null=True)
-    hasPaid = models.BooleanField(editable=False, blank=True, null=True)
+    member = models.NullBooleanField(editable=False, blank=True, null=True)
+    hasPaid = models.NullBooleanField(editable=False, blank=True, null=True)
 
     def __str__(self):
         return str(self.event_type)+', ' + self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', jäsen: '+str(self.member)+', maksanut: '+str(self.hasPaid)
