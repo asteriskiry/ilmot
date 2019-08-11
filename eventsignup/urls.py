@@ -32,6 +32,8 @@ urlpatterns = [
     path('event/<int:uid>/signup/', views.signup, name='signup'),
     # Poistaa (=Arkistoi) tapahtuman
     path('event/<int:uid>/delete/', views.archive, name='archive'),
+    # osallistujalistan exporttaus
+    path('event/<int:uid>/export/', views.export, name='export'),
     # Näyttää tietosuojainfon
     path('privacy', views.privacy, name='privacy'),
 

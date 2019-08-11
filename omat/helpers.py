@@ -7,6 +7,10 @@ import random
 import json
 from django.core import mail
 from fpdf import FPDF, HTMLMixin
+from django.conf import settings
+import csv
+from pathlib import Path
+from datetime import datetime
 
 
 # Generoi uuden uniikin uid:n tapahtumalle.
@@ -186,3 +190,38 @@ def genPdf(request,participants,event):
     pdf.write_html(template.render({'event': event, 'participants': participants}, request))
     pdf.output(settings.MEDIA_ROOT+'/'+nimi)
     return nimi
+
+
+# Generoi excel-tyylisen pilkulla erotetun csv tiedoston kaikista tapahtuman osallistujista
+# Palauttaa generoidun tiedoston nimen
+def gen_csv(event, participants):
+    file_name = 'osallistujalista_' + str(event.name).replace(' ', '_') + '_' + datetime.today().date().isoformat()+'.csv'
+    path = settings.MEDIA_ROOT + '/' + file_name
+    if not Path(path).exists():
+        model_keys = Participant._meta.__dict__.get("fields")
+        model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
+        with open(path, 'w') as csvfile:
+            fieldnames = list(model_keys)
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect='excel', delimiter=',')
+            writer.writeheader()
+            for participant in participants:
+                participant_row = {}
+                for key in model_keys:
+                    participant_row[key] = participant[key]
+                writer.writerow(participant_row)
+    return file_name
+
+
+# Entry point metodi erityyppisille tiedostoexporteille
+# Palauttaa exportattavan tiedoston nimen
+def gen_export(event, type_of_export, participants, **kwargs):
+    if type_of_export == 'csv':
+        return gen_csv(event, participants)
+    elif type_of_export == 'pdf':
+        return genPdf(None, participants, event)
+    elif type_of_export == 'zip':
+        pass
+
+
+def get_export_options():
+    return ['csv', 'pdf']

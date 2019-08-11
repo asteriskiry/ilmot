@@ -1,13 +1,17 @@
+import mimetypes
+from pathlib import Path
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import EventType, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
 from omat import helpers
 from datetime import datetime, timezone
+from django.conf import settings
 
 
 # Koko järjestelmän juuri (= /) sivu.
@@ -228,7 +232,8 @@ def info(request, uid,**kwargs):
                 pdf=helpers.genPdf(request,participants,event)
                 return HttpResponseRedirect('/media/'+pdf)
         other=False
-        return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','baseurl':helpers.getBaseurl(request)})
+        export_options = helpers.get_export_options()
+        return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa', 'export_options': export_options, 'baseurl':helpers.getBaseurl(request)})
 
 
 # Sisäänkirjautumisen jälkeen näytettävä "hallintapaneeli".
@@ -300,3 +305,36 @@ def preview(request, uid, **kwargs):
     if(kwargs and kwargs['type'] == 'edit'):
         edit = True
     return render(request, "eventsignup/preview.html", {'event': event, 'edit': edit, 'baseurl': helpers.getBaseurl(request)})
+
+
+# Tapahtuman osallistujalistan exporttaus
+@login_required
+def export(request, uid, **kwargs):
+    if request.method == 'POST' and len(request.POST) > 1:
+        mimetypes.init()
+        participants = Participant.objects.filter(event_type=uid).values()
+        event = helpers.getEvent(uid)
+        type_of_export = None
+        content_type = None
+        if 'pdf' in request.POST and 'csv' in request.POST:
+            type_of_export = 'zip'
+            content_type = mimetypes.types_map['.zip']
+        elif 'csv' in request.POST:
+            type_of_export = "csv"
+            content_type = mimetypes.types_map['.csv']
+        elif 'pdf' in request.POST:
+            type_of_export = 'pdf'
+            content_type = mimetypes.types_map['.pdf']
+        else:
+            raise Http404
+        file_name = helpers.gen_export(event, type_of_export, participants)
+        path = settings.MEDIA_ROOT+'/%s' % file_name
+        if Path(path).exists():
+            with open(path, 'rb') as f:
+                response = HttpResponse(f.read(), content_type=content_type)
+            response['Content-Disposition'] = 'attachment; filename=%s' % file_name
+            return response
+        else:
+            raise Http404
+    else:
+        raise Http404
