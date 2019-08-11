@@ -313,9 +313,11 @@ def export(request, uid, **kwargs):
         event = helpers.getEvent(uid)
         type_of_export = None
         content_type = None
+        list_of_exports = None
         if 'pdf' in request.POST and 'csv' in request.POST:
             type_of_export = 'zip'
             content_type = mimetypes.types_map['.zip']
+            list_of_exports = ['csv', 'pdf']
         elif 'csv' in request.POST:
             type_of_export = "csv"
             content_type = mimetypes.types_map['.csv']
@@ -324,7 +326,7 @@ def export(request, uid, **kwargs):
             content_type = mimetypes.types_map['.pdf']
         else:
             raise Http404
-        file_name = helpers.gen_export(event, type_of_export, participants)
+        file_name = helpers.gen_export(event, type_of_export, participants, list_of_exports)
         path = settings.MEDIA_ROOT+'/%s' % file_name
         if Path(path).exists():
             with open(path, 'rb') as f:

@@ -1,23 +1,22 @@
 # Erilaiset omat apufunktiot tänne.
 # Käyttö: from omat import helpers ja helpers.<funktion_nimi>
-from reportlab.lib import colors
-
 from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
-import random
-import json
 from django.core import mail
-from fpdf import FPDF, HTMLMixin
 from django.conf import settings
+import random
 import csv
+import shutil
+import tempfile
+from zipfile import ZipFile
 from pathlib import Path
 from datetime import datetime
-
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.pagesizes import landscape, A4
-from reportlab.lib.units import cm
+from reportlab.lib import colors
+# from reportlab.lib.pagesizes import landscape, A4
+# from reportlab.lib.units import cm
 
 
 # Generoi uuden uniikin uid:n tapahtumalle.
@@ -151,11 +150,6 @@ def getQuotaNames(quotas, namesOnly):
     return paluu
 
 
-# Generoi tapahtumaan ilmoittautujaan tallennettavia lisätietoja.
-def getMiscInfo(data):
-    return json.dumps({'member': False, 'hasPaid': False})
-
-
 def getBaseurl(request):
     protocol = 'http'
     if(request.is_secure()):
@@ -187,7 +181,7 @@ def isQuotaFull(event,data):
 
 # Generoi taulukon osallistujista ja tekee siitä pdf tiedoston
 # Palauttaa luodun tiedoston nimen
-def gen_pdf(participants, event):
+def gen_pdf(event, participants):
     file_name = 'osallistujalista_' + str(event.name).replace(' ',
                                                               '_') + '_' + datetime.today().date().isoformat() + '.pdf'
     path = settings.MEDIA_ROOT + '/' + file_name
@@ -234,24 +228,34 @@ def gen_csv(event, participants):
 
 # Generoi kaikki valitut export formaatit sisältävän zip-tiedoston
 # Palauttaa luodun tiedoston nimen
-def gen_zip(participants, event, list_of_exports):
+def gen_zip(event, participants, list_of_exports):
     file_name = 'osallistujalista_' + str(event.name).replace(' ',
-                                                              '_') + '_' + datetime.today().date().isoformat() + '.zip'
-    path = settings.MEDIA_ROOT + '/' + file_name
-    if not Path(path).exists():
-        pass
+                                                              '_') + '_' + datetime.today().date().isoformat()
+    path = settings.MEDIA_ROOT + '/'
+    if not Path(path+file_name).exists():
+        file_names = []
+        if 'csv' in list_of_exports:
+            file_names.append(gen_csv(event, participants))
+        if 'pdf' in list_of_exports:
+            file_names.append(gen_pdf(event, participants))
+        with tempfile.TemporaryDirectory() as directory:
+            for file in file_names:
+                shutil.move(path+file, directory)
+            shutil.make_archive(file_name, 'zip', base_dir='.', root_dir=directory)
+            file_name = file_name+'.zip'
+            shutil.move(file_name, path)
     return file_name
 
 
 # Entry point metodi erityyppisille tiedostoexporteille
 # Palauttaa exportattavan tiedoston nimen
-def gen_export(event, type_of_export, participants, **kwargs):
+def gen_export(event, type_of_export, participants, list_of_exports, **kwargs):
     if type_of_export == 'csv':
         return gen_csv(event, participants)
     elif type_of_export == 'pdf':
-        return gen_pdf(participants, event)
+        return gen_pdf(event, participants)
     elif type_of_export == 'zip':
-        pass
+        return gen_zip(event, participants, list_of_exports)
 
 
 def get_export_options():
