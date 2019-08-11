@@ -100,7 +100,10 @@ def signup(request, uid):
                 data.quota = request.POST['organization']
             else:
                 data.quota = ''
-            data.miscInfo = helpers.getMiscInfo(form.cleaned_data)
+            # data.miscInfo = helpers.getMiscInfo(form.cleaned_data)
+            # Hack-around: not implemented yet
+            data.member = False
+            data.hasPaid = False
             data.event_type = temp
             data.save()
             return HttpResponseRedirect('/thanks/'+reserve)
