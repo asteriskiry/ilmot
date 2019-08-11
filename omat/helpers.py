@@ -1,20 +1,19 @@
 # Erilaiset omat apufunktiot tänne.
 # Käyttö: from omat import helpers ja helpers.<funktion_nimi>
-from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
-from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
-from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
-from django.core import mail
-from django.conf import settings
-import random
 import csv
-import shutil
-import tempfile
-from zipfile import ZipFile
-from pathlib import Path
+import random
 from datetime import datetime
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
-from reportlab.lib.styles import getSampleStyleSheet
+from zipfile import ZipFile
+
+from django.core import mail
 from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table
+
+from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
+from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, \
+    CustomSignupForm
+from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
 # from reportlab.lib.pagesizes import landscape, A4
 # from reportlab.lib.units import cm
 
@@ -181,81 +180,77 @@ def isQuotaFull(event,data):
 
 # Generoi taulukon osallistujista ja tekee siitä pdf tiedoston
 # Palauttaa luodun tiedoston nimen
-def gen_pdf(event, participants):
+def gen_pdf(event, participants, directory):
     file_name = 'osallistujalista_' + str(event.name).replace(' ',
                                                               '_') + '_' + datetime.today().date().isoformat() + '.pdf'
-    path = settings.MEDIA_ROOT + '/' + file_name
-    if not Path(path).exists():
-        model_keys = Participant._meta.__dict__.get("fields")
-        model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
-        data = [model_keys]
-        for participant in participants:
-            del participant['id']
-            del participant['event_type_id']
-            data.append(participant.values())
-        table = Table(data, style=[('GRID', (0, 0), (-1, -1), 1, colors.black)])
-        styles = getSampleStyleSheet()
-        title = Paragraph("Osallistujalista %s" % str(event.name), styles["Heading1"])
-        doc = SimpleDocTemplate(path)
-        # elements = [Spacer(1, 2 * cm)]
-        elements = []
-        elements.append(title)
-        elements.append(table)
-        # elements.append(Spacer(1, 0.2 * cm))
-        doc.build(elements)
+    model_keys = Participant._meta.__dict__.get("fields")
+    model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
+    data = [model_keys]
+    for participant in participants:
+        del participant['id']
+        del participant['event_type_id']
+        data.append(participant.values())
+    table = Table(data, style=[('GRID', (0, 0), (-1, -1), 1, colors.black)])
+    styles = getSampleStyleSheet()
+    title = Paragraph("Osallistujalista %s" % str(event.name), styles["Heading1"])
+    doc = SimpleDocTemplate(directory+'/'+file_name)
+    # elements = [Spacer(1, 2 * cm)]
+    elements = []
+    elements.append(title)
+    elements.append(table)
+    # elements.append(Spacer(1, 0.2 * cm))
+    doc.build(elements)
     return file_name
 
 
 # Generoi excel-tyylisen pilkulla erotetun csv tiedoston kaikista tapahtuman osallistujista
 # Palauttaa generoidun tiedoston nimen
-def gen_csv(event, participants):
+def gen_csv(event, participants, directory):
     file_name = 'osallistujalista_' + str(event.name).replace(' ', '_') + '_' + datetime.today().date().isoformat()+'.csv'
-    path = settings.MEDIA_ROOT + '/' + file_name
-    if not Path(path).exists():
-        model_keys = Participant._meta.__dict__.get("fields")
-        model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
-        with open(path, 'w') as csvfile:
-            fieldnames = list(model_keys)
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect='excel', delimiter=',')
-            writer.writeheader()
-            for participant in participants:
-                participant_row = {}
-                for key in model_keys:
-                    participant_row[key] = participant[key]
-                writer.writerow(participant_row)
+    model_keys = Participant._meta.__dict__.get("fields")
+    model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
+    with open(directory+'/'+file_name, 'w') as csvfile:
+        fieldnames = list(model_keys)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect='excel', delimiter=',')
+        writer.writeheader()
+        for participant in participants:
+            participant_row = {}
+            for key in model_keys:
+                participant_row[key] = participant[key]
+            writer.writerow(participant_row)
     return file_name
 
 
 # Generoi kaikki valitut export formaatit sisältävän zip-tiedoston
 # Palauttaa luodun tiedoston nimen
-def gen_zip(event, participants, list_of_exports):
+def gen_zip(event, participants, list_of_exports, directory):
     file_name = 'osallistujalista_' + str(event.name).replace(' ',
-                                                              '_') + '_' + datetime.today().date().isoformat()
-    path = settings.MEDIA_ROOT + '/'
-    if not Path(path+file_name).exists():
-        file_names = []
-        if 'csv' in list_of_exports:
-            file_names.append(gen_csv(event, participants))
-        if 'pdf' in list_of_exports:
-            file_names.append(gen_pdf(event, participants))
-        with tempfile.TemporaryDirectory() as directory:
-            for file in file_names:
-                shutil.move(path+file, directory)
-            shutil.make_archive(file_name, 'zip', base_dir='.', root_dir=directory)
-            file_name = file_name+'.zip'
-            shutil.move(file_name, path)
+                                                              '_') + '_' + datetime.today().date().isoformat()+'.zip'
+    file_names = []
+    if 'csv' in list_of_exports:
+        file_names.append(gen_csv(event, participants, directory))
+    if 'pdf' in list_of_exports:
+        file_names.append(gen_pdf(event, participants, directory))
+    # for file in file_names:
+    #     shutil.move(directory+file, directory)
+    # shutil.make_archive(file_name, 'zip', base_dir='.', root_dir=directory)
+    with ZipFile(directory+'/'+file_name, 'w') as myzip:
+        for file in file_names:
+            myzip.write(directory+'/'+file, arcname='./'+file)
+    # file_name = file_name+'.zip'
+    # shutil.move(file_name, path)
     return file_name
 
 
 # Entry point metodi erityyppisille tiedostoexporteille
 # Palauttaa exportattavan tiedoston nimen
-def gen_export(event, type_of_export, participants, list_of_exports, **kwargs):
+def gen_export(event, type_of_export, participants, list_of_exports, directory, **kwargs):
     if type_of_export == 'csv':
-        return gen_csv(event, participants)
+        return gen_csv(event, participants, directory)
     elif type_of_export == 'pdf':
-        return gen_pdf(event, participants)
+        return gen_pdf(event, participants, directory)
     elif type_of_export == 'zip':
-        return gen_zip(event, participants, list_of_exports)
+        return gen_zip(event, participants, list_of_exports, directory)
 
 
 def get_export_options():

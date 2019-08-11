@@ -1,6 +1,3 @@
-import mimetypes
-from pathlib import Path
-
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
@@ -9,10 +6,12 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import EventType, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
+
 from omat import helpers
 from datetime import datetime, timezone
-from django.conf import settings
-
+import mimetypes
+import tempfile
+from pathlib import Path
 
 # Koko järjestelmän juuri (= /) sivu.
 def index(request):
@@ -314,6 +313,7 @@ def export(request, uid, **kwargs):
         type_of_export = None
         content_type = None
         list_of_exports = None
+        # TODO parempi tarkistus eri export tyypeille
         if 'pdf' in request.POST and 'csv' in request.POST:
             type_of_export = 'zip'
             content_type = mimetypes.types_map['.zip']
@@ -326,14 +326,14 @@ def export(request, uid, **kwargs):
             content_type = mimetypes.types_map['.pdf']
         else:
             raise Http404
-        file_name = helpers.gen_export(event, type_of_export, participants, list_of_exports)
-        path = settings.MEDIA_ROOT+'/%s' % file_name
-        if Path(path).exists():
-            with open(path, 'rb') as f:
-                response = HttpResponse(f.read(), content_type=content_type)
-            response['Content-Disposition'] = 'attachment; filename=%s' % file_name
-            return response
-        else:
-            raise Http404
+        with tempfile.TemporaryDirectory() as directory:
+            file_name = helpers.gen_export(event, type_of_export, participants, list_of_exports, directory)
+            if Path(directory+'/'+file_name).exists():
+                with open(directory+'/'+file_name, 'rb') as f:
+                    response = HttpResponse(f.read(), content_type=content_type)
+                response['Content-Disposition'] = 'attachment; filename=%s' % file_name
+            else:
+                raise Http404
+        return response
     else:
         raise Http404
