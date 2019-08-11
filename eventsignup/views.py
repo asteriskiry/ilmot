@@ -228,9 +228,6 @@ def info(request, uid,**kwargs):
         if(kwargs):
             if(kwargs['type']=='list'):
                 just_list=True
-            elif(kwargs['type']=='pdf'):
-                pdf=helpers.genPdf(request,participants,event)
-                return HttpResponseRedirect('/media/'+pdf)
         other=False
         export_options = helpers.get_export_options()
         return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa', 'export_options': export_options, 'baseurl':helpers.getBaseurl(request)})

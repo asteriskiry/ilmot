@@ -1,5 +1,7 @@
 # Erilaiset omat apufunktiot tänne.
 # Käyttö: from omat import helpers ja helpers.<funktion_nimi>
+from reportlab.lib import colors
+
 from eventsignup.models import Events, Sitz, Annualfest, Excursion, OtherEvent, Participant
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, CustomSignupForm
@@ -11,6 +13,11 @@ from django.conf import settings
 import csv
 from pathlib import Path
 from datetime import datetime
+
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.lib.units import cm
 
 
 # Generoi uuden uniikin uid:n tapahtumalle.
@@ -177,19 +184,32 @@ def isQuotaFull(event,data):
         paluu=False
     return paluu
 
-class HTML2PDF(FPDF, HTMLMixin):
-    pass
-# Generoi tapahtuman osallistujalistan pdf muotoon.
-def genPdf(request,participants,event):
-    from django.template import loader
-    from django.conf import settings
-    nimi='osallistujalista_'+str(event.name).replace(' ','_')+'.pdf'
-    template = loader.get_template("eventsignup/includes/participant_table.html")
-    pdf = HTML2PDF()
-    pdf.add_page()
-    pdf.write_html(template.render({'event': event, 'participants': participants}, request))
-    pdf.output(settings.MEDIA_ROOT+'/'+nimi)
-    return nimi
+
+# Generoi taulukon osallistujista ja tekee siitä pdf tiedoston
+# Palauttaa luodun tiedoston nimen
+def gen_pdf(participants, event):
+    file_name = 'osallistujalista_' + str(event.name).replace(' ',
+                                                              '_') + '_' + datetime.today().date().isoformat() + '.pdf'
+    path = settings.MEDIA_ROOT + '/' + file_name
+    if not Path(path).exists():
+        model_keys = Participant._meta.__dict__.get("fields")
+        model_keys = [f.name for f in model_keys if not (f.name == 'id' or f.name == 'event_type')]
+        data = [model_keys]
+        for participant in participants:
+            del participant['id']
+            del participant['event_type_id']
+            data.append(participant.values())
+        table = Table(data, style=[('GRID', (0, 0), (-1, -1), 1, colors.black)])
+        styles = getSampleStyleSheet()
+        title = Paragraph("Osallistujalista %s" % str(event.name), styles["Heading1"])
+        doc = SimpleDocTemplate(path)
+        # elements = [Spacer(1, 2 * cm)]
+        elements = []
+        elements.append(title)
+        elements.append(table)
+        # elements.append(Spacer(1, 0.2 * cm))
+        doc.build(elements)
+    return file_name
 
 
 # Generoi excel-tyylisen pilkulla erotetun csv tiedoston kaikista tapahtuman osallistujista
@@ -212,13 +232,24 @@ def gen_csv(event, participants):
     return file_name
 
 
+# Generoi kaikki valitut export formaatit sisältävän zip-tiedoston
+# Palauttaa luodun tiedoston nimen
+def gen_zip(participants, event, list_of_exports):
+    file_name = 'osallistujalista_' + str(event.name).replace(' ',
+                                                              '_') + '_' + datetime.today().date().isoformat() + '.zip'
+    path = settings.MEDIA_ROOT + '/' + file_name
+    if not Path(path).exists():
+        pass
+    return file_name
+
+
 # Entry point metodi erityyppisille tiedostoexporteille
 # Palauttaa exportattavan tiedoston nimen
 def gen_export(event, type_of_export, participants, **kwargs):
     if type_of_export == 'csv':
         return gen_csv(event, participants)
     elif type_of_export == 'pdf':
-        return genPdf(None, participants, event)
+        return gen_pdf(participants, event)
     elif type_of_export == 'zip':
         pass
 
