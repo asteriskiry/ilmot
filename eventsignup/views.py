@@ -9,6 +9,7 @@ from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSig
     CustomSignupForm
 
 from omat import helpers
+from omat.seating_arrangement import make_seating
 from datetime import datetime, timezone
 import mimetypes
 import tempfile
