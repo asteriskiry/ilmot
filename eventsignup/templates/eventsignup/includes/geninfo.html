@@ -7,9 +7,9 @@
             <li>Missä: {{ event.place }}</li>
             <li>Milloin: {{ event.date }} {{event.start_time}}</li>
             {% if "€" in event.prize %}
-            <li>Mitä maksaa: {{ event.prize }}</li>
+                <li>Mitä maksaa: {{ event.prize }}</li>
             {% else %}
-            <li>Mitä maksaa: {{ event.prize }} €</li>
+                <li>Mitä maksaa: {{ event.prize }} €</li>
             {% endif %}
         </ul>
     </div>

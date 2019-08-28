@@ -60,10 +60,10 @@ class CommonInfo(models.Model):
     def __str__(self):
         return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+str(self.date)+", Maksimi osallistujamäärä: "+str(self.max_participants)+", Ilmoittautuminen alkaa: "+str(self.signup_starts)+", Ilmoittautuminen loppuu: "+str(self.signup_ends)+", Yleiskuvaus: "+self.description
 
-    def genInfo(self):
+    def gen_info(self):
         if not self.prize:
             return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
-        elif(self.prize==0):
+        elif self.prize==0:
             return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
         else:
             return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: "+str(self.prize)+"</li>"
