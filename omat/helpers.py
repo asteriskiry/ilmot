@@ -204,7 +204,8 @@ def is_quota_full(event, data):
     try:
         #	haettu quota on data['name']
         quotas = get_quota_names(event.quotas, False)
-        num_of = Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
+        # Fixme
+        # num_of = Participant.objects.filter(event_type=event.uid).filter(miscInfo__contains=data['name']).count()
         paluu = False
     except AttributeError as e:
         paluu = False
