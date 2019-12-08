@@ -6,11 +6,14 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     container_name: riskiwww
     volumes:
-      - .:/riskiwww
+      - ilmo_dev_volume:/riskiwww
     ports:
       - "8000:8000"
   compass:
     image: antonienko/compass-watch
     command: watch --poll /riskiwww/mybulma/
     volumes:
-      - .:/riskiwww
+      - ilmo_dev_volume:/riskiwww
+
+volumes:
+  ilmo_dev_volume:
