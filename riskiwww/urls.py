@@ -26,9 +26,17 @@ urlpatterns = [
     #    path('', views.home, name='home'),
     path('', include('eventsignup.urls')),
     path('accounts/', include('accounts.urls')),
+    url(r'^admin_tools/', include('admin_tools.urls')),
     path('admin/', admin.site.urls),
-
-
+    # Fobi urls
+    # DB Store plugin URLs
+    url(r'^fobi/plugins/form-handlers/db-store/',
+        include('fobi.contrib.plugins.form_handlers.db_store.urls')),
+    # View URLs
+    url(r'^fobi/', include('fobi.urls.view')),
+    # Edit URLs
+    url(r'^fobi/', include('fobi.urls.edit')),
+    # / Fobi urls
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
