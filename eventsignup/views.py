@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
 from django.http import HttpResponseRedirect, HttpResponse, Http404
+from fobi.models import FormEntry, FormElementEntry
+
 from .models import EventType, Events, Sitz, Annualfest, Excursion, OtherEvent, Participant, Archive
 from eventsignup.forms import AnnualfestForm, ExcursionForm, OtherEventForm, CustomForm, SelectTypeForm, SitzForm
 from eventsignup.forms import SitzSignupForm, AnnualfestSignupForm, ExcursionSignupForm, OtherEventSignupForm, \
@@ -147,6 +149,7 @@ def signup(request, uid):
 # Arkisto on vain ylläpitäjien nähtävissä.
 @login_required
 def archive(request, uid):
+    # FIXME tee fobi yhteensopivaksi
     event = helpers.get_event(uid)
     archive_event = Archive(event_type=event.event_type, name=event.name, description=event.description,
                            participants=Participant.objects.filter(event_type=uid).count(), owner=event.owner,
@@ -251,36 +254,49 @@ def info(request, uid, **kwargs):
 # Mahdollistaa myös niiden muokkauksen.
 @login_required
 def management(request):
-    desktop = True
-    if 'Mobi' in request.META['HTTP_USER_AGENT']:
-        desktop = False
-    participant_count = helpers.get_participant_count()
-    auth_user = request.user.get_username()
-    startdate = datetime.now()
-    todaysdate = startdate.strftime("%Y-%m-%d")
+    desktop = 'Mobi' in request.META['HTTP_USER_AGENT']
+    # participant_count = helpers.get_participant_count()
+    auth_user = request.user.id
+    today = datetime.now().date()
+    today_str = today.strftime("%Y-%m-%d")
     #
     #
-    upcoming_sitz = Sitz.objects.filter(date__gte=todaysdate, owner=auth_user)
-    previous_sitz = Sitz.objects.filter(date__lt=todaysdate, owner=auth_user)
+    # upcoming_sitz = Sitz.objects.filter(date__gte=today_str, owner=auth_user)
+    # previous_sitz = Sitz.objects.filter(date__lt=today_str, owner=auth_user)
+    #
+    # upcoming_other_events = OtherEvent.objects.filter(date__gte=today_str, owner=auth_user)
+    # previous_other_events = OtherEvent.objects.filter(date__lt=today_str, owner=auth_user)
+    #
+    # upcoming_excursion = Excursion.objects.filter(date__gte=today_str, owner=auth_user)
+    # previous_excursion = Excursion.objects.filter(date__lt=today_str, owner=auth_user)
+    #
+    # upcoming_annualfest = Annualfest.objects.filter(date__gte=today_str, owner=auth_user)
+    # previous_annualfest = Annualfest.objects.filter(date__lt=today_str, owner=auth_user)
+    # # eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
+    # return render(request, "eventsignup/management.html",
+    #               {'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
+    #                'menneet_muutTapahtumat': previous_other_events, 'tulevat_muutTapahtumat': upcoming_other_events,
+    #                'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
+    #                'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
+    #                'baseurl': helpers.get_baseurl(request), 'osallistujamaarat': helpers.get_participant_count(),
+    #                'desktop': desktop, 'management': True,
+    #                }
+    #               )
+    user_forms = list(FormEntry.objects.filter(user=auth_user))
+    current_events_list = [entry for entry in user_forms if not entry.active_date_to or entry.active_date_to >= today]
+    past_events_list = [entry for entry in user_forms if not entry.active_date_to or entry.active_date_to < today]
+    future_events_list = [entry for entry in user_forms if not entry.active_date_from or entry.active_date_from > today]
 
-    upcoming_other_events = OtherEvent.objects.filter(date__gte=todaysdate, owner=auth_user)
-    previous_other_events = OtherEvent.objects.filter(date__lt=todaysdate, owner=auth_user)
+    # FIXME pura data plugin_datasta (json), ja plugin_uid:sta
+    current_events = [{'entry': entry, 'data': list(FormElementEntry.objects.filter(form_entry=entry.id))} for entry in current_events_list]
+    past_events = []
+    future_events = []
+    model = {'current_events': current_events, 'past_events': past_events, 'future_events': future_events,
+             'baseurl': helpers.get_baseurl(request),  # 'osallistujamaarat': helpers.get_participant_count(),
+             'desktop': desktop, 'management': True,
+             }
 
-    upcoming_excursion = Excursion.objects.filter(date__gte=todaysdate, owner=auth_user)
-    previous_excursion = Excursion.objects.filter(date__lt=todaysdate, owner=auth_user)
-
-    upcoming_annualfest = Annualfest.objects.filter(date__gte=todaysdate, owner=auth_user)
-    previous_annualfest = Annualfest.objects.filter(date__lt=todaysdate, owner=auth_user)
-    # eventit = list(chain(sitsit, ekskursiot, vujut, muut_tapahtumat))
-    return render(request, "eventsignup/management.html",
-                  {'menneet_sitsit': previous_sitz, 'tulevat_sitsit': upcoming_sitz,
-                   'menneet_muutTapahtumat': previous_other_events, 'tulevat_muutTapahtumat': upcoming_other_events,
-                   'menneet_ekskursiot': previous_excursion, 'tulevat_ekskursiot': upcoming_excursion,
-                   'menneet_vujut': previous_annualfest, 'tulevat_vujut': upcoming_annualfest,
-                   'baseurl': helpers.get_baseurl(request), 'osallistujamaarat': helpers.get_participant_count(),
-                   'desktop': desktop, 'management': True,
-                   }
-                  )
+    return render(request, "eventsignup/management.html", model)
 
 
 # Olemassa olevan tapahtuman muokkaus.

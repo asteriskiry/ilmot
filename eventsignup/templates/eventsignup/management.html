@@ -6,11 +6,10 @@
 {% block center-content %}
 
     <h1 class="title is-1">Tapahtumien hallinta</h1>
-    <h2 class="title is-2">Tulevat tapahtumat</h2>
-    {% if tulevat_sitsit %}
-        <h3 class="title is-3">Sitsit</h3>
+    <h2 class="title is-2">Aktiiviset tapahtumat</h2>
+    {% if current_events %}
         <div class="columns is-multiline">
-            {% for event in tulevat_sitsit %}
+            {% for event in current_events %}
                 <div class="column">
                     <div class="card">
                         <div class="card-image">
@@ -21,12 +20,12 @@
                             {% endif %}
                             <div class="media-content is-centered">
                                 <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
                                 <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Poista</a>
+                                    <a href="{{baseurl}}/fobi/view/{{ event.entry.name }}" class="card-footer-item" target="_blank">Näytä</a>
+                                    <a href="{{baseurl}}/fobi/forms/edit/{{ event.entry.id }}" class="card-footer-item" target="_blank">Muokkaa</a>
+                                    <a href="{{baseurl}}/event/{{event.entry.id}}/delete/" class="card-footer-item">Poista</a>
                                 </footer>
                             </div>
                         </div>
@@ -34,209 +33,252 @@
                 </div>
             {% endfor %}
         </div>
+    {% else %}
+        <p>Ei tapahtumia.</p>
     {% endif %}
 
-    {% if tulevat_vujut %}
-        <h3 class="title is-3">Vujut</h3>
-        <div class="columns is-multiline">
-            {% for event in tulevat_vujut %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if tulevat_ekskursiot %}
-        <h3 class="title is-3">Ekskursiot</h3>
-        <div class="columns is-multiline">
-            {% for event in tulevat_ekskursiot %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if tulevat_muutTapahtumat %}
-        <h3 class="title is-3">Muut tapahtumat</h3>
-        <div class="columns is-multiline">
-            {% for event in tulevat_muutTapahtumat %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+    <h2 class="title is-2">Tulevaisuuden tapahtumat</h2>
+    {% if future_events %}
+    {% else %}
+        <p>Ei tapahtumia.</p>
     {% endif %}
 
     <h2 class="title is-2">Menneet tapahtumat</h2>
-    {% if menneet_sitsit %}
-        <h3 class="title is-3">Sitsit</h3>
-        <div class="columns is-multiline">
-            {% for event in menneet_sitsit %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+    {% if past_events %}
+    {% else %}
+        <p>Ei tapahtumia.</p>
     {% endif %}
-
-    {% if menneet_vujut %}
-        <h3 class="title is-3">Vujut</h3>
-        <div class="columns is-multiline">
-            {% for event in menneet_vujut %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if menneet_ekskursiot %}
-        <h3 class="title is-3">Ekskursiot</h3>
-        <div class="columns is-multiline">
-            {% for event in menneet_ekskursiot %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if menneet_muutTapahtumat %}
-        <h3 class="title is-3">Muut tapahtumat</h3>
-        <div class="columns is-multiline">
-            {% for event in menneet_muutTapahtumat %}
-                <div class="column">
-                    <div class="card">
-                        <div class="card-image">
-                            {% if event.pic %}
-                                <img src="{{event.pic.url}}"  >
-                            {% else %}
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">
-                            {% endif %}
-                            <div class="media-content is-centered">
-                                <p class="title is-5 ">{{ event.name }}</p>
-                                <p class="title is-5 ">{{ event.uid.uid }}</p>
-                                <p class="title is-6">{{ event.date }}</p>
-                                <footer class="card-footer">
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/viewe/" class="card-footer-item">Näytä</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>
-                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>
-                                </footer>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+{#    <h2 class="title is-2">Tulevat tapahtumat</h2>#}
+{#    {% if tulevat_sitsit %}#}
+{#        <h3 class="title is-3">Sitsit</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in tulevat_sitsit %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Poista</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if tulevat_vujut %}#}
+{#        <h3 class="title is-3">Vujut</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in tulevat_vujut %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if tulevat_ekskursiot %}#}
+{#        <h3 class="title is-3">Ekskursiot</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in tulevat_ekskursiot %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if tulevat_muutTapahtumat %}#}
+{#        <h3 class="title is-3">Muut tapahtumat</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in tulevat_muutTapahtumat %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    <h2 class="title is-2">Menneet tapahtumat</h2>#}
+{#    {% if menneet_sitsit %}#}
+{#        <h3 class="title is-3">Sitsit</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in menneet_sitsit %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if menneet_vujut %}#}
+{#        <h3 class="title is-3">Vujut</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in menneet_vujut %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if menneet_ekskursiot %}#}
+{#        <h3 class="title is-3">Ekskursiot</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in menneet_ekskursiot %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/view/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
+{##}
+{#    {% if menneet_muutTapahtumat %}#}
+{#        <h3 class="title is-3">Muut tapahtumat</h3>#}
+{#        <div class="columns is-multiline">#}
+{#            {% for event in menneet_muutTapahtumat %}#}
+{#                <div class="column">#}
+{#                    <div class="card">#}
+{#                        <div class="card-image">#}
+{#                            {% if event.pic %}#}
+{#                                <img src="{{event.pic.url}}"  >#}
+{#                            {% else %}#}
+{#                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACqCAQAAADoi1nRAAABL0lEQVR42u3SQREAAAzCsOHf9F6oIJHQa45pkcAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADGAACQyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAEwAAbAABgAA2AADIABMAAGwAAYAANgAAyAATAABsAAGAADYAAMgAGoByIuAKuuDhdOAAAAAElFTkSuQmCC">#}
+{#                            {% endif %}#}
+{#                            <div class="media-content is-centered">#}
+{#                                <p class="title is-5 ">{{ event.name }}</p>#}
+{#                                <p class="title is-5 ">{{ event.uid.uid }}</p>#}
+{#                                <p class="title is-6">{{ event.date }}</p>#}
+{#                                <footer class="card-footer">#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/viewe/" class="card-footer-item">Näytä</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/edit/" class="card-footer-item">Muokkaa</a>#}
+{#                                    <a href="{{baseurl}}/event/{{event.uid.uid}}/delete/" class="card-footer-item">Arkistoi</a>#}
+{#                                </footer>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    {% endif %}#}
 {% endblock %}
