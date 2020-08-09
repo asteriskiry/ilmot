@@ -42,6 +42,11 @@ def setup_django():
                 'log' in x or 'group' in x or 'permission' in x or 'user' in x or 'type' in x or 'owner' in x or 'session' in x):
             user.user_permissions.add(Permission.objects.get(codename=x))
     user.save()
+    # FIXME
+    from django.contrib.sites.models import Site
+    site = Site.objects.create(domain='ilmot.asteriski.fi:80', name='ilmot.asteriski.fi')
+    site.save()
+    # TODO konffeihin oikea SITE_ID
 
 
 # Lataa ja purkaa Bulma css:n tiedostot oikeaan paikkaan.
