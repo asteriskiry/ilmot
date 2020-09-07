@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'riskiwww.wsgi.application'
 if DEBUG:
     DATABASES = {
         'default': dj_database_url.config(
-        default='sqlite:///./db.sqlite3'
+            default='sqlite:///./db.sqlite3'
         )
     }
 else:

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fi" class="has-navbar-fixed-top">
 <head>
-  <title>Asteriski - Tapahtumailmoittautumisjärjestelmä</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<link rel="stylesheet" href="/static/css/mystyles.css">
+    <title>Asteriski - Tapahtumailmoittautumisjärjestelmä</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="stylesheet" href="/static/css/mystyles.css">
 
-<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
-<base href="{{baseurl}}/">
-{% block extra-head %}
-{% endblock %}
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <base href="{{baseurl}}/">
+    {% block extra-head %}
+    {% endblock %}
 
 </head>
 <body>
@@ -20,27 +20,27 @@
 
 {##}
 <div class="columns is-gapless is-8">
-  		{# vasen palkki #}
-  		<div class="column is-desktop">
-			{% block left-content %}
-			{% endblock %}
-  		</div>
-  		{# keskipalkki #}
-  		<div class="column is-8">
-			{% block center-content %}
-			{% endblock %}
-  		</div>
+    {# vasen palkki #}
+    <div class="column is-desktop">
+        {% block left-content %}
+        {% endblock %}
+    </div>
+    {# keskipalkki #}
+    <div class="column is-8">
+        {% block center-content %}
+        {% endblock %}
+    </div>
 
-  		{# oikea palkki #}
-      <div class="column is-2 is-desktop">
+    {# oikea palkki #}
+    <div class="column is-2 is-desktop">
         {% block right-content %}
         {% endblock %}
-      </div>
+    </div>
 </div>
 
 
 
 </body>
- {% block extra-styles %}
- {% endblock %}
+{% block extra-styles %}
+{% endblock %}
 </html>

@@ -8,7 +8,7 @@ import zipfile
 
 # Luo tietokantaan muut vaaditut datat sekä
 # luo superuserin sekä testikäyttäjän, jolla on oikeat oikeudet kantaan.
-def setupDjango():
+def setup_django():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "riskiwww.settings")
     import django
     django.setup()
@@ -27,13 +27,13 @@ def setupDjango():
     print('Asetetaan testikäyttäjälle oikeat käyttöoikeudet.')
     from django.contrib.auth.models import Permission
     for x in list(Permission.objects.values_list('codename', flat=True)):
-        if(not ('log' in x or 'group' in x or 'permission' in x or 'user' in x or 'type' in x or 'owner' in x or 'session' in x)):
+        if not ('log' in x or 'group' in x or 'permission' in x or 'user' in x or 'type' in x or 'owner' in x or 'session' in x):
             user.user_permissions.add(Permission.objects.get(codename=x))
     user.save()
 
 
 # Lataa ja purkaa Bulma css:n tiedostot oikeaan paikkaan.
-def setupBulma():
+def setup_bulma():
     print('Asennetaan Bulma css.')
     with urllib.request.urlopen('https://github.com/jgthms/bulma/releases/download/0.7.2/bulma-0.7.2.zip') as response, open('delete_me.zip', 'wb') as out_file:
         shutil.copyfileobj(response, out_file)
@@ -44,23 +44,25 @@ def setupBulma():
 
 
 # Kääntää css:n valmiiksi käytettävään muotoon.
-def setupCss():
+def setup_css():
     global path
     print('Käännetään css.')
     import sass
     sass.compile(dirname=(path+"mybulma/sass/", path+"static/css/"))
 
-def setupEnv():
-	print("Asetetaan muu dev ympäristö kuntoon.")
-	print("Linkitetään oikea docker tiedosto dec ympäristöä varten.")
-	os.link('./Dockerfile.dev', 'Dockerfile')
-	os.link('./docker-compose.yml.dev', 'docker-compose.yml')
+
+def setup_env():
+    print("Asetetaan muu dev ympäristö kuntoon.")
+    print("Linkitetään oikea docker tiedosto dec ympäristöä varten.")
+    os.link('./Dockerfile.dev', 'Dockerfile')
+    os.link('./docker-compose.yml.dev', 'docker-compose.yml')
+
 
 if __name__ == '__main__':
-	path = os.path.abspath(__file__).replace(sys.argv[0], '')
-	setupDjango()
-	setupBulma()
-	setupCss()
-	setupEnv()
-	print('Valmis.')
+    path = os.path.abspath(__file__).replace(sys.argv[0], '')
+    setup_django()
+    setup_bulma()
+    setup_css()
+    setup_env()
+    print('Valmis.')
 

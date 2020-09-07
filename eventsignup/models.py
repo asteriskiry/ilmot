@@ -26,7 +26,7 @@ class EventType(models.Model):
 class Events(models.Model):
     event_type = models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE)
     uid = models.PositiveIntegerField(primary_key=True)
-#    owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
+    #    owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE)
     owner = models.ForeignKey(User, to_field='username', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -39,7 +39,7 @@ class CommonInfo(models.Model):
     # kaikki yhteiset attribuutit tähän
     uid = models.ForeignKey(Events, on_delete=models.CASCADE, editable=False)
     event_type = models.ForeignKey(EventType, to_field='event_type', on_delete=models.CASCADE, editable=False)
-#    owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
+    #    owner=models.ForeignKey(EventOwner, to_field='name', on_delete=models.CASCADE,editable=False)
     owner = models.ForeignKey(User, to_field='username', on_delete=models.CASCADE, editable=False)
     name = models.CharField(max_length=200, verbose_name='Tapahtuman nimi')
     place = models.CharField(max_length=200, verbose_name='Pitopaikka')
@@ -61,10 +61,10 @@ class CommonInfo(models.Model):
     def __str__(self):
         return "Tapahtuman järjestäjä: "+str(self.owner)+", Tapahtuman tyyppi: "+str(self.event_type)+", Tapahtuman nimi: "+self.name+", Pitopaikka "+self.place+", Hinta: "+str(self.prize)+", Tapahtuman pitopäivä: "+str(self.date)+", Maksimi osallistujamäärä: "+str(self.max_participants)+", Ilmoittautuminen alkaa: "+str(self.signup_starts)+", Ilmoittautuminen loppuu: "+str(self.signup_ends)+", Yleiskuvaus: "+self.description
 
-    def genInfo(self):
+    def gen_info(self):
         if not self.prize:
             return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
-        elif(self.prize==0):
+        elif self.prize==0:
             return "<li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: Ilmainen</li>"
         else:
             return "<p>Mikä-Missä-Milloin</p><p><ul><li>Mikä: "+self.name+"</li><li>Missä: "+self.place+"</li><li>Milloin: "+str(self.date)+"</li><li>Mitä maksaa: "+str(self.prize)+"</li>"
@@ -119,12 +119,14 @@ class Participant(models.Model):
     quota = models.CharField(max_length=200, blank=True, null=True, editable=False)
     reserve_spot = models.BooleanField(editable=False)
     gender = models.CharField(max_length=10, blank=True, null=True)
-#    Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
-#    datan tulee olla muodossa {member:arvo, hasPaid:arvo}
-    miscInfo = models.TextField(editable=False)
+    #    Tämä kenttä sisältää tiedot: jäsen/ei jäsen, onko maksanut.
+    #    datan tulee olla muodossa {member:arvo, hasPaid:arvo}
+    # miscInfo = models.TextField(editable=False)
+    member = models.NullBooleanField(editable=False, blank=True, null=True)
+    hasPaid = models.NullBooleanField(editable=False, blank=True, null=True)
 
     def __str__(self):
-        return str(self.event_type)+', '+ self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', muut tiedot:'+self.miscInfo
+        return str(self.event_type)+', ' + self.name+" ("+self.email+"), vege: "+str(self.vege)+", holiton: "+str(self.nonholic)+', avec: '+str(self.avec)+', plaseeraus: '+str(self.plaseeraus)+', quota: '+str(self.quota)+', jäsen: '+str(self.member)+', maksanut: '+str(self.hasPaid)
 
 
 # Arkistotaulu.

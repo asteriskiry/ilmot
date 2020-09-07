@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.urls import resolve
 from django.contrib.auth.models import User
-from ..models import EventType, EventOwner, Events, Participant, Sitz
+from ..models import EventType, Events, Participant, Sitz
 from ..forms import SitzForm
 
 class EventsSignupSitzTests(TestCase):
@@ -32,13 +32,13 @@ class EventsSignupSitzTests(TestCase):
     def test_new_sitz_form_send(self):
         url = reverse('home',urlconf='riskiwww.urls')+'eventsignup/event/add/sitsit'
         data = {
-        'name':'lol',
-        'place':'qtalo',
-        'date':'2018-01-01',
-        'start_time':'00.00.00',
-        'description':'kuvaus',
-        'signup_starts':'2018-02-02',
-        'signup_ends':'2018-03-03'
+            'name':'lol',
+            'place':'qtalo',
+            'date':'2018-01-01',
+            'start_time':'00.00.00',
+            'description':'kuvaus',
+            'signup_starts':'2018-02-02',
+            'signup_ends':'2018-03-03'
         }
         response = self.client.post(url, data)
         self.assertTrue(EventType.objects.exists())

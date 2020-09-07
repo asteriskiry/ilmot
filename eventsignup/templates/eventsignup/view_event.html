@@ -8,7 +8,7 @@
   <p>Alla on tapahtuman tiedot. Tietojen alta löytyy lista tapahtumaan osallistujista.</p>
   <hr>
   {% if event.pic %}
-  <img src={{ event.pic.url }} alt={{ event.name }}></img>
+  <img src={{ event.pic.url }}/ alt={{ event.name }}>
   {% endif %}
   <h1>
     {{ event.name }}
@@ -36,7 +36,25 @@
   </p>
   {% endif %}
   <p>Osallistujalista <a href="/event/{{event.uid.uid}}/view/list" target="_blank">(Avaa uuteen ikkunaan)</a>:</p>
-
+<p>Eksporttaa osallistujalista:<br>
+            <form method="post" action="{{baseurl}}/event/{{event.uid.uid}}/export/" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for option in export_options %}
+                    <div class="field">
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" name="{{option}}" value="{{option}}">{{ option }}
+                            </label>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" class="button is-rounded is-link">Export</button>
+                    </div>
+                </div>
+            </form>
+            </p>
 </div>
 {% endif %}
 <table class="table is-striped is-hoverable">

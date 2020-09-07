@@ -2,86 +2,86 @@
 {#% include 'eventsignup/includes/header.html' %#}
 {#% load bulma_tags %#}
 {% block center-content %}
-{% include 'eventsignup/includes/breadcrum.html' %}
-{% if cansignup %}
+    {% include 'eventsignup/includes/breadcrum.html' %}
+    {% if cansignup %}
 
-<section class="section">
-    <div class="content">
-    {% if event.pic %}
-    <img src={{ event.pic.url }} alt={{ event.name }} >
-    {% endif %}
-      <h1 class="title">{{ event.name }}</h1>
-      <p>{{ event.owner }}</p>
-		<p>{{ event.description | safe }}</p>
-    </div>
-  </section>
-    {% include 'eventsignup/includes/geninfo.html' %}
-<hr>
-<p>
-  <form method="post">
-    {% csrf_token %}
-    {#{ form|bulma }#}
-    {% include 'eventsignup/includes/form_base.html' %}
-    {% if quotas %}
-    <div class="field">
-    <div class="control">
-    <label class="label">Valitse ainejärjestösi</label>
-<select name="organization">
-        {% for x in quotas %}
-  		<option value="{{x}}">{{x}}</option>
+        <section class="section">
+            <div class="content">
+                {% if event.pic %}
+                    <img src={{ event.pic.url }}/ alt={{ event.name }} >
+                {% endif %}
+                <h1 class="title">{{ event.name }}</h1>
+                <p>{{ event.owner }}</p>
+                <p>{{ event.description | safe }}</p>
+            </div>
+        </section>
+        {% include 'eventsignup/includes/geninfo.html' %}
+        <hr>
+        <p>
+        <form method="post">
+            {% csrf_token %}
+            {#{ form|bulma }#}
+            {% include 'eventsignup/includes/form_base.html' %}
+            {% if quotas %}
+                <div class="field">
+                    <div class="control">
+                        <label class="label">Valitse ainejärjestösi</label>
+                        <select name="organization">
+                            {% for x in quotas %}
+                                <option value="{{x}}">{{x}}</option>
 
-  {% endfor %}
-    <option value="nonmember">Ei Jäsen</option>
-  </select> 
-</div>
-	</div>
+                            {% endfor %}
+                            <option value="nonmember">Ei Jäsen</option>
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            <label class="checkbox">
+                <input type="checkbox">
+                Hyväksyn henkilötietojen käsittelyn <a href="/privacy" target="_blank" onClick="window.open('/privacy','Tietosuojaselvitys','resizable,height=600,width=800'); return false;">tietosuojaperiaatteen</a> mukaisesti.
+            </label>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-rounded is-primary">Ilmoittaudu</button>
+                </div>
+                <div class="control">
+                    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
+                </div>
+            </div>
+        </form>
+        <hr>
+        <table class="table is-striped is-hoverable">
+            <thead>
+            <tr>
+                <th>Nimi</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Nimi</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for field in participants %}
+                <tr>
+                <td>{{field.name}}</td>
+            {% endfor %}
+            </tbody>
+        </table>
+        </p>
+    {% elif signuppassed %}
+        <section class="section">
+            <div class="container">
+                <p> Tapahtumaan {{event.name}} ilmoittautuminen on päättynyt jo.
+                </p>
+            </div>
+        </section>
+    {% else %}
+        <section class="section">
+            <div class="container">
+                <p> Tapahtumaan {{event.name}} ilmoittautuminen ei ole vielä avautunut. Ilmoittautuminen avautuu {{event.signup_starts}}.
+                </p>
+            </div>
+        </section>
     {% endif %}
-   <label class="checkbox">
-  <input type="checkbox">
-  Hyväksyn henkilötietojen käsittelyn <a href="/privacy" target="_blank" onClick="window.open('/privacy','Tietosuojaselvitys','resizable,height=600,width=800'); return false;">tietosuojaperiaatteen</a> mukaisesti.
-</label>
-     <div class="field is-grouped">
- 	 <div class="control">
-    <button type="submit" class="button is-rounded is-primary">Ilmoittaudu</button>
-    </div>
-  <div class="control">
-    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
-  </div>
-   </div>
-  </form>
-  <hr>
-  <table class="table is-striped is-hoverable">
-  <thead>
-    <tr>
-      <th>Nimi</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-      <th>Nimi</th>
-    </tr>
-  </tfoot>
-  <tbody>
-   {% for field in participants %}
-    <tr>
-      <td>{{field.name}}</td>
-      {% endfor %}
-     </tbody>
-</table>
-</p>
-{% elif signuppassed %}
-<section class="section">
-    <div class="container">
-    <p> Tapahtumaan {{event.name}} ilmoittautuminen on päättynyt jo.
-    </p>
-    </div>
-  </section>
-{% else %}
-<section class="section">
-    <div class="container">
-    <p> Tapahtumaan {{event.name}} ilmoittautuminen ei ole vielä avautunut. Ilmoittautuminen avautuu {{event.signup_starts}}.
-    </p>
-    </div>
-  </section>
-{% endif %}
 {% endblock %}

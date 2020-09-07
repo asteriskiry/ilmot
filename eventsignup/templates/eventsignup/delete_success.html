@@ -1,16 +1,16 @@
 {% extends 'eventsignup/base.html' %}
- {% include 'eventsignup/includes/header.html' %}
+{% include 'eventsignup/includes/header.html' %}
 {% block extra-head %}
-<meta http-equiv="refresh" content="3;URL='/management'" />  
+    <meta http-equiv="refresh" content="3;URL='/management'" />
 {% endblock %}
- 
+
 
 {% block center-content %}
-<div class="content">
-<p>Tapahtuman poisto onnistui! Paluu takaisin tapahtumien hallintaan kolmen sekunnin kuluttua.</p>
-<p><a class="button is-primary is-rounded" href="management">
+    <div class="content">
+        <p>Tapahtuman poisto onnistui! Paluu takaisin tapahtumien hallintaan kolmen sekunnin kuluttua.</p>
+        <p><a class="button is-primary is-rounded" href="management">
 <span>
         	Palaa takaisin
         	</span></a></p>
-</div>
+    </div>
 {% endblock %}

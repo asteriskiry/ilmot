@@ -1,72 +1,72 @@
 {% extends 'eventsignup/base.html' %}
 
 {% block extra-head %}
-{% if not choice %}
-<link type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="Stylesheet" />
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link type="text/css" href="/static/css/jquery.timepicker.css" rel="Stylesheet" />
-    <script type="text/javascript" src="/static/js/jquery.timepicker.min.js"></script>
-{% endif %}
+    {% if not choice %}
+        <link type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-darkness/jquery-ui.css" rel="Stylesheet" />
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link type="text/css" href="/static/css/jquery.timepicker.css" rel="Stylesheet" />
+        <script type="text/javascript" src="/static/js/jquery.timepicker.min.js"></script>
+    {% endif %}
 {% endblock %}
 
 {% include 'eventsignup/includes/header.html' %}
-  {#% load bulma_tags %#}
+{#% load bulma_tags %#}
 
 
 {% block center-content %}
-	{% include 'eventsignup/includes/breadcrum.html' %}
-{% if not choice %}
-{#% else %#}
-<div class="content">
-<p>Kuvaukseen ei tarvitse tehdä TL;DR osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
-</div>
-{% if desktop %}
-<script type="text/javascript">
- $(function() {
-       $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_signup_starts_date").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_signup_ends_date").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#id_start_time").timepicker({timeFormat:'H:i'});
-        $("#id_signup_starts_time").timepicker({timeFormat:'H:i'});
-        $("#id_signup_ends_time").timepicker({timeFormat:'H:i'});
- });
-</script>
-{% endif %}
-{% endif %}
-{% if edit %}
-<div class="content">
-<p>Lomake on valmiiksi täytetty tapahtuman olemassa olevilla tiedoilla. Mikäli tapahtumaan oli aiemmin lisätty kuva, ei sitä tarvitse uudelleen asettaa tässä. 
-Vanha kuva säilyy vaikkei sitä tässä näytetäkään.</p>
-</div>
-{% endif %}
-<form method="post" enctype="multipart/form-data">
-   {% csrf_token %}
-   {#{ form|bulma }#}
-   {% include 'eventsignup/includes/form_base.html' %}
-    <div class="field is-grouped">
-	<div class="control">
-    
-    <button type="submit" class="button is-rounded is-link">
-    {% if choice %}
-    Lähetä
-    {% elif edit %}
-    Muokkaa tapahtumaa
-    {% else %}
-    Lisää tapahtuma
+    {% include 'eventsignup/includes/breadcrum.html' %}
+    {% if not choice %}
+        {#% else %#}
+        <div class="content">
+            <p>Kuvaukseen ei tarvitse tehdä TL;DR osiota. Se luodaan syötettyjen tiedojen pohjalta automaattisesti.</p>
+        </div>
+        {% if desktop %}
+            <script type="text/javascript">
+                $(function() {
+                    $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
+                    $("#id_signup_starts_date").datepicker({ dateFormat: 'yy-mm-dd' });
+                    $("#id_signup_ends_date").datepicker({ dateFormat: 'yy-mm-dd' });
+                    $("#id_end_date").datepicker({ dateFormat: 'yy-mm-dd' });
+                    $("#id_start_time").timepicker({timeFormat:'H:i'});
+                    $("#id_signup_starts_time").timepicker({timeFormat:'H:i'});
+                    $("#id_signup_ends_time").timepicker({timeFormat:'H:i'});
+                });
+            </script>
+        {% endif %}
     {% endif %}
-    </button>
-	</div>
-   {% if not choice %}
-  <div class="control">
-    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
-  </div>
-  {% endif %}
-</div>
-</form>
+    {% if edit %}
+        <div class="content">
+            <p>Lomake on valmiiksi täytetty tapahtuman olemassa olevilla tiedoilla. Mikäli tapahtumaan oli aiemmin lisätty kuva, ei sitä tarvitse uudelleen asettaa tässä.
+                Vanha kuva säilyy vaikkei sitä tässä näytetäkään.</p>
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {#{ form|bulma }#}
+        {% include 'eventsignup/includes/form_base.html' %}
+        <div class="field is-grouped">
+            <div class="control">
+
+                <button type="submit" class="button is-rounded is-link">
+                    {% if choice %}
+                        Lähetä
+                    {% elif edit %}
+                        Muokkaa tapahtumaa
+                    {% else %}
+                        Lisää tapahtuma
+                    {% endif %}
+                </button>
+            </div>
+            {% if not choice %}
+                <div class="control">
+                    <button type="reset" class="button is-rounded is-text">Tyhjennä</button>
+                </div>
+            {% endif %}
+        </div>
+    </form>
 
 {% endblock %}
- {% block extra-styles %}
+{% block extra-styles %}
 
- {% endblock %}
+{% endblock %}

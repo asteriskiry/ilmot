@@ -1,16 +1,16 @@
 
 <section class="section">
     <div class="container">
-      <h3 class="subtitle">TL;DR:</h3>
-      <ul>
-<li>Mikä: {{ event.name }}</li>
-<li>Missä: {{ event.place }}</li>
-<li>Milloin: {{ event.date }} {{event.start_time}}</li>
-{% if "€" in event.prize %}
-<li>Mitä maksaa: {{ event.prize }}</li>
-{% else %}
-<li>Mitä maksaa: {{ event.prize }} €</li>
-{% endif %}
-</ul>
+        <h3 class="subtitle">TL;DR:</h3>
+        <ul>
+            <li>Mikä: {{ event.name }}</li>
+            <li>Missä: {{ event.place }}</li>
+            <li>Milloin: {{ event.date }} {{event.start_time}}</li>
+            {% if "€" in event.prize %}
+                <li>Mitä maksaa: {{ event.prize }}</li>
+            {% else %}
+                <li>Mitä maksaa: {{ event.prize }} €</li>
+            {% endif %}
+        </ul>
     </div>
-  </section>
+</section>
