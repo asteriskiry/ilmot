@@ -229,7 +229,7 @@ def formtype(request, **kwargs):
 # Näyttää tapahtuman tiedot ja osallistujalistan.
 @login_required
 def info(request, uid,**kwargs):
-    ifrequest.method == 'POST':
+    if request.method == 'POST':
         if('user' in request.POST):
             Participant.objects.filter(event_type=uid,email=request.POST['user']).delete()
             return HttpResponseRedirect('/event/'+str(uid)+'/view/')
@@ -239,7 +239,7 @@ def info(request, uid,**kwargs):
             from django.conf import settings
             event = helpers.getEvent(uid)
             participants = list(Participant.objects.filter(event_type=uid))
-            filename = makeSeating(event, participants, 4)
+            filename = make_seating(event, participants, 4)
             today = datetime.today().date()
             path = '/events/seating/'+str(today.year)+'/'+str(today.month)+'/'
             if(Path(settings.MEDIA_ROOT+path).exists()):
@@ -254,10 +254,10 @@ def info(request, uid,**kwargs):
         just_list=False
         participants=Participant.objects.filter(event_type=uid)
         event=helpers.get_event(uid)
-        ifkwargs:
-            ifkwargs['type'] == 'list':
+        if kwargs:
+            if kwargs['type'] == 'list':
                 just_list=True
-            other = False
+                other = False
                 export_options = helpers.get_export_options()
         return render(request,"eventsignup/view_event.html",{'other':other,'just_list':just_list,'event':event,'participants':participants,'page':'Tarkastele tapahtumaa','export_options': export_options,
                        'baseurl': helpers.get_baseurl(request)})

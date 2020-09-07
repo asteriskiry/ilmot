@@ -251,7 +251,7 @@ def gen_csv(event, participants, directory):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, dialect='excel', delimiter=',')
         writer.writeheader()
         for participant in participants:
-    participant_row = {}
+            participant_row = {}
             for key in model_keys:
                 participant_row[key] = participant[key]
             writer.writerow(participant_row)
@@ -292,5 +292,7 @@ def gen_export(event, type_of_export, participants, list_of_exports, directory, 
 
 def get_export_options():
     return ['csv', 'pdf']
+
+
 def genNullParticipant():
     return Participant()
